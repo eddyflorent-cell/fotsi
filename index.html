@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fotsi Global Services - L'Innovation Sans Frontières</title>
+    <style>
+        :root {
+            --primary: #ff8a00;
+            --primary-dark: #ff6b00;
+            --secondary: #1a1a2e;
+            --dark: #16213e;
+            --light: #f8f9fa;
+            --text: #333;
+            --white: #ffffff;
+            --accent: #059669;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: var(--text); overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Navbar & Logo */
+        .navbar { background: rgba(26,26,46,0.95); padding: 12px 0; position: fixed; top: 0; width: 100%; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 3px solid var(--primary); }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo-box { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .fgs-circle { 
+            width: 50px; height: 50px; background: var(--primary); border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            color: white; font-weight: 900; font-size: 1.3rem;
+            box-shadow: 0 4px 15px rgba(255,138,0,0.4);
+            border: 2px solid white;
+        }
+        .logo-text { font-size: 22px; font-weight: bold; color: var(--white); letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 25px; list-style: none; }
+        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; transition: 0.3s; font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%); color: var(--white); padding: 180px 0 120px; text-align: center; }
+        .hero h1 { font-size: 3.8rem; margin-bottom: 20px; line-height: 1.1; }
+        .hero .tagline { font-size: 1.6rem; color: var(--primary); font-weight: 700; margin-bottom: 30px; }
+        
+        /* Sections */
+        .section { padding: 100px 0; }
+        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 60px; color: var(--secondary); position: relative; }
+        .section-title::after { content: ''; display: block; width: 80px; height: 4px; background: var(--primary); margin: 20px auto; border-radius: 2px; }
+
+        /* Grid & Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: var(--white); padding: 40px 30px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: center; border: 1px solid #f0f0f0; transition: all 0.4s ease; position: relative; }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(255,138,0,0.1); }
+        .card-icon { font-size: 3.5rem; margin-bottom: 25px; display: block; }
+        .card h3 { color: var(--secondary); margin-bottom: 15px; font-size: 1.4rem; }
+        .card p { color: #666; font-size: 1rem; }
+        .badge { background: #eee; color: #555; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+
+        /* Footer */
+        .footer { background: var(--secondary); color: white; padding: 80px 0 40px; text-align: center; border-top: 5px solid var(--primary); }
+        .footer-logo { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .footer a { color: var(--primary); text-decoration: none; font-weight: bold; }
+        .footer-info { opacity: 0.7; font-size: 0.95rem; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="https://fotsiglobal.com" class="logo-box">
+                <div class="fgs-circle">FGS</div>
+                <div class="logo-text">FOTSI GLOBAL SERVICES</div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Nos Services</a></li>
+                <li><a href="#ecommerce">E-Commerce</a></li>
+                <li><a href="#software">Logiciels</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>L'Innovation au Service de la Performance</h1>
+            <p class="tagline">Multiservices & Solutions Internationales</p>
+            <p style="font-size: 1.25rem; max-width: 900px; margin: 0 auto 40px; opacity: 0.9; line-height: 1.8;">
+                De l'importation de marchandises en Asie à la conception de logiciels de pointe, Fotsi Global Services accompagne les professionnels dans toutes leurs dimensions.
+            </p>
+            <a href="#services" class="cta-button" style="padding: 18px 50px; font-size: 1.2rem;">Découvrir l'Écosystème</a>
+        </div>
+    </section>
+
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">Import & Commerce International</h2>
+            <div class="grid">
+                <div class="card">
+                    <span class="card-icon">🚢</span>
+                    <span class="badge">SOURCING</span>
+                    <h3>Import Chine</h3>
+                    <p>Accompagnement complet pour les clients et grossistes : sourcing, achat et logistique depuis la Chine.</p>
+                </div>
+                <div class="card">
+                    <span class="card-icon">🍳</span>
+                    <span class="badge">ÉQUIPEMENT</span>
+                    <h3>Matériel de Cuisine</h3>
+                    <p>Vente de matériel professionnel et domestique haute performance pour les métiers de bouche.</p>
+                </div>
+                <div class="card">
+                    <span class="card-icon">💄</span>
+                    <span class="badge">BEAUTÉ</span>
+                    <h3>Cosmétiques</h3>
+                    <p>Sélection de produits cosmétiques de qualité pour une clientèle exigeante.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ecommerce" class="section" style="background: var(--light);">
+        <div class="container">
+            <h2 class="section-title">E-Commerce & Art de Vivre</h2>
+            <div class="grid" style="justify-content: center;">
+                <div class="card" style="max-width: 450px; margin: 0 auto;">
+                    <span class="card-icon">🍵</span>
+                    <span class="badge">EXCLUSIVITÉ</span>
+                    <h3>Salon de Thé WE</h3>
+                    <p>Notre salon de thé exclusif, actuellement disponible en ligne. Une expérience sensorielle unique à portée de clic.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="software" class="section">
+        <div class="container">
+            <h2 class="section-title">Écosystème Logiciel (SaaS)</h2>
+            <div class="grid">
+                <div class="card">
+                    <span class="card-icon">🍔</span>
+                    <span class="badge">RESTAURATION</span>
+                    <h3>BusinessFood Manager</h3>
+                    <p>Maîtrise du food cost et fiches techniques. L'outil n°1 des professionnels.</p>
+                    <a href="https://eddyflorent-cell.github.io/BusinessFood-Manager-pro/" style="color: var(--primary); text-decoration: none; font-weight: bold; display: block; margin-top: 15px;">DÉMO PRO →</a>
+                </div>
+                <div class="card">
+                    <span class="card-icon">🏐</span>
+                    <span class="badge">SPORTS</span>
+                    <h3>VolleySpot / stat2match</h3>
+                    <p>Gestion de tournois mondiaux, arbitrage et statistiques en temps réel.</p>
+                </div>
+                <div class="card">
+                    <span class="card-icon">🛠️</span>
+                    <span class="badge">IT SUPPORT</span>
+                    <h3>Total Troubleshooting</h3>
+                    <p>Support expert Microsoft 365 et base de connaissances technique avancée.</p>
+                </div>
+                <div class="card">
+                    <span class="card-icon">⚖️</span>
+                    <span class="badge">IA</span>
+                    <h3>Team Balancer</h3>
+                    <p>Algorithme d'équilibrage d'équipes pour compétitions homogènes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <div class="fgs-circle" style="width: 40px; height: 40px; font-size: 1rem;">FGS</div>
+                <span style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px;">FOTSI GLOBAL SERVICES</span>
+            </div>
+            <p style="font-size: 1.2rem;">L'excellence sans frontières</p>
+            <p style="margin: 20px 0;"><a href="https://fotsiglobal.com">fotsiglobal.com</a> | 06 29 85 02 14</p>
+            <div class="footer-info">
+                <p>© 2026 Fotsi Global Services. Tous droits réservés.</p>
+                <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.5;">Sourcing Chine | Salon de Thé WE | Solutions Logicielles | Équipement Cuisine | Cosmétiques</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
