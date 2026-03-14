@@ -1,179 +1,1069 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fotsi Global Services - L'Innovation Sans Frontières</title>
-    <style>
-        :root {
-            --primary: #ff8a00;
-            --primary-dark: #ff6b00;
-            --secondary: #1a1a2e;
-            --dark: #16213e;
-            --light: #f8f9fa;
-            --text: #333;
-            --white: #ffffff;
-            --accent: #059669;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: var(--text); overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        
-        /* Navbar & Logo */
-        .navbar { background: rgba(26,26,46,0.95); padding: 12px 0; position: fixed; top: 0; width: 100%; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 3px solid var(--primary); }
-        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo-box { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-        .fgs-circle { 
-            width: 50px; height: 50px; background: var(--primary); border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; 
-            color: white; font-weight: 900; font-size: 1.3rem;
-            box-shadow: 0 4px 15px rgba(255,138,0,0.4);
-            border: 2px solid white;
-        }
-        .logo-text { font-size: 22px; font-weight: bold; color: var(--white); letter-spacing: 1px; }
-        .nav-links { display: flex; gap: 25px; list-style: none; }
-        .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; transition: 0.3s; font-size: 0.95rem; }
-        .nav-links a:hover { color: var(--primary); }
+  <meta charset="UTF-8" />
+  <title>Fotsi Global Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        /* Hero */
-        .hero { background: linear-gradient(135deg, var(--secondary) 0%, var(--dark) 100%); color: var(--white); padding: 180px 0 120px; text-align: center; }
-        .hero h1 { font-size: 3.8rem; margin-bottom: 20px; line-height: 1.1; }
-        .hero .tagline { font-size: 1.6rem; color: var(--primary); font-weight: 700; margin-bottom: 30px; }
-        
-        /* Sections */
-        .section { padding: 100px 0; }
-        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 60px; color: var(--secondary); position: relative; }
-        .section-title::after { content: ''; display: block; width: 80px; height: 4px; background: var(--primary); margin: 20px auto; border-radius: 2px; }
+  <style>
+    :root {
+      --bg: #f4f8fb;
+      --bg-soft: #eaf3f8;
+      --card: #ffffff;
+      --card-alt: #f7fbfd;
 
-        /* Grid & Cards */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card { background: var(--white); padding: 40px 30px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); text-align: center; border: 1px solid #f0f0f0; transition: all 0.4s ease; position: relative; }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(255,138,0,0.1); }
-        .card-icon { font-size: 3.5rem; margin-bottom: 25px; display: block; }
-        .card h3 { color: var(--secondary); margin-bottom: 15px; font-size: 1.4rem; }
-        .card p { color: #666; font-size: 1rem; }
-        .badge { background: #eee; color: #555; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+      --text: #12304a;
+      --text-soft: #4f6b80;
+      --title: #0b3b66;
 
-        /* Footer */
-        .footer { background: var(--secondary); color: white; padding: 80px 0 40px; text-align: center; border-top: 5px solid var(--primary); }
-        .footer-logo { display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .footer a { color: var(--primary); text-decoration: none; font-weight: bold; }
-        .footer-info { opacity: 0.7; font-size: 0.95rem; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; }
-    </style>
+      --primary: #0e7fa6;
+      --primary-dark: #0b4f88;
+      --secondary: #2aa84a;
+      --accent: #b7d313;
+
+      --border: #d6e4ec;
+      --shadow: 0 12px 30px rgba(11, 59, 102, 0.08);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(42, 168, 74, 0.08), transparent 25%),
+        radial-gradient(circle at top right, rgba(14, 127, 166, 0.10), transparent 22%),
+        linear-gradient(180deg, #f7fbfd 0%, #eef5fa 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 16px 56px;
+    }
+
+    .section {
+      margin-top: 34px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      line-height: 1.15;
+      font-weight: 800;
+      color: var(--title);
+      margin-bottom: 10px;
+    }
+
+    .section-subtitle {
+      font-size: 15px;
+      color: var(--text-soft);
+      max-width: 780px;
+      margin-bottom: 18px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.88);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+  padding: 20px 16px;
+  align-items: center;
+}
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .logo-img {
+  height: 110px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+    .logo-subtext {
+      font-size: 12px;
+      color: var(--text-soft);
+      letter-spacing: 0.03em;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid #cfe2ec;
+      background: #eef7fb;
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .chip-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 8px rgba(42, 168, 74, 0.35);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(11, 59, 102, 0.10);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 10px 24px rgba(14, 127, 166, 0.22);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--primary-dark);
+      border-color: #bdd5e2;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.9fr);
+      gap: 22px;
+      padding-top: 28px;
+      align-items: stretch;
+    }
+
+    .hero-left,
+    .hero-right-card,
+    .proof-card,
+    .problem-card,
+    .service-card,
+    .founder-card,
+    .contact-box {
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-left {
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left::after {
+      content: "";
+      position: absolute;
+      right: -30px;
+      bottom: -30px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(183, 211, 19, 0.12), transparent 72%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #eef7fb;
+      border: 1px solid #cfe2ec;
+      color: var(--primary-dark);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: 42px;
+      line-height: 1.08;
+      font-weight: 900;
+      color: var(--title);
+      margin-bottom: 14px;
+      max-width: 760px;
+    }
+
+    .hero-title span {
+      color: var(--primary);
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      color: var(--text-soft);
+      max-width: 720px;
+      margin-bottom: 18px;
+    }
+
+    .hero-benefits {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 18px 0 22px;
+    }
+
+    .hero-benefits li {
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .hero-benefits strong {
+      display: block;
+      color: var(--title);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .hero-note {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-top: 12px;
+    }
+
+    .hero-right {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-right-card {
+      padding: 22px;
+    }
+
+    .hero-card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--title);
+      margin-bottom: 8px;
+    }
+
+    .hero-card-text {
+      font-size: 14px;
+      color: var(--text-soft);
+      margin-bottom: 12px;
+    }
+
+    .hero-card-list {
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .hero-card-list li {
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .hero-card-list strong {
+      color: var(--title);
+    }
+
+    .proof-grid,
+    .problems-grid,
+    .services-grid,
+    .contact-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .proof-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .proof-card {
+      padding: 20px;
+    }
+
+    .proof-number {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .proof-label {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--title);
+      margin-bottom: 6px;
+    }
+
+    .proof-desc {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .problems-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .problem-card {
+      padding: 20px;
+    }
+
+    .problem-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--title);
+      margin-bottom: 8px;
+    }
+
+    .problem-text {
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .services-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .service-card {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .service-category {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    .service-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--title);
+      line-height: 1.25;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--text-soft);
+      flex-grow: 1;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #eef7fb;
+      color: var(--primary-dark);
+      border: 1px solid #cfe2ec;
+      font-weight: 700;
+    }
+
+    .founder-card {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .founder-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--title);
+      margin-bottom: 10px;
+    }
+
+    .founder-text {
+      font-size: 15px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    .founder-points {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .founder-points li {
+      position: relative;
+      padding-left: 18px;
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .founder-points li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--secondary);
+      font-weight: 900;
+    }
+
+    .founder-side {
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .founder-side h3 {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--title);
+      margin-bottom: 8px;
+    }
+
+    .founder-side p {
+      font-size: 14px;
+      color: var(--text-soft);
+    }
+
+    .contact-box {
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .contact-intro h2 {
+      font-size: 28px;
+      line-height: 1.15;
+      color: var(--title);
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .contact-intro p {
+      color: var(--text-soft);
+      font-size: 15px;
+      max-width: 760px;
+    }
+
+    .contact-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: 100%;
+    }
+
+    .contact-card {
+      background: var(--card-alt);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .contact-card-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--title);
+      margin-bottom: 6px;
+    }
+
+    .contact-card-line {
+      font-size: 14px;
+      color: var(--text);
+      margin-top: 6px;
+      word-break: break-word;
+    }
+
+    .contact-card-meta {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-top: 6px;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: #f2f7fb;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    @media (max-width: 1080px) {
+      .proof-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .contact-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 920px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .founder-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+  .logo-img {
+    height: 70px;
+  }
+}
+
+      .header-right {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero-title {
+        font-size: 32px;
+      }
+
+      .hero-benefits,
+      .proof-grid,
+      .problems-grid,
+      .services-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-left,
+      .hero-right-card,
+      .proof-card,
+      .problem-card,
+      .service-card,
+      .founder-card,
+      .contact-box {
+        padding: 18px;
+      }
+
+      .contact-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .contact-actions .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        padding: 18px 12px 40px;
+      }
+
+      .logo-img {
+        height: 48px;
+      }
+
+      .logo-subtext {
+        font-size: 11px;
+      }
+
+      .hero-title {
+        font-size: 27px;
+      }
+
+      .section-title,
+      .founder-title,
+      .contact-intro h2 {
+        font-size: 24px;
+      }
+
+      .hero-subtitle,
+      .section-subtitle,
+      .hero-card-text,
+      .problem-text,
+      .service-desc,
+      .founder-text,
+      .contact-intro p {
+        font-size: 14px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .btn,
+      .header-right .btn {
+        width: 100%;
+      }
+
+      .chip {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="https://fotsiglobal.com" class="logo-box">
-                <div class="fgs-circle">FGS</div>
-                <div class="logo-text">FOTSI GLOBAL SERVICES</div>
-            </a>
-            <ul class="nav-links">
-                <li><a href="#services">Nos Services</a></li>
-                <li><a href="#ecommerce">E-Commerce</a></li>
-                <li><a href="#software">Logiciels</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+  <div class="page">
+    <header>
+      <div class="header-inner">
+        <div class="logo">
+          <div class="logo-wrap">
+            <img src="FotsiGlobalServices.jpeg" alt="Fotsi Global Services" class="logo-img" />
+          </div>
+          <div class="logo-subtext">
+            Import · Solutions métier · IT · Services internationaux
+          </div>
         </div>
-    </nav>
 
-    <section class="hero">
-        <div class="container">
-            <h1>L'Innovation au Service de la Performance</h1>
-            <p class="tagline">Multiservices & Solutions Internationales</p>
-            <p style="font-size: 1.25rem; max-width: 900px; margin: 0 auto 40px; opacity: 0.9; line-height: 1.8;">
-                De l'importation de marchandises en Asie à la conception de logiciels de pointe, Fotsi Global Services accompagne les professionnels dans toutes leurs dimensions.
+        <div class="header-right">
+          <div class="chip">
+            <span class="chip-dot"></span>
+            Société immatriculée au Cameroun
+          </div>
+          <a href="#contact" class="btn btn-primary">Analyser mon projet</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="hero-left">
+          <div class="eyebrow">Votre partenaire opérationnel unique</div>
+
+          <h1 class="hero-title">
+            Développez votre activité avec un partenaire
+            <span>fiable, structuré et orienté résultats.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Fotsi Global Services accompagne les entrepreneurs, commerçants, restaurateurs, clubs
+            et PME avec une approche globale : import, matériel professionnel, solutions digitales,
+            support informatique et accompagnement opérationnel.
+          </p>
+
+          <ul class="hero-benefits">
+            <li>
+              <strong>Réduisez vos risques</strong>
+              Sécurisation des achats, échanges fournisseurs et logistique.
+            </li>
+            <li>
+              <strong>Équipez-vous efficacement</strong>
+              Du matériel utile, rentable et cohérent avec votre activité.
+            </li>
+            <li>
+              <strong>Pilotez vos performances</strong>
+              Outils métier, food cost, marges et suivi opérationnel.
+            </li>
+            <li>
+              <strong>Gagnez en clarté</strong>
+              Un interlocuteur unique pour plusieurs besoins stratégiques.
+            </li>
+          </ul>
+
+          <div class="hero-actions">
+            <a href="#services" class="btn btn-primary">Découvrir nos solutions</a>
+            <a href="#contact" class="btn btn-secondary">Nous contacter</a>
+          </div>
+
+          <div class="hero-note">
+            Réponse rapide, approche terrain, accompagnement adaptable selon votre projet.
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="hero-right-card">
+            <div class="hero-card-title">Pour qui travaillons-nous ?</div>
+            <p class="hero-card-text">
+              Nous intervenons auprès des professionnels qui veulent avancer plus vite avec des
+              solutions concrètes et un accompagnement cohérent.
             </p>
-            <a href="#services" class="cta-button" style="padding: 18px 50px; font-size: 1.2rem;">Découvrir l'Écosystème</a>
-        </div>
-    </section>
+            <ul class="hero-card-list">
+              <li><strong>Restaurateurs :</strong> équipement, food cost, digitalisation.</li>
+              <li><strong>Commerçants & grossistes :</strong> sourcing, import, logistique.</li>
+              <li><strong>Salons & revendeurs :</strong> produits, matériel, structuration.</li>
+              <li><strong>Clubs & organisations :</strong> outils, statistiques, support IT.</li>
+            </ul>
+          </div>
 
-    <section id="services" class="section">
-        <div class="container">
-            <h2 class="section-title">Import & Commerce International</h2>
-            <div class="grid">
-                <div class="card">
-                    <span class="card-icon">🚢</span>
-                    <span class="badge">SOURCING</span>
-                    <h3>Import Chine</h3>
-                    <p>Accompagnement complet pour les clients et grossistes : sourcing, achat et logistique depuis la Chine.</p>
-                </div>
-                <div class="card">
-                    <span class="card-icon">🍳</span>
-                    <span class="badge">ÉQUIPEMENT</span>
-                    <h3>Matériel de Cuisine</h3>
-                    <p>Vente de matériel professionnel et domestique haute performance pour les métiers de bouche.</p>
-                </div>
-                <div class="card">
-                    <span class="card-icon">💄</span>
-                    <span class="badge">BEAUTÉ</span>
-                    <h3>Cosmétiques</h3>
-                    <p>Sélection de produits cosmétiques de qualité pour une clientèle exigeante.</p>
-                </div>
-            </div>
+          <div class="hero-right-card">
+            <div class="hero-card-title">Ce qui fait la différence FGS</div>
+            <p class="hero-card-text">
+              Une vision transversale entre commerce, import, restauration, sport et informatique,
+              avec un objectif simple : résoudre des problèmes réels et améliorer l’exécution.
+            </p>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section id="ecommerce" class="section" style="background: var(--light);">
-        <div class="container">
-            <h2 class="section-title">E-Commerce & Art de Vivre</h2>
-            <div class="grid" style="justify-content: center;">
-                <div class="card" style="max-width: 450px; margin: 0 auto;">
-                    <span class="card-icon">🍵</span>
-                    <span class="badge">EXCLUSIVITÉ</span>
-                    <h3>Salon de Thé WE</h3>
-                    <p>Notre salon de thé exclusif, actuellement disponible en ligne. Une expérience sensorielle unique à portée de clic.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      <section class="section">
+        <h2 class="section-title">Pourquoi les professionnels nous font confiance</h2>
+        <p class="section-subtitle">
+          FGS ne se limite pas à vendre des produits ou des services. Nous apportons une logique
+          d’organisation, de sécurisation et de performance durable.
+        </p>
 
-    <section id="software" class="section">
-        <div class="container">
-            <h2 class="section-title">Écosystème Logiciel (SaaS)</h2>
-            <div class="grid">
-                <div class="card">
-                    <span class="card-icon">🍔</span>
-                    <span class="badge">RESTAURATION</span>
-                    <h3>BusinessFood Manager</h3>
-                    <p>Maîtrise du food cost et fiches techniques. L'outil n°1 des professionnels.</p>
-                    <a href="https://eddyflorent-cell.github.io/BusinessFood-Manager-pro/" style="color: var(--primary); text-decoration: none; font-weight: bold; display: block; margin-top: 15px;">DÉMO PRO →</a>
-                </div>
-                <div class="card">
-                    <span class="card-icon">🏐</span>
-                    <span class="badge">SPORTS</span>
-                    <h3>VolleySpot / stat2match</h3>
-                    <p>Gestion de tournois mondiaux, arbitrage et statistiques en temps réel.</p>
-                </div>
-                <div class="card">
-                    <span class="card-icon">🛠️</span>
-                    <span class="badge">IT SUPPORT</span>
-                    <h3>Total Troubleshooting</h3>
-                    <p>Support expert Microsoft 365 et base de connaissances technique avancée.</p>
-                </div>
-                <div class="card">
-                    <span class="card-icon">⚖️</span>
-                    <span class="badge">IA</span>
-                    <h3>Team Balancer</h3>
-                    <p>Algorithme d'équilibrage d'équipes pour compétitions homogènes.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="proof-grid">
+          <article class="proof-card">
+            <div class="proof-number">B2B</div>
+            <div class="proof-label">Approche orientée entreprise</div>
+            <p class="proof-desc">
+              Chaque mission est pensée avec une logique d’efficacité, de rentabilité et de continuité.
+            </p>
+          </article>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-logo">
-                <div class="fgs-circle" style="width: 40px; height: 40px; font-size: 1rem;">FGS</div>
-                <span style="font-size: 1.5rem; font-weight: 800; letter-spacing: 2px;">FOTSI GLOBAL SERVICES</span>
-            </div>
-            <p style="font-size: 1.2rem;">L'excellence sans frontières</p>
-            <p style="margin: 20px 0;"><a href="https://fotsiglobal.com">fotsiglobal.com</a> | 06 29 85 02 14</p>
-            <div class="footer-info">
-                <p>© 2026 Fotsi Global Services. Tous droits réservés.</p>
-                <p style="font-size: 0.8rem; margin-top: 10px; opacity: 0.5;">Sourcing Chine | Salon de Thé WE | Solutions Logicielles | Équipement Cuisine | Cosmétiques</p>
-            </div>
+          <article class="proof-card">
+            <div class="proof-number">360°</div>
+            <div class="proof-label">Vision multisectorielle</div>
+            <p class="proof-desc">
+              Import, restauration, cosmétique, sport et outils numériques dans un seul écosystème.
+            </p>
+          </article>
+
+          <article class="proof-card">
+            <div class="proof-number">FR ↔ CM</div>
+            <div class="proof-label">Passerelle internationale</div>
+            <p class="proof-desc">
+              Une lecture concrète des besoins entre la France, le Cameroun et les réalités du terrain.
+            </p>
+          </article>
+
+          <article class="proof-card">
+            <div class="proof-number">IT</div>
+            <div class="proof-label">Expertise digitale solide</div>
+            <p class="proof-desc">
+              Support utilisateurs, Microsoft 365, outils métier et accompagnement opérationnel.
+            </p>
+          </article>
         </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Vous êtes confronté à ces situations ?</h2>
+        <p class="section-subtitle">
+          C’est précisément là que FGS intervient : quand il faut rendre votre activité plus fiable,
+          plus fluide et mieux pilotée.
+        </p>
+
+        <div class="problems-grid">
+          <article class="problem-card">
+            <div class="problem-title">Achats internationaux risqués</div>
+            <p class="problem-text">
+              Fournisseurs peu fiables, manque de visibilité, problèmes de qualité ou retards
+              logistiques qui finissent par coûter cher.
+            </p>
+          </article>
+
+          <article class="problem-card">
+            <div class="problem-title">Matériel mal choisi ou peu rentable</div>
+            <p class="problem-text">
+              Vous investissez sans être certain de l’impact réel sur votre production,
+              votre service ou vos marges.
+            </p>
+          </article>
+
+          <article class="problem-card">
+            <div class="problem-title">Maîtrise insuffisante des coûts</div>
+            <p class="problem-text">
+              Difficulté à suivre les fiches techniques, le food cost, la rentabilité produit
+              ou les performances réelles de l’activité.
+            </p>
+          </article>
+
+          <article class="problem-card">
+            <div class="problem-title">Trop d’interlocuteurs, pas assez d’efficacité</div>
+            <p class="problem-text">
+              Import, matériel, support IT, outils métier : tout est dispersé et ralentit
+              la prise de décision.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="services">
+        <h2 class="section-title">Nos solutions principales</h2>
+        <p class="section-subtitle">
+          Chaque service peut être activé seul ou combiné dans un accompagnement sur mesure.
+        </p>
+
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-category">Import & commerce</div>
+            <div class="service-name">Sécurisation de vos achats internationaux</div>
+            <p class="service-desc">
+              Identification de fournisseurs, cadrage des échanges, réduction des risques
+              et organisation de l’acheminement jusqu’à destination.
+            </p>
+            <div class="service-tags">
+              <span class="tag">Sourcing</span>
+              <span class="tag">Négociation</span>
+              <span class="tag">Logistique</span>
+            </div>
+          </article>
+
+          <article class="service-card">
+            <div class="service-category">Restauration</div>
+            <div class="service-name">Équipement rentable pour professionnels exigeants</div>
+            <p class="service-desc">
+              Sélection de matériel pertinent, durable et cohérent avec votre usage
+              pour éviter les mauvais achats et soutenir votre productivité.
+            </p>
+            <div class="service-tags">
+              <span class="tag">Matériel pro</span>
+              <span class="tag">Conseil produit</span>
+              <span class="tag">Performance</span>
+            </div>
+          </article>
+
+          <article class="service-card">
+            <div class="service-category">Restauration & digital</div>
+            <div class="service-name">BusinessFood Manager</div>
+            <p class="service-desc">
+              Solution métier pour maîtriser les fiches techniques, le food cost,
+              la rentabilité cuisine et les indicateurs clés.
+            </p>
+            <div class="service-tags">
+              <span class="tag">Food cost</span>
+              <span class="tag">Marges</span>
+              <span class="tag">Pilotage</span>
+            </div>
+          </article>
+
+          <article class="service-card">
+            <div class="service-category">Cosmétiques</div>
+            <div class="service-name">Produits cosmétiques sélectionnés avec exigence</div>
+            <p class="service-desc">
+              Une offre pensée pour les professionnels et revendeurs recherchant
+              régularité, qualité, cohérence produit et accompagnement commercial.
+            </p>
+            <div class="service-tags">
+              <span class="tag">Sélection</span>
+              <span class="tag">Traçabilité</span>
+              <span class="tag">Conseil vente</span>
+            </div>
+          </article>
+
+          <article class="service-card">
+            <div class="service-category">Informatique</div>
+            <div class="service-name">Support Microsoft 365 & environnement IT</div>
+            <p class="service-desc">
+              Dépannage, accompagnement utilisateurs, organisation documentaire,
+              base de connaissances et amélioration du quotidien numérique.
+            </p>
+            <div class="service-tags">
+              <span class="tag">Support utilisateurs</span>
+              <span class="tag">M365</span>
+              <span class="tag">Digital workplace</span>
+            </div>
+          </article>
+
+          <article class="service-card">
+            <div class="service-category">Sport & organisations</div>
+            <div class="service-name">Gestion de tournois, statistiques et équilibrage d’équipes</div>
+            <p class="service-desc">
+              Des outils conçus pour organiser des compétitions, suivre les performances
+              et prendre de meilleures décisions grâce aux données.
+            </p>
+            <div class="service-tags">
+              <span class="tag">Statistiques</span>
+              <span class="tag">Tournois</span>
+              <span class="tag">Team balancing</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="founder-card">
+          <div>
+            <h2 class="founder-title">Une vision née du terrain</h2>
+            <p class="founder-text">
+              FGS est née d’une réalité simple : beaucoup d’entrepreneurs perdent du temps,
+              de l’argent et de l’énergie parce que leurs besoins sont éclatés entre trop
+              d’acteurs, trop d’outils et trop d’approximations.
+            </p>
+            <p class="founder-text">
+              Notre ambition est de relier l’import, l’équipement, le digital, l’IT
+              et l’exécution métier dans une seule dynamique : aider les professionnels
+              à mieux structurer, sécuriser et développer leur activité.
+            </p>
+
+            <ul class="founder-points">
+              <li>Approche entrepreneuriale et opérationnelle</li>
+              <li>Compréhension du terrain en France et au Cameroun</li>
+              <li>Culture du concret, de la performance et de l’amélioration continue</li>
+            </ul>
+          </div>
+
+          <div class="founder-side">
+            <h3>Notre promesse</h3>
+            <p>
+              Vous faire gagner en clarté, en exécution et en cohérence. Pas des promesses vagues.
+              Des solutions utiles, activables et pensées pour la réalité du terrain.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="contact-box">
+          <div class="contact-intro">
+            <h2>Contact & Informations légales</h2>
+            <p>
+              Fotsi Global Services est une société immatriculée au Cameroun.
+              Nous accompagnons nos partenaires depuis Douala et Paris selon la nature des projets.
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <div class="contact-card">
+              <div class="contact-card-title">📍 Siège principal — Douala</div>
+              <div class="contact-card-line">Fotsi Global Services (FGS Douala)</div>
+              <div class="contact-card-meta">RCCM : CM-DLA-01-2025-A10-0156</div>
+              <div class="contact-card-line">
+                📞 <a href="tel:+237691837274">+237 691 83 72 74</a>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-card-title">📍 Représentation — Paris</div>
+              <div class="contact-card-line">Coordination & projets internationaux</div>
+              <div class="contact-card-line">
+                📞 <a href="tel:+33629850214">+33 629 85 02 14</a>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-card-title">✉️ Contact email</div>
+              <div class="contact-card-line">
+                <a href="mailto:contact@fotsiglobal.com">contact@fotsiglobal.com</a>
+              </div>
+              <div class="contact-card-meta">
+                Réponse rapide selon disponibilité et fuseau horaire.
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-actions">
+            <a href="mailto:contact@fotsiglobal.com" class="btn btn-primary">
+              Demander une analyse de projet
+            </a>
+            <a href="#services" class="btn btn-secondary">
+              Revoir nos solutions
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <span>© Fotsi Global Services — Société immatriculée au Cameroun (FGS Douala)</span>
+        <span>RCCM : CM-DLA-01-2025-A10-0156 · Douala · Paris · contact@fotsiglobal.com</span>
+      </div>
     </footer>
+  </div>
 </body>
 </html>
