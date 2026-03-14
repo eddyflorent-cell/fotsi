@@ -176,6 +176,106 @@
       box-shadow: 0 0 8px rgba(42, 168, 74, 0.35);
     }
 
+
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      min-width: 46px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid #cfe2ec;
+      background: #ffffff;
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+      box-shadow: 0 6px 18px rgba(11, 59, 102, 0.06);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(11, 59, 102, 0.10);
+    }
+
+    body.dark-mode {
+      --bg: #030711;
+      --bg-soft: #07111d;
+      --card: #0a1524;
+      --card-alt: #101d2f;
+      --text: #d7e7f6;
+      --text-soft: #a7bfd2;
+      --title: #f2f8ff;
+      --border: rgba(130, 170, 205, 0.18);
+      --shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+    }
+
+    body.dark-mode {
+      background:
+        radial-gradient(circle at top left, rgba(42, 168, 74, 0.12), transparent 24%),
+        radial-gradient(circle at top right, rgba(14, 127, 166, 0.18), transparent 22%),
+        linear-gradient(180deg, #02060d 0%, #06101c 45%, #02060d 100%);
+      color: var(--text);
+    }
+
+    body.dark-mode header {
+      background: rgba(3, 8, 18, 0.92);
+      border-bottom-color: rgba(130, 170, 205, 0.14);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    body.dark-mode .hero-left,
+    body.dark-mode .hero-right-card,
+    body.dark-mode .proof-card,
+    body.dark-mode .problem-card,
+    body.dark-mode .service-card,
+    body.dark-mode .founder-card,
+    body.dark-mode .contact-box,
+    body.dark-mode .contact-card,
+    body.dark-mode .founder-side,
+    body.dark-mode .hero-benefits li,
+    body.dark-mode .hero-card-list li {
+      background: rgba(10, 21, 36, 0.92);
+      border-color: rgba(130, 170, 205, 0.16);
+      box-shadow: var(--shadow);
+    }
+
+    body.dark-mode .chip,
+    body.dark-mode .eyebrow,
+    body.dark-mode .tag {
+      background: rgba(11, 79, 136, 0.16);
+      border-color: rgba(80, 160, 210, 0.24);
+      color: #dff3ff;
+    }
+
+    body.dark-mode .btn {
+      background: rgba(10, 21, 36, 0.96);
+      border-color: rgba(130, 170, 205, 0.18);
+      color: var(--text);
+    }
+
+    body.dark-mode .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(14, 127, 166, 0.26);
+    }
+
+    body.dark-mode .theme-toggle {
+      background: rgba(10, 21, 36, 0.96);
+      border-color: rgba(130, 170, 205, 0.18);
+      color: #dff3ff;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+    }
+
+    body.dark-mode footer {
+      background: #050d17;
+      border-top-color: rgba(130, 170, 205, 0.14);
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
@@ -755,7 +855,8 @@
       }
 
       .hero-actions .btn,
-      .header-right .btn {
+      .header-right .btn,
+      .header-right .theme-toggle {
         width: 100%;
       }
 
@@ -783,6 +884,7 @@
             <span class="chip-dot"></span>
             RCCM : CM-DLA-01-2025-A10-0156
           </div>
+          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Activer le mode sombre">🌙 Mode sombre</button>
           <a href="#contact" class="btn btn-primary">Analyser mon projet</a>
         </div>
       </div>
@@ -1125,5 +1227,37 @@
       </div>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      const storageKey = 'fgs-theme';
+
+      function applyTheme(theme) {
+        const isDark = theme === 'dark';
+        body.classList.toggle('dark-mode', isDark);
+        if (toggle) {
+          toggle.textContent = isDark ? '☀️ Mode clair' : '🌙 Mode sombre';
+          toggle.setAttribute('aria-label', isDark ? 'Activer le mode clair' : 'Activer le mode sombre');
+        }
+      }
+
+      const saved = localStorage.getItem(storageKey);
+      if (saved === 'dark' || saved === 'light') {
+        applyTheme(saved);
+      } else {
+        applyTheme('light');
+      }
+
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          const next = body.classList.contains('dark-mode') ? 'light' : 'dark';
+          localStorage.setItem(storageKey, next);
+          applyTheme(next);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
