@@ -223,7 +223,7 @@
 
     /* Hamburger menu */
     .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:transparent;z-index:300;position:relative}
-    .nav-toggle-float{display:none;position:fixed;bottom:96px;right:20px;z-index:998;width:52px;height:52px;border-radius:50%;background:var(--navy);box-shadow:0 4px 20px rgba(15,45,82,0.35);border:none;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:transform .2s,box-shadow .2s}
+    .nav-toggle-float{display:none;position:fixed;top:10px;right:12px;z-index:998;width:52px;height:52px;border-radius:50%;background:var(--navy);box-shadow:0 4px 20px rgba(15,45,82,0.35);border:none;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:transform .2s,box-shadow .2s}
     .nav-toggle-float:hover{transform:scale(1.08);box-shadow:0 8px 28px rgba(15,45,82,0.45)}
     .nav-toggle-float span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:all .25s}
     .nav-toggle-float.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -1057,29 +1057,39 @@
     });
   });
 
-  // Hamburger menu
-  const toggle = document.getElementById('nav-toggle');
-  const toggleFloat = document.getElementById('nav-toggle-float');
-  const drawer = document.getElementById('nav-drawer');
-  function openDrawer() {
-    drawer.classList.add('open');
-    if(toggle) toggle.classList.add('open');
-    if(toggleFloat) toggleFloat.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeDrawer() {
-    drawer.classList.remove('open');
-    if(toggle) toggle.classList.remove('open');
-    if(toggleFloat) toggleFloat.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  if (toggle) toggle.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
-  if (toggleFloat) toggleFloat.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
-  if (drawer) {
-    drawer.addEventListener('click', (e) => {
-      if (e.target === drawer || e.target.classList.contains('nav-link') || e.target.classList.contains('btn')) closeDrawer();
+  // Burger menu
+  (function() {
+    var drawer = document.getElementById('nav-drawer');
+    var floatBtn = document.getElementById('nav-toggle-float');
+    if (!drawer || !floatBtn) return;
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      floatBtn.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      floatBtn.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    floatBtn.addEventListener('click', function() {
+      drawer.classList.contains('open') ? closeDrawer() : openDrawer();
     });
-  }
+
+    drawer.addEventListener('click', function(e) {
+      if (e.target === drawer) closeDrawer();
+    });
+
+    drawer.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', closeDrawer);
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDrawer();
+    });
+  })();
 </script>
 
 <!-- WhatsApp floating button -->
