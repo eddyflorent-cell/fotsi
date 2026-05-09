@@ -338,6 +338,15 @@
     .portfolio-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem}
     .portfolio-images img{width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;transition:transform .2s;cursor:zoom-in}
     .portfolio-images img:hover{transform:scale(1.03)}
+
+    /* LIGHTBOX */
+    .lb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;padding:20px}
+    .lb-overlay.open{display:flex}
+    .lb-overlay img{max-width:92vw;max-height:88vh;border-radius:10px;box-shadow:0 12px 60px rgba(0,0,0,0.6);object-fit:contain}
+    .lb-close{position:fixed;top:18px;right:22px;color:#fff;font-size:32px;font-weight:300;cursor:pointer;line-height:1;z-index:10000;opacity:.8;transition:opacity .18s}
+    .lb-close:hover{opacity:1}
+    .lb-caption{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.65);font-size:12px;text-align:center;max-width:80vw}
+    .portfolio-images img{cursor:zoom-in}
   </style>
 </head>
 <body>
@@ -844,7 +853,7 @@
           <!-- Photos formation -->
           <div style="display:flex;flex-direction:column;gap:14px;">
             <div style="border-radius:12px;overflow:hidden;box-shadow:var(--sh-md);border:1px solid var(--border2);">
-              <img src="images/remise_diplomes.jpeg" alt="Remise de certificats — promotion précédente" style="width:100%;height:220px;object-fit:cover;object-position:top;display:block;" />
+              <img src="images/remise_diplomes.jpeg" alt="Remise de certificats — promotion précédente" style="width:100%;height:220px;object-fit:cover;object-position:center bottom;display:block;" />
             </div>
             <div style="background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:10px;padding:12px 14px;">
               <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px;">✓ Ils ont obtenu leur certificat</div>
@@ -983,6 +992,42 @@
     io.observe(el);
   });
 
+
+  // Lightbox — wrapped in DOMContentLoaded to avoid null errors
+  document.addEventListener('DOMContentLoaded', () => {
+    const lbOverlay = document.getElementById('lb-overlay');
+    const lbImg = document.getElementById('lb-img');
+    const lbCaption = document.getElementById('lb-caption');
+    const lbClose = document.getElementById('lb-close');
+    if (!lbOverlay || !lbImg || !lbClose) return;
+
+    document.querySelectorAll('.portfolio-images img').forEach(img => {
+      img.addEventListener('click', () => {
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+        lbCaption.textContent = img.alt;
+        lbOverlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    [lbOverlay, lbClose].forEach(el => {
+      el.addEventListener('click', (e) => {
+        if (e.target === lbOverlay || e.target === lbClose) {
+          lbOverlay.classList.remove('open');
+          document.body.style.overflow = '';
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        lbOverlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
   // Hamburger menu
   const toggle = document.getElementById('nav-toggle');
   const drawer = document.getElementById('nav-drawer');
@@ -1013,5 +1058,12 @@
   </svg>
 </a>
 
+
+<!-- LIGHTBOX -->
+<div class="lb-overlay" id="lb-overlay">
+  <span class="lb-close" id="lb-close">&times;</span>
+  <img src="" id="lb-img" alt="" />
+  <div class="lb-caption" id="lb-caption"></div>
+</div>
 </body>
 </html>
