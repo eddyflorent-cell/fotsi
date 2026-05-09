@@ -997,71 +997,63 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      this.classList.add('active');
-      document.getElementById('tab-' + this.dataset.tab).classList.add('active');
-    });
-  });
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.prod-card,.aud-card,.trust-card,.proc-step').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(18px)';
-    el.style.transition = 'opacity .55s ease,transform .55s ease';
-    io.observe(el);
-  });
+  document.addEventListener('DOMContentLoaded', function() {
 
-
-  // Lightbox — wrapped in DOMContentLoaded to avoid null errors
-  document.addEventListener('DOMContentLoaded', () => {
-    const lbOverlay = document.getElementById('lb-overlay');
-    const lbImg = document.getElementById('lb-img');
-    const lbCaption = document.getElementById('lb-caption');
-    const lbClose = document.getElementById('lb-close');
-    if (!lbOverlay || !lbImg || !lbClose) return;
-
-    document.querySelectorAll('.portfolio-images img, .lb-trigger').forEach(img => {
-      img.addEventListener('click', () => {
-        lbImg.src = img.src;
-        lbImg.alt = img.alt;
-        lbCaption.textContent = img.alt;
-        lbOverlay.classList.add('open');
-        document.body.style.overflow = 'hidden';
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
       });
     });
 
-    [lbOverlay, lbClose].forEach(el => {
-      el.addEventListener('click', (e) => {
-        if (e.target === lbOverlay || e.target === lbClose) {
-          lbOverlay.classList.remove('open');
-          document.body.style.overflow = '';
+    // Scroll animations
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          io.unobserve(e.target);
         }
       });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.prod-card,.aud-card,.trust-card,.proc-step').forEach(function(el) {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(18px)';
+      el.style.transition = 'opacity .55s ease,transform .55s ease';
+      io.observe(el);
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        lbOverlay.classList.remove('open');
-        document.body.style.overflow = '';
-      }
-    });
-  });
+    // Lightbox
+    var lbOverlay = document.getElementById('lb-overlay');
+    var lbImg = document.getElementById('lb-img');
+    var lbCaption = document.getElementById('lb-caption');
+    var lbClose = document.getElementById('lb-close');
+    if (lbOverlay && lbImg && lbClose) {
+      document.querySelectorAll('.portfolio-images img, .lb-trigger').forEach(function(img) {
+        img.addEventListener('click', function() {
+          lbImg.src = img.src;
+          lbImg.alt = img.alt;
+          lbCaption.textContent = img.alt;
+          lbOverlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      [lbOverlay, lbClose].forEach(function(el) {
+        el.addEventListener('click', function(e) {
+          if (e.target === lbOverlay || e.target === lbClose) {
+            lbOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+          }
+        });
+      });
+    }
 
-  // Burger menu
-  (function() {
+    // Burger flottant
     var drawer = document.getElementById('nav-drawer');
     var floatBtn = document.getElementById('nav-toggle-float');
-    if (!drawer || !floatBtn) return;
 
     function openDrawer() {
       drawer.classList.add('open');
@@ -1074,22 +1066,27 @@
       document.body.style.overflow = '';
     }
 
-    floatBtn.addEventListener('click', function() {
-      drawer.classList.contains('open') ? closeDrawer() : openDrawer();
-    });
-
-    drawer.addEventListener('click', function(e) {
-      if (e.target === drawer) closeDrawer();
-    });
-
-    drawer.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', closeDrawer);
-    });
+    if (drawer && floatBtn) {
+      floatBtn.addEventListener('click', function() {
+        drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+      });
+      drawer.addEventListener('click', function(e) {
+        if (e.target === drawer) closeDrawer();
+      });
+      drawer.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', closeDrawer);
+      });
+    }
 
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeDrawer();
+      if (e.key === 'Escape') {
+        if (lbOverlay) { lbOverlay.classList.remove('open'); }
+        if (drawer) closeDrawer();
+        document.body.style.overflow = '';
+      }
     });
-  })();
+
+  });
 </script>
 
 <!-- WhatsApp floating button -->
