@@ -2,1262 +2,631 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Fotsi Global Services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+  <title>Fotsi Global Services — Import sécurisé Chine · Cameroun · France</title>
+  <meta name="description" content="Fotsi Global Services (FGS) : import sécurisé depuis la Chine, matériel professionnel restauration, écouteurs ANC et powerbanks sous marque FGS, livraison à Douala. Acompte 60%, solde à la livraison." />
+  <meta name="keywords" content="importation Chine Cameroun, matériel cuisine professionnelle Douala, écouteurs ANC FGS, import sécurisé Douala, grossiste équipement restauration Cameroun, powerbank FGS, sourcing Chine Douala" />
+  <meta property="og:title" content="Fotsi Global Services — Votre centrale d'import sécurisée" />
+  <meta property="og:description" content="Import depuis la Chine, équipement pro, high-tech sous label FGS. Livraison à Douala. Acompte 60% · Solde à la livraison." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fotsiglobal.com" />
+  <link rel="canonical" href="https://fotsiglobal.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f4f8fb;
-      --bg-soft: #eaf3f8;
-      --card: #ffffff;
-      --card-alt: #f7fbfd;
-
-      --text: #12304a;
-      --text-soft: #4f6b80;
-      --title: #0b3b66;
-
-      --primary: #0e7fa6;
-      --primary-dark: #0b4f88;
-      --secondary: #2aa84a;
-      --accent: #b7d313;
-
-      --border: #d6e4ec;
-      --shadow: 0 12px 30px rgba(11, 59, 102, 0.08);
-      --radius: 18px;
-      --max: 1180px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(42, 168, 74, 0.08), transparent 25%),
-        radial-gradient(circle at top right, rgba(14, 127, 166, 0.10), transparent 22%),
-        linear-gradient(180deg, #f7fbfd 0%, #eef5fa 100%);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.55;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .container {
-      width: 100%;
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 30px 16px 56px;
-    }
-
-    .section {
-      margin-top: 34px;
-    }
-
-    .section-title {
-      font-size: 28px;
-      line-height: 1.15;
-      font-weight: 800;
-      color: var(--title);
-      margin-bottom: 10px;
-    }
-
-    .section-subtitle {
-      font-size: 15px;
-      color: var(--text-soft);
-      max-width: 780px;
-      margin-bottom: 18px;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      backdrop-filter: blur(14px);
-      background: rgba(255, 255, 255, 0.94);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 8px 24px rgba(11, 59, 102, 0.05);
-    }
-
-    .header-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 18px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      min-width: 0;
-      flex: 1 1 auto;
-    }
-
-    .logo-img {
-      height: 108px;
-      width: auto;
-      object-fit: contain;
-      display: block;
-      flex: 0 0 auto;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .brand-line {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--title);
-      line-height: 1.3;
-    }
-
-    .brand-subline {
-      font-size: 12px;
-      color: var(--text-soft);
-      line-height: 1.3;
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      flex: 0 0 auto;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 14px;
-      border-radius: 999px;
-      border: 1px solid #cfe2ec;
-      background: #eef7fb;
-      color: var(--primary-dark);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .chip-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--secondary);
-      box-shadow: 0 0 8px rgba(42, 168, 74, 0.35);
-    }
-
-
-
-    .theme-toggle {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      min-width: 46px;
-      padding: 0 14px;
-      border-radius: 999px;
-      border: 1px solid #cfe2ec;
-      background: #ffffff;
-      color: var(--primary-dark);
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.2s ease;
-      box-shadow: 0 6px 18px rgba(11, 59, 102, 0.06);
-    }
-
-    .theme-toggle:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(11, 59, 102, 0.10);
-    }
-
-    body.dark-mode {
-      --bg: #030711;
-      --bg-soft: #07111d;
-      --card: #0a1524;
-      --card-alt: #101d2f;
-      --text: #d7e7f6;
-      --text-soft: #a7bfd2;
-      --title: #f2f8ff;
-      --border: rgba(130, 170, 205, 0.18);
-      --shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
-    }
-
-    body.dark-mode {
-      background:
-        radial-gradient(circle at top left, rgba(42, 168, 74, 0.12), transparent 24%),
-        radial-gradient(circle at top right, rgba(14, 127, 166, 0.18), transparent 22%),
-        linear-gradient(180deg, #02060d 0%, #06101c 45%, #02060d 100%);
-      color: var(--text);
-    }
-
-    body.dark-mode header {
-      background: rgba(3, 8, 18, 0.92);
-      border-bottom-color: rgba(130, 170, 205, 0.14);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-    }
-
-    body.dark-mode .hero-left,
-    body.dark-mode .hero-right-card,
-    body.dark-mode .proof-card,
-    body.dark-mode .problem-card,
-    body.dark-mode .service-card,
-    body.dark-mode .founder-card,
-    body.dark-mode .contact-box,
-    body.dark-mode .contact-card,
-    body.dark-mode .founder-side,
-    body.dark-mode .hero-benefits li,
-    body.dark-mode .hero-card-list li {
-      background: rgba(10, 21, 36, 0.92);
-      border-color: rgba(130, 170, 205, 0.16);
-      box-shadow: var(--shadow);
-    }
-
-    body.dark-mode .chip,
-    body.dark-mode .eyebrow,
-    body.dark-mode .tag {
-      background: rgba(11, 79, 136, 0.16);
-      border-color: rgba(80, 160, 210, 0.24);
-      color: #dff3ff;
-    }
-
-    body.dark-mode .btn {
-      background: rgba(10, 21, 36, 0.96);
-      border-color: rgba(130, 170, 205, 0.18);
-      color: var(--text);
-    }
-
-    body.dark-mode .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #ffffff;
-      border-color: transparent;
-      box-shadow: 0 12px 30px rgba(14, 127, 166, 0.26);
-    }
-
-    body.dark-mode .theme-toggle {
-      background: rgba(10, 21, 36, 0.96);
-      border-color: rgba(130, 170, 205, 0.18);
-      color: #dff3ff;
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
-    }
-
-    body.dark-mode footer {
-      background: #050d17;
-      border-top-color: rgba(130, 170, 205, 0.14);
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 46px;
-      padding: 0 18px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 24px rgba(11, 59, 102, 0.10);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 10px 24px rgba(14, 127, 166, 0.22);
-    }
-
-    .btn-secondary {
-      background: #ffffff;
-      color: var(--primary-dark);
-      border-color: #bdd5e2;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.9fr);
-      gap: 22px;
-      padding-top: 18px;
-      align-items: stretch;
-    }
-
-    .hero-left,
-    .hero-right-card,
-    .proof-card,
-    .problem-card,
-    .service-card,
-    .founder-card,
-    .contact-box {
-      background: rgba(255, 255, 255, 0.96);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-left {
-      padding: 34px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-left::after {
-      content: "";
-      position: absolute;
-      right: -30px;
-      bottom: -30px;
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(183, 211, 19, 0.12), transparent 72%);
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: #eef7fb;
-      border: 1px solid #cfe2ec;
-      color: var(--primary-dark);
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-
-    .hero-title {
-      font-size: 42px;
-      line-height: 1.08;
-      font-weight: 900;
-      color: var(--title);
-      margin-bottom: 14px;
-      max-width: 760px;
-    }
-
-    .hero-title span {
-      color: var(--primary);
-    }
-
-    .hero-subtitle {
-      font-size: 17px;
-      color: var(--text-soft);
-      max-width: 720px;
-      margin-bottom: 18px;
-    }
-
-    .hero-benefits {
-      list-style: none;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin: 18px 0 22px;
-    }
-
-    .hero-benefits li {
-      background: var(--card-alt);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-size: 14px;
-      color: var(--text-soft);
-    }
-
-    .hero-benefits strong {
-      display: block;
-      color: var(--title);
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .hero-note {
-      font-size: 12px;
-      color: var(--text-soft);
-      margin-top: 12px;
-    }
-
-    .hero-right {
-      display: grid;
-      gap: 16px;
-    }
-
-    .hero-right-card {
-      padding: 22px;
-    }
-
-    .hero-card-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--title);
-      margin-bottom: 8px;
-    }
-
-    .hero-card-text {
-      font-size: 14px;
-      color: var(--text-soft);
-      margin-bottom: 12px;
-    }
-
-    .hero-card-list {
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-
-    .hero-card-list li {
-      background: var(--card-alt);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px;
-      font-size: 14px;
-      color: var(--text-soft);
-    }
-
-    .hero-card-list strong {
-      color: var(--title);
-    }
-
-    .proof-grid,
-    .problems-grid,
-    .services-grid,
-    .contact-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .proof-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .proof-card {
-      padding: 20px;
-    }
-
-    .proof-number {
-      font-size: 28px;
-      font-weight: 900;
-      color: var(--primary);
-      margin-bottom: 6px;
-    }
-
-    .proof-label {
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--title);
-      margin-bottom: 6px;
-    }
-
-    .proof-desc {
-      font-size: 13px;
-      color: var(--text-soft);
-    }
-
-    .problems-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .problem-card {
-      padding: 20px;
-    }
-
-    .problem-title {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--title);
-      margin-bottom: 8px;
-    }
-
-    .problem-text {
-      font-size: 14px;
-      color: var(--text-soft);
-    }
-
-    .services-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .service-card {
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .service-category {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--primary);
-      font-weight: 800;
-    }
-
-    .service-name {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--title);
-      line-height: 1.25;
-    }
-
-    .service-desc {
-      font-size: 14px;
-      color: var(--text-soft);
-      flex-grow: 1;
-    }
-
-    .service-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .tag {
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: #eef7fb;
-      color: var(--primary-dark);
-      border: 1px solid #cfe2ec;
-      font-weight: 700;
-    }
-
-    .founder-card {
-      padding: 24px;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.78fr);
-      gap: 18px;
-      align-items: center;
-    }
-
-    .founder-title {
-      font-size: 28px;
-      font-weight: 900;
-      color: var(--title);
-      margin-bottom: 10px;
-    }
-
-    .founder-text {
-      font-size: 15px;
-      color: var(--text-soft);
-      margin-bottom: 10px;
-    }
-
-    .founder-points {
-      list-style: none;
-      display: grid;
-      gap: 8px;
-      margin-top: 12px;
-    }
-
-    .founder-points li {
-      position: relative;
-      padding-left: 18px;
-      font-size: 14px;
-      color: var(--text-soft);
-    }
-
-    .founder-points li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: var(--secondary);
-      font-weight: 900;
-    }
-
-    .founder-side {
-      background: var(--card-alt);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-    }
-
-    .founder-side h3 {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--title);
-      margin-bottom: 8px;
-    }
-
-    .founder-side p {
-      font-size: 14px;
-      color: var(--text-soft);
-    }
-
-    .contact-box {
-      padding: 26px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 20px;
-    }
-
-    .contact-intro h2 {
-      font-size: 28px;
-      line-height: 1.15;
-      color: var(--title);
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
-
-    .contact-intro p {
-      color: var(--text-soft);
-      font-size: 15px;
-      max-width: 760px;
-    }
-
-    .contact-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      width: 100%;
-    }
-
-    .contact-card {
-      background: var(--card-alt);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-    }
-
-    .contact-card-title {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--title);
-      margin-bottom: 6px;
-    }
-
-    .contact-card-line {
-      font-size: 14px;
-      color: var(--text);
-      margin-top: 6px;
-      word-break: break-word;
-    }
-
-    .contact-card-meta {
-      font-size: 13px;
-      color: var(--text-soft);
-      margin-top: 6px;
-    }
-
-    .contact-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      background: #f2f7fb;
-      margin-top: auto;
-    }
-
-    .footer-inner {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    @media (max-width: 1080px) {
-      .proof-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .services-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .contact-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 980px) {
-      .header-inner {
-        padding: 16px;
-        gap: 18px;
-      }
-
-      .logo-img {
-        height: 90px;
-      }
-
-      .brand-line {
-        font-size: 14px;
-      }
-    }
-
-    @media (max-width: 920px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .founder-card {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .brand {
-        width: 100%;
-        align-items: center;
-      }
-
-      .logo-img {
-        height: 78px;
-      }
-
-      .brand-text {
-        gap: 3px;
-      }
-
-      .brand-line {
-        font-size: 13px;
-      }
-
-      .brand-subline {
-        font-size: 11px;
-      }
-
-      .header-right {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .hero-title {
-        font-size: 32px;
-      }
-
-      .hero-benefits,
-      .proof-grid,
-      .problems-grid,
-      .services-grid,
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-left,
-      .hero-right-card,
-      .proof-card,
-      .problem-card,
-      .service-card,
-      .founder-card,
-      .contact-box {
-        padding: 18px;
-      }
-
-      .contact-actions {
-        width: 100%;
-        flex-direction: column;
-      }
-
-      .contact-actions .btn {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .container {
-        padding: 18px 12px 40px;
-      }
-
-      .brand {
-        gap: 12px;
-      }
-
-      .logo-img {
-        height: 66px;
-      }
-
-      .brand-line {
-        font-size: 12px;
-      }
-
-      .brand-subline {
-        display: none;
-      }
-
-      .hero-title {
-        font-size: 27px;
-      }
-
-      .section-title,
-      .founder-title,
-      .contact-intro h2 {
-        font-size: 24px;
-      }
-
-      .hero-subtitle,
-      .section-subtitle,
-      .hero-card-text,
-      .problem-text,
-      .service-desc,
-      .founder-text,
-      .contact-intro p {
-        font-size: 14px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .hero-actions .btn,
-      .header-right .btn,
-      .header-right .theme-toggle {
-        width: 100%;
-      }
-
-      .chip {
-        width: 100%;
-        justify-content: center;
-      }
+      --page:#f7f8fa; --white:#ffffff; --surface:#f0f2f5; --surface2:#e8ecf0;
+      --navy:#0f2d52; --navy-mid:#1a4070; --navy-lt:#2558a0;
+      --blue-soft:#e8eef7; --blue-mid:#c5d4ea;
+      --gold:#b08a3e; --gold-lt:#d4a84b; --gold-bg:#fdf6e8; --gold-border:#e8d5a0;
+      --teal:#1a7a6e; --teal-lt:#22a090; --teal-bg:#e8f5f3; --teal-border:#a8d8d3;
+      --text:#0f1e2e; --text-mid:#3a5068; --text-soft:#6a8399; --text-hint:#a0b4c4;
+      --border:#dde4ec; --border2:#c8d4e0;
+      --serif:'Fraunces',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif;
+      --r:12px; --r-lg:18px; --max:1200px;
+      --sh:0 2px 16px rgba(15,45,82,0.07);
+      --sh-md:0 6px 32px rgba(15,45,82,0.10);
+      --sh-lg:0 16px 56px rgba(15,45,82,0.13);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--page);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* HEADER */
+    header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(15,45,82,0.06)}
+    .header-inner{max-width:var(--max);margin:0 auto;padding:0 28px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:14px;flex-shrink:0}
+    .logo-wrap{width:48px;height:48px;border-radius:10px;overflow:hidden;border:1px solid var(--border2);flex-shrink:0;box-shadow:var(--sh)}
+    .logo-wrap img{width:100%;height:100%;object-fit:cover}
+    .brand-name{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--navy);letter-spacing:.01em;line-height:1.2}
+    .brand-tagline{font-size:11px;color:var(--text-soft);letter-spacing:.03em;margin-top:2px}
+    nav{display:flex;align-items:center;gap:2px}
+    nav a{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-mid);transition:color .18s,background .18s}
+    nav a:hover{color:var(--navy);background:var(--blue-soft)}
+    .rccm-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;border:1px solid var(--teal-border);background:var(--teal-bg);font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.03em;white-space:nowrap}
+    .rccm-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal-lt);flex-shrink:0;animation:blink 2.5s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:var(--sans);white-space:nowrap;transition:all .22s}
+    .btn-navy{background:var(--navy);color:#fff;box-shadow:0 4px 18px rgba(15,45,82,0.22)}
+    .btn-navy:hover{background:var(--navy-mid);transform:translateY(-1px);box-shadow:0 8px 28px rgba(15,45,82,0.28)}
+    .btn-outline{background:var(--white);border:1.5px solid var(--border2);color:var(--navy)}
+    .btn-outline:hover{border-color:var(--navy-lt);background:var(--blue-soft)}
+    .btn-white{background:#fff;color:var(--navy);box-shadow:0 4px 16px rgba(0,0,0,0.18);font-weight:700}
+    .btn-white:hover{background:var(--blue-soft);transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,0.22)}
+
+    /* LAYOUT */
+    .container{max-width:var(--max);margin:0 auto;padding:0 28px}
+    .section{padding:80px 0}
+    .section-alt{background:var(--white)}
+    .overline{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+    .overline::before{content:'';display:block;width:20px;height:2px;background:var(--teal);border-radius:1px}
+    .overline-gold{color:var(--gold)}.overline-gold::before{background:var(--gold)}
+    .overline-navy{color:var(--navy)}.overline-navy::before{background:var(--navy)}
+    h1.hero-title{font-family:var(--serif);font-size:clamp(36px,4.5vw,58px);font-weight:700;line-height:1.08;letter-spacing:-.015em;color:var(--navy)}
+    h1.hero-title em{font-style:italic;color:var(--teal)}
+    .section-h2{font-family:var(--serif);font-size:clamp(26px,3vw,40px);font-weight:700;line-height:1.12;color:var(--navy)}
+    .section-h2 em{font-style:italic;color:var(--teal)}
+    .body-lg{font-size:16px;color:var(--text-mid);line-height:1.72}
+    .rule{width:44px;height:3px;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;margin:16px 0 28px}
+
+    /* HERO */
+    .hero{background:var(--white);border-bottom:1px solid var(--border);padding:80px 0 72px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(26,122,110,0.05) 0%,transparent 68%);pointer-events:none}
+    .hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(15,45,82,0.04) 0%,transparent 68%);pointer-events:none}
+    .hero-inner{display:grid;grid-template-columns:1fr 400px;gap:48px;align-items:center;position:relative;z-index:1}
+    .flags-row{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+    .flag{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.05em}
+    .flag-fr{background:rgba(0,82,165,0.08);color:#1a5fa8;border:1px solid rgba(0,82,165,0.18)}
+    .flag-cm{background:rgba(0,128,0,0.07);color:#1a7a30;border:1px solid rgba(0,128,0,0.18)}
+    .flag-cn{background:rgba(196,0,0,0.07);color:#b02020;border:1px solid rgba(196,0,0,0.18)}
+    .flag-sep{color:var(--text-hint);font-size:13px}
+    .hero-sub{font-size:16px;color:var(--text-mid);line-height:1.72;max-width:560px;margin:20px 0 32px}
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
+    .hero-stats{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+    .hero-stat{flex:1;padding:16px 20px;border-right:1px solid var(--border);text-align:center}
+    .hero-stat:last-child{border-right:none}
+    .stat-val{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--navy);display:block}
+    .stat-lbl{font-size:11px;color:var(--text-soft);letter-spacing:.03em;margin-top:2px;display:block}
+
+    /* ORDER CARD */
+    .order-card{background:var(--white);border:1px solid var(--border2);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden}
+    .order-card-header{background:var(--navy);padding:18px 22px;display:flex;align-items:center;justify-content:space-between}
+    .order-card-header h3{font-family:var(--serif);font-size:16px;font-weight:600;color:#fff}
+    .order-card-header .step-count{font-size:11px;color:rgba(255,255,255,.55);font-weight:500}
+    .order-step{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:flex-start;padding:16px 22px;border-bottom:1px solid var(--border);transition:background .18s}
+    .order-step:last-of-type{border-bottom:none}
+    .order-step:hover{background:var(--page)}
+    .step-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:15px;font-weight:700;flex-shrink:0}
+    .sc-navy{background:var(--blue-soft);color:var(--navy);border:1.5px solid var(--blue-mid)}
+    .sc-teal{background:var(--teal-bg);color:var(--teal);border:1.5px solid var(--teal-border)}
+    .sc-gold{background:var(--gold-bg);color:var(--gold);border:1.5px solid var(--gold-border)}
+    .step-body h4{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px;line-height:1.3}
+    .step-body p{font-size:12px;color:var(--text-soft);line-height:1.5}
+    .payment-box{padding:16px 22px 18px;background:var(--surface);border-top:1px solid var(--border)}
+    .payment-box-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-hint);margin-bottom:10px}
+    .pay-bar{display:flex;height:10px;border-radius:999px;overflow:hidden;border:1px solid var(--border2);margin-bottom:8px}
+    .pay-60{width:60%;background:linear-gradient(90deg,var(--teal),#1d9e8e)}
+    .pay-40{width:40%;background:linear-gradient(90deg,#d4b05a,var(--gold))}
+    .pay-labels{display:flex;justify-content:space-between;font-size:12px;font-weight:600}
+    .pay-labels .l1{color:var(--teal)} .pay-labels .l2{color:var(--gold)}
+
+    /* PROOF STRIP */
+    .proof-strip{background:var(--navy);padding:28px 0}
+    .proof-inner{display:flex;align-items:center;justify-content:space-around;gap:8px;flex-wrap:wrap}
+    .proof-item{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 16px}
+    .proof-num{font-family:var(--serif);font-size:26px;font-weight:700;color:#fff}
+    .proof-lbl{font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.04em;text-align:center}
+    .proof-sep{width:1px;height:36px;background:rgba(255,255,255,.12)}
+
+    /* PROCESS */
+    .process-grid{display:grid;grid-template-columns:repeat(5,1fr);position:relative;gap:8px}
+    .process-connector{position:absolute;top:27px;left:calc(10% + 8px);right:calc(10% + 8px);height:2px;background:linear-gradient(90deg,var(--teal-border),var(--gold-border));z-index:0}
+    .proc-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:0 8px;position:relative;z-index:1}
+    .proc-icon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--white);border:2px solid var(--border2);box-shadow:var(--sh);flex-shrink:0;transition:border-color .22s,box-shadow .22s}
+    .proc-icon svg{width:22px;height:22px}
+    .proc-step:hover .proc-icon{border-color:var(--teal-border);box-shadow:0 4px 20px rgba(26,122,110,0.15)}
+    .proc-icon-teal{border-color:var(--teal-border);color:var(--teal)}
+    .proc-icon-gold{border-color:var(--gold-border);color:var(--gold)}
+    .proc-icon-navy{border-color:var(--blue-mid);color:var(--navy-lt)}
+    .proc-step h3{font-size:13px;font-weight:600;color:var(--navy);line-height:1.3}
+    .proc-step p{font-size:12px;color:var(--text-soft);line-height:1.5}
+
+    /* AUDIENCE */
+    .audience-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .aud-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh);transition:box-shadow .22s,border-color .22s,transform .22s}
+    .aud-card:hover{box-shadow:var(--sh-md);border-color:var(--blue-mid);transform:translateY(-2px)}
+    .aud-icon{font-size:30px;margin-bottom:12px}
+    .aud-role{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--navy);margin-bottom:8px}
+    .aud-desc{font-size:13px;color:var(--text-soft);line-height:1.6}
+
+    /* CATALOGUE TABS */
+    .tabs-row{display:flex;gap:6px;margin-bottom:36px;border-bottom:2px solid var(--border);padding-bottom:0}
+    .tab-btn{padding:10px 18px;border-radius:8px 8px 0 0;font-size:13px;font-weight:600;border:none;cursor:pointer;font-family:var(--sans);transition:all .18s;background:transparent;color:var(--text-soft);position:relative;bottom:-2px;border-bottom:2px solid transparent}
+    .tab-btn:hover:not(.active){color:var(--navy);background:var(--surface)}
+    .tab-btn.active{color:var(--navy);background:var(--white);border-bottom-color:var(--navy);font-weight:700}
+    .tab-panel{display:none} .tab-panel.active{display:block}
+    .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .prod-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--sh);transition:box-shadow .22s,border-color .22s,transform .25s}
+    .prod-card:hover{box-shadow:var(--sh-md);border-color:var(--blue-mid);transform:translateY(-3px)}
+    .prod-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.03em;width:fit-content}
+    .pb-teal{background:var(--teal-bg);color:var(--teal);border:1px solid var(--teal-border)}
+    .pb-gold{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border)}
+    .pb-navy{background:var(--blue-soft);color:var(--navy-lt);border:1px solid var(--blue-mid)}
+    .prod-emoji{font-size:34px;line-height:1}
+    .prod-name{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--navy);line-height:1.2}
+    .prod-desc{font-size:13px;color:var(--text-soft);line-height:1.65;flex-grow:1}
+    .prod-tags{display:flex;flex-wrap:wrap;gap:6px}
+    .prod-tag{font-size:11px;padding:3px 9px;border-radius:6px;background:var(--surface);color:var(--text-mid);border:1px solid var(--border);font-weight:500}
+    .prod-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--border)}
+    .prod-cta-text{font-size:12px;font-weight:700;color:var(--teal)}
+    .prod-arrow{width:28px;height:28px;border-radius:50%;background:var(--teal-bg);border:1px solid var(--teal-border);display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:13px;transition:background .18s,color .18s,border-color .18s}
+    .prod-card:hover .prod-arrow{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+    /* WHOLESALE */
+    .wholesale{margin-top:20px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);border-radius:var(--r-lg);padding:36px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;box-shadow:var(--sh-lg);position:relative;overflow:hidden}
+    .wholesale::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.04)}
+    .ws-overline{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:10px}
+    .ws-title{font-family:var(--serif);font-size:24px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.2}
+    .ws-desc{font-size:14px;color:rgba(255,255,255,.65);line-height:1.65;max-width:540px}
+    .ws-points{list-style:none;display:flex;flex-direction:column;gap:6px;margin-top:14px}
+    .ws-points li{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.7)}
+    .ws-dot{width:5px;height:5px;border-radius:50%;background:var(--gold-lt);flex-shrink:0}
+    .ws-points strong{color:#fff}
+
+    /* TRUST */
+    .trust-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .trust-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:30px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:box-shadow .22s,border-color .22s}
+    .trust-card:hover{box-shadow:var(--sh-md);border-color:var(--blue-mid)}
+    .trust-card-bar{position:absolute;top:0;left:0;width:100%;height:3px;background:var(--teal)}
+    .trust-card-bar-gold{background:var(--gold)}
+    .trust-card-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:22px}
+    .tci-teal{background:var(--teal-bg)} .tci-gold{background:var(--gold-bg)} .tci-navy{background:var(--blue-soft)}
+    .trust-card h3{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--navy);margin-bottom:10px}
+    .trust-card p{font-size:14px;color:var(--text-soft);line-height:1.7}
+    .trust-points{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:14px}
+    .trust-points li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-soft)}
+    .tp-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:7px}
+    .trust-points strong{color:var(--text)}
+
+    /* CONTACT */
+    .contact-section{background:var(--white);border-top:1px solid var(--border)}
+    .contact-layout{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-md)}
+    .contact-cta-col{background:var(--navy);padding:44px 36px;position:relative;overflow:hidden}
+    .contact-cta-col::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.04);pointer-events:none}
+    .contact-cta-col h2{font-family:var(--serif);font-size:30px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:12px;position:relative}
+    .contact-cta-col p{font-size:14px;color:rgba(255,255,255,.65);line-height:1.65;margin-bottom:28px;position:relative}
+    .contact-info-col{padding:36px 28px;border-left:1px solid var(--border)}
+    .ci-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-hint);margin-bottom:14px}
+    .ci-title{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--navy);margin-bottom:12px}
+    .ci-line{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-soft);margin-bottom:9px;line-height:1.5}
+    .ci-line a{color:var(--navy-lt);font-weight:600} .ci-line a:hover{color:var(--teal)}
+    .ci-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+
+    footer{background:var(--navy);padding:20px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+    footer span{font-size:12px;color:rgba(255,255,255,.4)}
+
+    /* ANIMATIONS */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{animation:fadeUp .65s ease both}
+    .d1{animation-delay:.08s} .d2{animation-delay:.16s} .d3{animation-delay:.26s} .d4{animation-delay:.36s}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      .hero-inner{grid-template-columns:1fr}
+      .order-card{max-width:520px}
+      .products-grid{grid-template-columns:repeat(2,1fr)}
+      .audience-grid{grid-template-columns:repeat(2,1fr)}
+      .process-grid{grid-template-columns:repeat(3,1fr);gap:20px}
+      .process-connector{display:none}
+      .wholesale{grid-template-columns:1fr}
+      .contact-layout{grid-template-columns:1fr 1fr}
+      .contact-cta-col{grid-column:1 / -1}
+    }
+    @media(max-width:768px){
+      nav{display:none} .rccm-badge{display:none}
+      .hero{padding:52px 0 44px} .section{padding:52px 0}
+      .products-grid{grid-template-columns:1fr}
+      .audience-grid{grid-template-columns:repeat(2,1fr)}
+      .process-grid{grid-template-columns:repeat(2,1fr)}
+      .trust-grid{grid-template-columns:1fr}
+      .contact-layout{grid-template-columns:1fr}
+      .contact-info-col{border-left:none;border-top:1px solid var(--border)}
+    }
+    @media(max-width:480px){
+      .container{padding:0 16px}
+      h1.hero-title{font-size:30px}
+      .audience-grid,.process-grid{grid-template-columns:1fr}
+      .hero-ctas{flex-direction:column}
+      .hero-ctas .btn{justify-content:center}
+      .proof-sep{display:none}
+      .hero-stats{flex-direction:column}
+      .hero-stat{border-right:none;border-bottom:1px solid var(--border)}
+      .hero-stat:last-child{border-bottom:none}
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <div class="header-inner">
-        <a href="#" class="brand" aria-label="Fotsi Global Services">
-          <img src="FotsiGlobalServices.jpeg" alt="Fotsi Global Services" class="logo-img" />
-          <div class="brand-text">
-            <div class="brand-line">Import · Solutions métier · IT · Services internationaux</div>
-            <div class="brand-subline">FGS Douala · Société immatriculée au Cameroun</div>
-          </div>
-        </a>
 
-        <div class="header-right">
-          <div class="chip">
-            <span class="chip-dot"></span>
-            RCCM : CM-DLA-01-2025-A10-0156
-          </div>
-          <button type="button" class="theme-toggle" id="themeToggle" aria-label="Activer le mode sombre">🌙 Mode sombre</button>
-          <a href="#contact" class="btn btn-primary">Analyser mon projet</a>
-        </div>
+<header>
+  <div class="header-inner">
+    <a href="#" class="brand" aria-label="Fotsi Global Services">
+      <div class="logo-wrap"><img src="FotsiGlobalServices.jpeg" alt="FGS" /></div>
+      <div>
+        <div class="brand-name">Fotsi Global Services</div>
+        <div class="brand-tagline">Import · Restauration · High-Tech · IT — Douala &amp; Paris</div>
       </div>
-    </header>
-
-    <main class="container">
-      <section class="hero">
-        <div class="hero-left">
-          <div class="eyebrow">Votre partenaire opérationnel unique</div>
-
-          <h1 class="hero-title">
-            Développez votre activité avec un partenaire
-            <span>fiable, structuré et orienté résultats.</span>
-          </h1>
-
-          <p class="hero-subtitle">
-            Fotsi Global Services accompagne les entrepreneurs, commerçants, restaurateurs, clubs
-            et PME avec une approche globale : import, matériel professionnel, solutions digitales,
-            support informatique et accompagnement opérationnel.
-          </p>
-
-          <ul class="hero-benefits">
-            <li>
-              <strong>Réduisez vos risques</strong>
-              Sécurisation des achats, échanges fournisseurs et logistique.
-            </li>
-            <li>
-              <strong>Équipez-vous efficacement</strong>
-              Du matériel utile, rentable et cohérent avec votre activité.
-            </li>
-            <li>
-              <strong>Pilotez vos performances</strong>
-              Outils métier, food cost, marges et suivi opérationnel.
-            </li>
-            <li>
-              <strong>Gagnez en clarté</strong>
-              Un interlocuteur unique pour plusieurs besoins stratégiques.
-            </li>
-          </ul>
-
-          <div class="hero-actions">
-            <a href="#services" class="btn btn-primary">Découvrir nos solutions</a>
-            <a href="#contact" class="btn btn-secondary">Nous contacter</a>
-          </div>
-
-          <div class="hero-note">
-            Réponse rapide, approche terrain, accompagnement adaptable selon votre projet.
-          </div>
-        </div>
-
-        <div class="hero-right">
-          <div class="hero-right-card">
-            <div class="hero-card-title">Pour qui travaillons-nous ?</div>
-            <p class="hero-card-text">
-              Nous intervenons auprès des professionnels qui veulent avancer plus vite avec des
-              solutions concrètes et un accompagnement cohérent.
-            </p>
-            <ul class="hero-card-list">
-              <li><strong>Restaurateurs :</strong> équipement, food cost, digitalisation.</li>
-              <li><strong>Commerçants & grossistes :</strong> sourcing, import, logistique.</li>
-              <li><strong>Salons & revendeurs :</strong> produits, matériel, structuration.</li>
-              <li><strong>Clubs & organisations :</strong> outils, statistiques, support IT.</li>
-            </ul>
-          </div>
-
-          <div class="hero-right-card">
-            <div class="hero-card-title">Ce qui fait la différence FGS</div>
-            <p class="hero-card-text">
-              Une vision transversale entre commerce, import, restauration, sport et informatique,
-              avec un objectif simple : résoudre des problèmes réels et améliorer l’exécution.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2 class="section-title">Pourquoi les professionnels nous font confiance</h2>
-        <p class="section-subtitle">
-          FGS ne se limite pas à vendre des produits ou des services. Nous apportons une logique
-          d’organisation, de sécurisation et de performance durable.
-        </p>
-
-        <div class="proof-grid">
-          <article class="proof-card">
-            <div class="proof-number">B2B</div>
-            <div class="proof-label">Approche orientée entreprise</div>
-            <p class="proof-desc">
-              Chaque mission est pensée avec une logique d’efficacité, de rentabilité et de continuité.
-            </p>
-          </article>
-
-          <article class="proof-card">
-            <div class="proof-number">360°</div>
-            <div class="proof-label">Vision multisectorielle</div>
-            <p class="proof-desc">
-              Import, restauration, cosmétique, sport et outils numériques dans un seul écosystème.
-            </p>
-          </article>
-
-          <article class="proof-card">
-            <div class="proof-number">FR ↔ CM</div>
-            <div class="proof-label">Passerelle internationale</div>
-            <p class="proof-desc">
-              Une lecture concrète des besoins entre la France, le Cameroun et les réalités du terrain.
-            </p>
-          </article>
-
-          <article class="proof-card">
-            <div class="proof-number">IT</div>
-            <div class="proof-label">Expertise digitale solide</div>
-            <p class="proof-desc">
-              Support utilisateurs, Microsoft 365, outils métier et accompagnement opérationnel.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2 class="section-title">Vous êtes confronté à ces situations ?</h2>
-        <p class="section-subtitle">
-          C’est précisément là que FGS intervient : quand il faut rendre votre activité plus fiable,
-          plus fluide et mieux pilotée.
-        </p>
-
-        <div class="problems-grid">
-          <article class="problem-card">
-            <div class="problem-title">Achats internationaux risqués</div>
-            <p class="problem-text">
-              Fournisseurs peu fiables, manque de visibilité, problèmes de qualité ou retards
-              logistiques qui finissent par coûter cher.
-            </p>
-          </article>
-
-          <article class="problem-card">
-            <div class="problem-title">Matériel mal choisi ou peu rentable</div>
-            <p class="problem-text">
-              Vous investissez sans être certain de l’impact réel sur votre production,
-              votre service ou vos marges.
-            </p>
-          </article>
-
-          <article class="problem-card">
-            <div class="problem-title">Maîtrise insuffisante des coûts</div>
-            <p class="problem-text">
-              Difficulté à suivre les fiches techniques, le food cost, la rentabilité produit
-              ou les performances réelles de l’activité.
-            </p>
-          </article>
-
-          <article class="problem-card">
-            <div class="problem-title">Trop d’interlocuteurs, pas assez d’efficacité</div>
-            <p class="problem-text">
-              Import, matériel, support IT, outils métier : tout est dispersé et ralentit
-              la prise de décision.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="services">
-        <h2 class="section-title">Nos solutions principales</h2>
-        <p class="section-subtitle">
-          Chaque service peut être activé seul ou combiné dans un accompagnement sur mesure.
-        </p>
-
-        <div class="services-grid">
-          <article class="service-card">
-            <div class="service-category">Import & commerce</div>
-            <div class="service-name">Sécurisation de vos achats internationaux</div>
-            <p class="service-desc">
-              Identification de fournisseurs, cadrage des échanges, réduction des risques
-              et organisation de l’acheminement jusqu’à destination.
-            </p>
-            <div class="service-tags">
-              <span class="tag">Sourcing</span>
-              <span class="tag">Négociation</span>
-              <span class="tag">Logistique</span>
-            </div>
-          </article>
-
-          <article class="service-card">
-            <div class="service-category">Restauration</div>
-            <div class="service-name">Équipement rentable pour professionnels exigeants</div>
-            <p class="service-desc">
-              Sélection de matériel pertinent, durable et cohérent avec votre usage
-              pour éviter les mauvais achats et soutenir votre productivité.
-            </p>
-            <div class="service-tags">
-              <span class="tag">Matériel pro</span>
-              <span class="tag">Conseil produit</span>
-              <span class="tag">Performance</span>
-            </div>
-          </article>
-
-          <article class="service-card">
-            <div class="service-category">Restauration & digital</div>
-            <div class="service-name">BusinessFood Manager</div>
-            <p class="service-desc">
-              Solution métier pour maîtriser les fiches techniques, le food cost,
-              la rentabilité cuisine et les indicateurs clés.
-            </p>
-            <div class="service-tags">
-              <span class="tag">Food cost</span>
-              <span class="tag">Marges</span>
-              <span class="tag">Pilotage</span>
-            </div>
-          </article>
-
-          <article class="service-card">
-            <div class="service-category">Cosmétiques</div>
-            <div class="service-name">Produits cosmétiques sélectionnés avec exigence</div>
-            <p class="service-desc">
-              Une offre pensée pour les professionnels et revendeurs recherchant
-              régularité, qualité, cohérence produit et accompagnement commercial.
-            </p>
-            <div class="service-tags">
-              <span class="tag">Sélection</span>
-              <span class="tag">Traçabilité</span>
-              <span class="tag">Conseil vente</span>
-            </div>
-          </article>
-
-          <article class="service-card">
-            <div class="service-category">Informatique</div>
-            <div class="service-name">Support Microsoft 365 & environnement IT</div>
-            <p class="service-desc">
-              Dépannage, accompagnement utilisateurs, organisation documentaire,
-              base de connaissances et amélioration du quotidien numérique.
-            </p>
-            <div class="service-tags">
-              <span class="tag">Support utilisateurs</span>
-              <span class="tag">M365</span>
-              <span class="tag">Digital workplace</span>
-            </div>
-          </article>
-
-          <article class="service-card">
-            <div class="service-category">Sport & organisations</div>
-            <div class="service-name">Gestion de tournois, statistiques et équilibrage d’équipes</div>
-            <p class="service-desc">
-              Des outils conçus pour organiser des compétitions, suivre les performances
-              et prendre de meilleures décisions grâce aux données.
-            </p>
-            <div class="service-tags">
-              <span class="tag">Statistiques</span>
-              <span class="tag">Tournois</span>
-              <span class="tag">Team balancing</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="founder-card">
-          <div>
-            <h2 class="founder-title">Une vision née du terrain</h2>
-            <p class="founder-text">
-              FGS est née d’une réalité simple : beaucoup d’entrepreneurs perdent du temps,
-              de l’argent et de l’énergie parce que leurs besoins sont éclatés entre trop
-              d’acteurs, trop d’outils et trop d’approximations.
-            </p>
-            <p class="founder-text">
-              Notre ambition est de relier l’import, l’équipement, le digital, l’IT
-              et l’exécution métier dans une seule dynamique : aider les professionnels
-              à mieux structurer, sécuriser et développer leur activité.
-            </p>
-
-            <ul class="founder-points">
-              <li>Approche entrepreneuriale et opérationnelle</li>
-              <li>Compréhension du terrain en France et au Cameroun</li>
-              <li>Culture du concret, de la performance et de l’amélioration continue</li>
-            </ul>
-          </div>
-
-          <div class="founder-side">
-            <h3>Notre promesse</h3>
-            <p>
-              Vous faire gagner en clarté, en exécution et en cohérence. Pas des promesses vagues.
-              Des solutions utiles, activables et pensées pour la réalité du terrain.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contact">
-        <div class="contact-box">
-          <div class="contact-intro">
-            <h2>Contact & Informations légales</h2>
-            <p>
-              Fotsi Global Services est une société immatriculée au Cameroun.
-              Nous accompagnons nos partenaires depuis Douala et Paris selon la nature des projets.
-            </p>
-          </div>
-
-          <div class="contact-grid">
-            <div class="contact-card">
-              <div class="contact-card-title">📍 Siège principal — Douala</div>
-              <div class="contact-card-line">Fotsi Global Services (FGS Douala)</div>
-              <div class="contact-card-meta">RCCM : CM-DLA-01-2025-A10-0156</div>
-              <div class="contact-card-line">
-                📞 <a href="tel:+237691837274">+237 691 83 72 74</a>
-              </div>
-            </div>
-
-            <div class="contact-card">
-              <div class="contact-card-title">📍 Représentation — Paris</div>
-              <div class="contact-card-line">Coordination & projets internationaux</div>
-              <div class="contact-card-line">
-                📞 <a href="tel:+33629850214">+33 629 85 02 14</a>
-              </div>
-            </div>
-
-            <div class="contact-card">
-              <div class="contact-card-title">✉️ Contact email</div>
-              <div class="contact-card-line">
-                <a href="mailto:contact@fotsiglobal.com">contact@fotsiglobal.com</a>
-              </div>
-              <div class="contact-card-meta">
-                Réponse rapide selon disponibilité et fuseau horaire.
-              </div>
-            </div>
-          </div>
-
-          <div class="contact-actions">
-            <a href="mailto:contact@fotsiglobal.com" class="btn btn-primary">
-              Demander une analyse de projet
-            </a>
-            <a href="#services" class="btn btn-secondary">
-              Revoir nos solutions
-            </a>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      <div class="footer-inner">
-        <span>© Fotsi Global Services — Société immatriculée au Cameroun (FGS Douala)</span>
-        <span>RCCM : CM-DLA-01-2025-A10-0156 · Douala · Paris · contact@fotsiglobal.com</span>
-      </div>
-    </footer>
+    </a>
+    <nav>
+      <a href="#processus">Comment ça marche</a>
+      <a href="#catalogue">Catalogue</a>
+      <a href="#confiance">Garanties</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+      <div class="rccm-badge">Société enregistrée CM</div>
+      <a href="#contact" class="btn btn-navy">Demander un devis</a>
+    </div>
   </div>
+</header>
 
-  <script>
-    (function () {
-      const body = document.body;
-      const toggle = document.getElementById('themeToggle');
-      const storageKey = 'fgs-theme';
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="fade-up">
+        <div class="flags-row">
+          <span class="flag flag-cm">🇨🇲 Cameroun</span>
+          <span class="flag-sep">↔</span>
+          <span class="flag flag-fr">🇫🇷 France</span>
+          <span class="flag-sep">↔</span>
+          <span class="flag flag-cn">🇨🇳 Chine</span>
+        </div>
+        <h1 class="hero-title">Votre partenaire d'import<br /><em>fiable, transparent</em><br />et orienté résultats.</h1>
+        <p class="hero-sub">Fotsi Global Services accompagne les professionnels depuis Douala et Paris : matériel de restauration, high-tech sous marque FGS, import sur commande avec un modèle sécurisé — <strong>60 % à la commande · 40 % à la livraison.</strong></p>
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-navy">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Lancer ma commande
+          </a>
+          <a href="#processus" class="btn btn-outline">Voir comment ça marche</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span class="stat-val">60/40</span><span class="stat-lbl">Paiement sécurisé</span></div>
+          <div class="hero-stat"><span class="stat-val">FR ↔ CM</span><span class="stat-lbl">Double présence</span></div>
+          <div class="hero-stat"><span class="stat-val">B2B</span><span class="stat-lbl">Professionnels</span></div>
+          <div class="hero-stat"><span class="stat-val">360°</span><span class="stat-lbl">Multi-secteurs</span></div>
+        </div>
+      </div>
 
-      function applyTheme(theme) {
-        const isDark = theme === 'dark';
-        body.classList.toggle('dark-mode', isDark);
-        if (toggle) {
-          toggle.textContent = isDark ? '☀️ Mode clair' : '🌙 Mode sombre';
-          toggle.setAttribute('aria-label', isDark ? 'Activer le mode clair' : 'Activer le mode sombre');
-        }
+      <div class="order-card fade-up d3">
+        <div class="order-card-header">
+          <h3>Votre commande, pas à pas</h3>
+          <span class="step-count">3 étapes</span>
+        </div>
+        <div>
+          <div class="order-step">
+            <div class="step-circle sc-navy">1</div>
+            <div class="step-body"><h4>Vous décrivez votre besoin</h4><p>Produit, quantité, spécifications. On analyse et on revient avec un devis détaillé sous 24-48h.</p></div>
+          </div>
+          <div class="order-step">
+            <div class="step-circle sc-teal">2</div>
+            <div class="step-body"><h4>Acompte de sécurisation — 60 %</h4><p>Vous versez 60 % du total. On démarre le sourcing, le contrôle qualité et la production.</p></div>
+          </div>
+          <div class="order-step">
+            <div class="step-circle sc-gold">3</div>
+            <div class="step-body"><h4>Livraison Douala — 40 % restants</h4><p>Le solde est réglé uniquement à la réception. Vous payez avec votre marchandise devant vous.</p></div>
+          </div>
+        </div>
+        <div class="payment-box">
+          <div class="payment-box-title">Décomposition du paiement</div>
+          <div class="pay-bar"><div class="pay-60"></div><div class="pay-40"></div></div>
+          <div class="pay-labels"><span class="l1">60 % — à la commande</span><span class="l2">40 % — à la livraison</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="proof-strip">
+  <div class="container">
+    <div class="proof-inner">
+      <div class="proof-item"><span class="proof-num">B2B</span><span class="proof-lbl">Approche entreprise</span></div>
+      <div class="proof-sep"></div>
+      <div class="proof-item"><span class="proof-num">360°</span><span class="proof-lbl">Vision multisectorielle</span></div>
+      <div class="proof-sep"></div>
+      <div class="proof-item"><span class="proof-num">FR ↔ CM</span><span class="proof-lbl">Paris · Douala</span></div>
+      <div class="proof-sep"></div>
+      <div class="proof-item"><span class="proof-num">60/40</span><span class="proof-lbl">Paiement en 2 temps</span></div>
+      <div class="proof-sep"></div>
+      <div class="proof-item"><span class="proof-num">RCCM</span><span class="proof-lbl">Société enregistrée Cameroun</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="section" id="processus">
+  <div class="container">
+    <div class="overline">Comment ça marche</div>
+    <h2 class="section-h2">De votre besoin à la <em>livraison à Douala</em></h2>
+    <div class="rule"></div>
+    <p class="body-lg" style="max-width:620px;margin-bottom:56px;">Un processus en 5 étapes, transparent de bout en bout. Chaque commande est tracée, chaque paiement est justifié, chaque livraison est accompagnée.</p>
+    <div class="process-grid">
+      <div class="process-connector"></div>
+      <div class="proc-step">
+        <div class="proc-icon proc-icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <h3>Cotation & analyse</h3><p>Vous soumettez votre besoin. Devis détaillé sous 24-48h.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-icon proc-icon-teal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+        <h3>Acompte 60 %</h3><p>Versement pour sécuriser la commande. Ticket de suivi unique généré.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-icon proc-icon-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
+        <h3>Sourcing & contrôle</h3><p>FGS qualifie, négocie et contrôle la production. Origine confidentielle.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-icon proc-icon-navy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h3>Transit & suivi</h3><p>Acheminement maritime. Statuts mis à jour en temps réel.</p>
+      </div>
+      <div class="proc-step">
+        <div class="proc-icon proc-icon-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <h3>Livraison + 40 %</h3><p>Réception Douala. Solde réglé marchandise en main.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="overline overline-navy">Pour qui ?</div>
+    <h2 class="section-h2" style="margin-bottom:32px;">FGS accompagne les <em>professionnels qui avancent</em></h2>
+    <div class="audience-grid">
+      <div class="aud-card"><div class="aud-icon">🍽️</div><div class="aud-role">Restaurateurs</div><p class="aud-desc">Équipement pro, machines à shawarma, matériel cuisine validé FGS et outil de food cost intégré.</p></div>
+      <div class="aud-card"><div class="aud-icon">📦</div><div class="aud-role">Commerçants & grossistes</div><p class="aud-desc">Sourcing direct Chine, import sécurisé, logistique organisée — sans intermédiaire opaque.</p></div>
+      <div class="aud-card"><div class="aud-icon">💄</div><div class="aud-role">Salons & revendeurs</div><p class="aud-desc">Cosmétiques sélectionnés avec exigence, traçabilité garantie et conseil vente terrain.</p></div>
+      <div class="aud-card"><div class="aud-icon">📱</div><div class="aud-role">Revendeurs high-tech</div><p class="aud-desc">Stocks d'écouteurs ANC et powerbanks sous label FGS — gros et semi-gros disponibles à Douala.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="catalogue">
+  <div class="container">
+    <div class="overline overline-gold">Catalogue</div>
+    <h2 class="section-h2">Nos <em>produits & solutions</em></h2>
+    <div class="rule"></div>
+    <div class="tabs-row">
+      <button class="tab-btn active" data-tab="resto">🍳 Matériel Restauration</button>
+      <button class="tab-btn" data-tab="tech">🎧 High-Tech FGS</button>
+      <button class="tab-btn" data-tab="cosmetique">💄 Cosmétiques</button>
+      <button class="tab-btn" data-tab="it">💻 IT &amp; Digital</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-resto">
+      <div class="products-grid">
+        <div class="prod-card">
+          <span class="prod-badge pb-teal">✓ Validé FGS</span>
+          <div class="prod-emoji">🥙</div>
+          <div class="prod-name">Machine à shawarma à gaz</div>
+          <p class="prod-desc">Brûleurs hautes performances, corps inox alimentaire, rotation motorisée. Customisation possible selon votre enseigne. Fiche technique fournie.</p>
+          <div class="prod-tags"><span class="prod-tag">Inox 304</span><span class="prod-tag">3 à 6 brûleurs</span><span class="prod-tag">Customisable</span><span class="prod-tag">Fiche FGS</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">Demander un devis</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+        <div class="prod-card">
+          <span class="prod-badge pb-teal">✓ Validé FGS</span>
+          <div class="prod-emoji">🔪</div>
+          <div class="prod-name">Équipement cuisine pro</div>
+          <p class="prod-desc">Trancheuses, pétrins, marmites professionnelles importés directement. Sélection axée sur la rentabilité, la durabilité et l'adéquation à votre usage.</p>
+          <div class="prod-tags"><span class="prod-tag">Import direct</span><span class="prod-tag">Garantie pièces</span><span class="prod-tag">Livraison Douala</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">Demander un devis</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+        <div class="prod-card">
+          <span class="prod-badge pb-gold">★ Solution métier</span>
+          <div class="prod-emoji">📊</div>
+          <div class="prod-name">BusinessFood Manager</div>
+          <p class="prod-desc">Outil de pilotage pour maîtriser les fiches techniques, le food cost et les marges. Rentabilisez votre cuisine avec des données concrètes.</p>
+          <div class="prod-tags"><span class="prod-tag">Food cost</span><span class="prod-tag">Fiches techniques</span><span class="prod-tag">Tableau de bord</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">En savoir plus</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-tech">
+      <div class="products-grid">
+        <div class="prod-card">
+          <span class="prod-badge pb-gold">🏷️ Label FGS</span>
+          <div class="prod-emoji">🎧</div>
+          <div class="prod-name">Écouteurs ANC FGS</div>
+          <p class="prod-desc">Réduction active du bruit, 40h d'autonomie, qualité audio premium. Disponibles sous label FGS pour revendeurs et professionnels.</p>
+          <div class="prod-tags"><span class="prod-tag">ANC actif</span><span class="prod-tag">40h autonomie</span><span class="prod-tag">Bluetooth 5.3</span><span class="prod-tag">Label FGS</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">Commander en gros</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+        <div class="prod-card">
+          <span class="prod-badge pb-gold">🏷️ Label FGS</span>
+          <div class="prod-emoji">🔋</div>
+          <div class="prod-name">Powerbanks FGS</div>
+          <p class="prod-desc">Batteries nomades haute capacité, charge rapide jusqu'à 65W. Conçues pour le marché camerounais et ses contraintes électriques.</p>
+          <div class="prod-tags"><span class="prod-tag">10 000–30 000 mAh</span><span class="prod-tag">Charge rapide 65W</span><span class="prod-tag">Label FGS</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">Commander en gros</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+        <div class="prod-card" style="border-color:var(--blue-mid);">
+          <span class="prod-badge pb-navy">🔒 Sourcing privé</span>
+          <div class="prod-emoji">📦</div>
+          <div class="prod-name">Produit sur spécification</div>
+          <p class="prod-desc">Vous avez un lien, une image ou une référence ? FGS la source, la qualifie et vous la livre sous votre marque ou sous label FGS.</p>
+          <div class="prod-tags"><span class="prod-tag">Sur demande</span><span class="prod-tag">MOQ flexible</span><span class="prod-tag">Marque blanche</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">Soumettre ma spécification</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+      </div>
+      <div class="wholesale">
+        <div>
+          <div class="ws-overline">📦 Gros &amp; semi-gros — Douala</div>
+          <div class="ws-title">Vous revendez à Douala ?<br />Approvisionnez-vous en stock chez FGS.</div>
+          <p class="ws-desc">Commandez des lots d'écouteurs ANC et powerbanks sous label FGS. Tarifs dégressifs selon les volumes, livraison organisée.</p>
+          <ul class="ws-points">
+            <li><div class="ws-dot"></div><span><strong>Écouteurs ANC FGS</strong> — à partir de 10 unités par lot</span></li>
+            <li><div class="ws-dot"></div><span><strong>Powerbanks FGS</strong> — lots de 20, 50 ou 100 unités</span></li>
+            <li><div class="ws-dot"></div><span><strong>Conditionnement</strong> — boîte neutre ou label FGS selon votre choix</span></li>
+          </ul>
+        </div>
+        <div style="flex-shrink:0;"><a href="#contact" class="btn btn-white">Obtenir les tarifs gros</a></div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-cosmetique">
+      <div class="products-grid">
+        <div class="prod-card">
+          <span class="prod-badge pb-teal">✓ Sélection FGS</span>
+          <div class="prod-emoji">💄</div>
+          <div class="prod-name">Cosmétiques professionnels</div>
+          <p class="prod-desc">Offre pensée pour les professionnels et revendeurs : régularité d'approvisionnement, qualité tracée, conseil vente et accompagnement commercial sur le terrain.</p>
+          <div class="prod-tags"><span class="prod-tag">Sélection rigoureuse</span><span class="prod-tag">Traçabilité</span><span class="prod-tag">Conseil vente</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">Demander le catalogue</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-it">
+      <div class="products-grid">
+        <div class="prod-card">
+          <span class="prod-badge pb-navy">Support actif</span>
+          <div class="prod-emoji">💻</div>
+          <div class="prod-name">Support Microsoft 365 &amp; IT</div>
+          <p class="prod-desc">Dépannage, accompagnement utilisateurs, organisation documentaire, Microsoft 365 et amélioration du quotidien numérique de vos équipes.</p>
+          <div class="prod-tags"><span class="prod-tag">M365</span><span class="prod-tag">Support utilisateurs</span><span class="prod-tag">Digital workplace</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">Nous contacter</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+        <div class="prod-card">
+          <span class="prod-badge pb-gold">★ Sport &amp; données</span>
+          <div class="prod-emoji">⚽</div>
+          <div class="prod-name">Gestion tournois &amp; statistiques</div>
+          <p class="prod-desc">Outils pour organiser des compétitions, équilibrer les équipes et exploiter les données de performance sportive.</p>
+          <div class="prod-tags"><span class="prod-tag">Tournois</span><span class="prod-tag">Team balancing</span><span class="prod-tag">Statistiques</span></div>
+          <div class="prod-footer"><span class="prod-cta-text">En savoir plus</span><a href="#contact" class="prod-arrow">→</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="confiance" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="overline">Nos garanties</div>
+    <h2 class="section-h2">Pourquoi vous pouvez nous <em>faire confiance</em></h2>
+    <div class="rule"></div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-card-bar"></div>
+        <div class="trust-card-icon tci-teal">🏢</div>
+        <h3>Société légalement constituée</h3>
+        <p>FGS est immatriculée au Registre du Commerce camerounais. Pas un simple compte sur les réseaux — une entreprise réelle et vérifiable.</p>
+        <ul class="trust-points">
+          <li><div class="tp-dot"></div><span><strong>RCCM CM-DLA-01-2025-A10-0156</strong> — vérifiable en ligne</span></li>
+          <li><div class="tp-dot"></div><span><strong>Adresse physique à Douala</strong> — interlocuteur sur place</span></li>
+          <li><div class="tp-dot"></div><span><strong>Coordination Paris</strong> — pour les projets internationaux</span></li>
+        </ul>
+      </div>
+      <div class="trust-card">
+        <div class="trust-card-bar trust-card-bar-gold"></div>
+        <div class="trust-card-icon tci-gold">🔒</div>
+        <h3>Le modèle 60/40 vous protège</h3>
+        <p>Vous ne payez jamais 100 % à l'avance. Les 40 % restants ne sont dus qu'à la livraison — avec votre marchandise devant vous.</p>
+        <ul class="trust-points">
+          <li><div class="tp-dot"></div><span><strong>Pas de paiement intégral en avance</strong> — vous conservez un levier</span></li>
+          <li><div class="tp-dot"></div><span><strong>Ticket de suivi unique</strong> — votre commande tracée étape par étape</span></li>
+          <li><div class="tp-dot"></div><span><strong>Origine fournisseur protégée</strong> — confidentialité garantie</span></li>
+        </ul>
+      </div>
+      <div class="trust-card">
+        <div class="trust-card-bar"></div>
+        <div class="trust-card-icon tci-teal">🌍</div>
+        <h3>Présence Paris &amp; Douala</h3>
+        <p>Une lecture concrète des réalités terrain entre la France, la Chine et le Cameroun. Nous avons un pied dans chaque marché.</p>
+        <ul class="trust-points">
+          <li><div class="tp-dot"></div><span><strong>Approche terrain</strong> — on comprend vos contraintes locales</span></li>
+          <li><div class="tp-dot"></div><span><strong>Réseau fournisseurs qualifiés</strong> — testés et validés</span></li>
+          <li><div class="tp-dot"></div><span><strong>Interlocuteur unique</strong> — un seul contact pour tout gérer</span></li>
+        </ul>
+      </div>
+      <div class="trust-card">
+        <div class="trust-card-bar trust-card-bar-gold"></div>
+        <div class="trust-card-icon tci-gold">💬</div>
+        <h3>Accompagnement réel, sans promesses vagues</h3>
+        <p>Chaque projet est analysé individuellement. On vous dit ce qu'on peut faire, et on le fait. Pas de délais fantaisistes.</p>
+        <ul class="trust-points">
+          <li><div class="tp-dot"></div><span><strong>Devis personnalisé</strong> — pas de grille tarifaire rigide</span></li>
+          <li><div class="tp-dot"></div><span><strong>Réponse rapide</strong> — selon disponibilité et fuseau horaire</span></li>
+          <li><div class="tp-dot"></div><span><strong>Suivi post-livraison</strong> — on ne disparaît pas après la vente</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="overline overline-navy">Contact</div>
+    <h2 class="section-h2" style="margin-bottom:32px;">Prêts à travailler ensemble ?</h2>
+    <div class="contact-layout">
+      <div class="contact-cta-col">
+        <h2>Décrivez votre projet,<br />on s'occupe du reste.</h2>
+        <p>Produit à importer, équipement à commander, stock high-tech à constituer : envoyez-nous votre besoin. On analyse et on revient avec un devis transparent sous 24-48h.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;position:relative;">
+          <a href="mailto:contact@fotsiglobal.com" class="btn btn-white">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Envoyer ma demande
+          </a>
+          <a href="#catalogue" class="btn" style="background:rgba(255,255,255,0.1);color:#fff;border:1.5px solid rgba(255,255,255,0.22);">Voir le catalogue</a>
+        </div>
+      </div>
+      <div class="contact-info-col">
+        <div class="ci-label">Siège principal</div>
+        <div class="ci-title">Douala, Cameroun</div>
+        <div class="ci-line"><span class="ci-icon">🏢</span><span>Fotsi Global Services — FGS Douala</span></div>
+        <div class="ci-line"><span class="ci-icon">📋</span><span style="font-size:12px;color:var(--text-hint);">RCCM : CM-DLA-01-2025-A10-0156</span></div>
+        <div class="ci-line"><span class="ci-icon">📞</span><a href="tel:+237691837274">+237 691 83 72 74</a></div>
+      </div>
+      <div class="contact-info-col">
+        <div class="ci-label">Représentation &amp; Email</div>
+        <div class="ci-title">Paris, France</div>
+        <div class="ci-line"><span class="ci-icon">📍</span><span>Coordination &amp; projets internationaux</span></div>
+        <div class="ci-line"><span class="ci-icon">📞</span><a href="tel:+33629850214">+33 629 85 02 14</a></div>
+        <div class="ci-line" style="margin-top:16px;"><span class="ci-icon">✉️</span><a href="mailto:contact@fotsiglobal.com">contact@fotsiglobal.com</a></div>
+        <div class="ci-line"><span class="ci-icon" style="visibility:hidden;">✉️</span><span style="font-size:12px;color:var(--text-hint);">Réponse rapide selon disponibilité</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Fotsi Global Services — Société immatriculée au Cameroun (FGS Douala)</span>
+  <span>RCCM : CM-DLA-01-2025-A10-0156 · Douala · Paris · contact@fotsiglobal.com</span>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+    });
+  });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        io.unobserve(e.target);
       }
-
-      const saved = localStorage.getItem(storageKey);
-      if (saved === 'dark' || saved === 'light') {
-        applyTheme(saved);
-      } else {
-        applyTheme('light');
-      }
-
-      if (toggle) {
-        toggle.addEventListener('click', function () {
-          const next = body.classList.contains('dark-mode') ? 'light' : 'dark';
-          localStorage.setItem(storageKey, next);
-          applyTheme(next);
-        });
-      }
-    })();
-  </script>
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.prod-card,.aud-card,.trust-card,.proc-step').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(18px)';
+    el.style.transition = 'opacity .55s ease,transform .55s ease';
+    io.observe(el);
+  });
+</script>
 </body>
 </html>
