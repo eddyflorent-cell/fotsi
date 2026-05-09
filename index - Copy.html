@@ -252,15 +252,6 @@
       .hero-stat{border-right:none;border-bottom:1px solid var(--border)}
       .hero-stat:last-child{border-bottom:none}
     }
-    .portfolio-gallery { display:flex; flex-direction:column; gap:1.5rem; margin-top:1.5rem; }
-.portfolio-category { background:#f8f9fa; border-radius:12px; padding:1.25rem; }
-.portfolio-cat-header { display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem; }
-.portfolio-cat-header span { font-size:1.5rem; }
-.portfolio-cat-header strong { display:block; color:#1a2e4a; }
-.portfolio-cat-header p { margin:0; font-size:.85rem; color:#666; }
-.portfolio-images { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:.75rem; }
-.portfolio-images img { width:100%; border-radius:8px; object-fit:cover; aspect-ratio:4/3; transition:transform .2s; cursor:zoom-in; }
-.portfolio-images img:hover { transform:scale(1.03); }
   </style>
 </head>
 <body>
@@ -655,77 +646,47 @@
           </div>
 
           <!-- Portfolio visual showcase -->
-          <div class="portfolio-gallery">
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>🖼️</span><div><strong>Art plastique & Tableaux</strong><p>Œuvres sur commande pour entreprises</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/faapage7.png" alt="Concept Les Ouvertures — série de tableaux" loading="lazy">
-      <img src="images/faapage9.png" alt="Night in City — technique mixte 120×85cm" loading="lazy">
-      <img src="images/faapage17.png" alt="Le Penseur Isolé & Sky Dream — digital painting" loading="lazy">
-      <img src="images/faapage18.png" alt="New Welcome World — grande composition mixte" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>🎯</span><div><strong>Logo & Branding</strong><p>Identités marquantes, marques durables</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page11.png" alt="Création de logos — identités visuelles" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>📦</span><div><strong>Packaging & Print</strong><p>Boîtes, étiquettes, affiches grand format</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page29.png" alt="Packaging produit alimentaire" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>📢</span><div><strong>Outdoor & Campagnes</strong><p>Affiches, banderoles, grand format</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page12.png" alt="Campagne outdoor automobile" loading="lazy">
-      <img src="images/page13.png" alt="Campagne outdoor grande surface" loading="lazy">
-      <img src="images/page15.png" alt="Campagne assurances" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>✨</span><div><strong>Design 3D & Stands</strong><p>Intérieur, murale, scénographie</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page73.png" alt="Design 3D stand transport" loading="lazy">
-      <img src="images/page74.png" alt="Stand foire bancaire" loading="lazy">
-      <img src="images/page76.png" alt="Design 3D luxe" loading="lazy">
-    </div>
-  </div>
-
-</div>
-<p style="margin-top:1rem;font-size:.9rem;color:#555;font-style:italic;">📋 Portfolio complet disponible sur demande — <a href="#contact">contactez-nous</a> pour accéder aux réalisations détaillées.</p>
+          <div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">Aperçu du portfolio</div>
+            <!-- Mosaic grid of portfolio work categories -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:8px;">
+              <!-- Logo / Branding tile -->
+              <div style="background:linear-gradient(135deg,rgba(192,57,43,0.25),rgba(120,30,80,0.15));border:1px solid rgba(192,57,43,0.25);border-radius:12px;padding:18px 14px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div style="font-size:28px;line-height:1;">🎯</div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Logo & Branding</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,0.45);">Identités marquantes, marques durables</div>
                 </div>
-                <!-- BANNER PARTENAIRE CRÉATIF -->
-<div style="margin-top:2rem;background:#f0f4ff;border-left:4px solid #2a5caa;padding:1rem 1.5rem;border-radius:6px;font-size:0.9rem;color:#333;">
-  🤝 <strong>FGS coordonne un réseau de partenaires créatifs</strong> — Les réalisations présentées ci-dessous ont été produites par nos partenaires artistiques avec qui nous collaborons pour vous offrir un service complet. Pour toute demande, passez par FGS.
-</div>
-
-<!-- GALERIE PORTFOLIO PARTENAIRES -->
-<div style="margin-top:2rem;">
-  <p style="font-size:0.8rem;color:#888;font-style:italic;margin-bottom:1rem;">Extraits de réalisations — produits réalisés par nos partenaires créatifs</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-    <img src="/images/page11.png" alt="Logos & Branding — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page29.png" alt="Packaging & Print — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page12.png" alt="Outdoor & Affiches — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page13.png" alt="Campagne visuelle — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page15.png" alt="Design print — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page73.png" alt="Design 3D & Stand — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page74.png" alt="Scénographie 3D — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page76.png" alt="Design intérieur — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage7.png" alt="Art plastique — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage9.png" alt="Œuvre sur commande — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage17.png" alt="Décoration murale — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage18.png" alt="Art mural artistique — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-  </div>
-  <p style="margin-top:0.75rem;font-size:0.8rem;color:#888;font-style:italic;">Portfolio complet disponible sur demande via FGS — <a href="/#contact" style="color:#2a5caa;">Nous contacter</a></p>
-</div>
+              </div>
+              <!-- Packaging tile -->
+              <div style="background:linear-gradient(135deg,rgba(80,50,140,0.25),rgba(30,80,180,0.15));border:1px solid rgba(100,80,200,0.25);border-radius:12px;padding:18px 14px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div style="font-size:28px;line-height:1;">📦</div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Packaging & Print</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,0.45);">Boîtes, étiquettes, affiches grand format</div>
+                </div>
+              </div>
+              <!-- 3D Design tile -->
+              <div style="background:linear-gradient(135deg,rgba(26,122,110,0.2),rgba(0,80,60,0.2));border:1px solid rgba(43,168,138,0.2);border-radius:12px;padding:18px 14px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div style="font-size:28px;line-height:1;">✨</div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Design 3D & Décoration</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,0.45);">Intérieur, murale, scénographie</div>
+                </div>
+              </div>
+              <!-- Art tile -->
+              <div style="background:linear-gradient(135deg,rgba(176,138,62,0.2),rgba(100,70,0,0.2));border:1px solid rgba(201,169,110,0.25);border-radius:12px;padding:18px 14px;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;">
+                <div style="font-size:28px;line-height:1;">🖼️</div>
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">Art plastique & Tableaux</div>
+                  <div style="font-size:11px;color:rgba(255,255,255,0.45);">Œuvres sur commande pour entreprises</div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:12px;background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.2);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+              <div style="font-size:18px;">📋</div>
+              <div>
+                <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.5;">Portfolio complet disponible sur demande — contactez-nous pour accéder aux réalisations détaillées.</div>
               </div>
             </div>
           </div>
@@ -747,26 +708,6 @@
       <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:18px;padding:28px;transition:background .22s;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
         <div style="position:absolute;top:12px;right:16px;background:rgba(176,138,62,0.15);border:1px solid rgba(201,169,110,0.3);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--gold-lt);letter-spacing:.05em;">Partenaire certifié</div>
         <div style="width:44px;height:44px;border-radius:10px;background:rgba(176,138,62,0.15);border:1px solid rgba(201,169,110,0.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;">📣</div>
-        <!-- VISUELS FORMATION -->
-<div style="margin-top:2rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start;">
-  <div>
-    <img src="/images/formation.jpeg" 
-         alt="Programme de formation Marketing Digital — FGS" 
-         style="width:100%;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.12);" />
-    <p style="font-size:0.75rem;color:#888;margin-top:0.5rem;text-align:center;font-style:italic;">Programme officiel de la formation FGS</p>
-  </div>
-  <div>
-    <img src="/images/remise_diplomes.jpeg" 
-         alt="Remise de certificats aux diplômés — Formation FGS" 
-         style="width:100%;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.12);object-fit:cover;" />
-    <p style="font-size:0.75rem;color:#888;margin-top:0.5rem;text-align:center;font-style:italic;">Remise de certificats — promotion précédente</p>
-  </div>
-</div>
-
-<!-- BANNER PARTENAIRE FORMATION -->
-<div style="margin-top:1.5rem;background:#f0f4ff;border-left:4px solid #2a5caa;padding:1rem 1.5rem;border-radius:6px;font-size:0.9rem;color:#333;">
-  🤝 <strong>FGS travaille avec un formateur partenaire certifié</strong> — Cette formation est dispensée par un expert en marketing digital avec qui FGS collabore. Toutes les inscriptions et demandes passent par FGS.
-</div>
         <h3 style="font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;">Formation Marketing Digital & CM</h3>
         <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:12px;font-weight:600;letter-spacing:.04em;">FORMATION CERTIFIÉE · DOUALA & YAOUNDÉ</p>
         <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:16px;">Formation pratique et complète : Facebook/Instagram/TikTok Business, SEO, publicité Meta & Google Ads, Community Management, e-commerce, création de boutiques Shopify, IA appliquée au marketing. Certificat reconnu, suivi à vie.</p>
