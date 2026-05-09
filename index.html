@@ -216,10 +216,34 @@
     .fade-up{animation:fadeUp .65s ease both}
     .d1{animation-delay:.08s} .d2{animation-delay:.16s} .d3{animation-delay:.26s} .d4{animation-delay:.36s}
 
-    /* RESPONSIVE */
+    /* =============================================
+       RESPONSIVE — MOBILE FIRST (Cameroun 📱)
+       ============================================= */
+
+    /* Hamburger menu */
+    .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:transparent;z-index:200}
+    .nav-toggle span{display:block;width:22px;height:2px;background:var(--navy);border-radius:2px;transition:all .25s}
+    .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-toggle.open span:nth-child(2){opacity:0}
+    .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    /* Mobile nav drawer */
+    .nav-drawer{display:none;position:fixed;inset:0;background:rgba(15,29,50,0.55);z-index:150;backdrop-filter:blur(4px)}
+    .nav-drawer.open{display:block}
+    .nav-drawer-inner{position:absolute;top:0;right:0;width:min(280px,85vw);height:100%;background:#fff;padding:80px 28px 40px;display:flex;flex-direction:column;gap:8px;box-shadow:-8px 0 40px rgba(15,45,82,0.18);overflow-y:auto}
+    .nav-drawer-inner a{padding:14px 16px;border-radius:10px;font-size:15px;font-weight:600;color:var(--navy);border-bottom:1px solid var(--border);display:block}
+    .nav-drawer-inner a:last-child{border-bottom:none}
+    .nav-drawer-inner .btn{margin-top:16px;justify-content:center;width:100%;text-align:center}
+
+    /* Tabs scroll horizontal on mobile */
+    .tabs-row{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-wrap:nowrap}
+    .tabs-row::-webkit-scrollbar{display:none}
+    .tab-btn{white-space:nowrap;flex-shrink:0}
+
+    /* ── Tablet (≤1024px) ── */
     @media(max-width:1024px){
       .hero-inner{grid-template-columns:1fr}
-      .order-card{max-width:520px}
+      .order-card{max-width:100%}
       .products-grid{grid-template-columns:repeat(2,1fr)}
       .audience-grid{grid-template-columns:repeat(2,1fr)}
       .process-grid{grid-template-columns:repeat(3,1fr);gap:20px}
@@ -228,39 +252,92 @@
       .contact-layout{grid-template-columns:1fr 1fr}
       .contact-cta-col{grid-column:1 / -1}
     }
+
+    /* ── Mobile (≤768px) ── */
     @media(max-width:768px){
-      nav{display:none} .rccm-badge{display:none}
-      .hero{padding:52px 0 44px} .section{padding:52px 0}
+      /* Header */
+      nav{display:none}
+      .rccm-badge{display:none}
+      .nav-toggle{display:flex}
+      .header-inner{padding:0 16px;height:60px}
+      .brand-tagline{display:none}
+
+      /* Sections */
+      .hero{padding:40px 0 36px}
+      .section{padding:44px 0}
+      .container{padding:0 16px}
+
+      /* Hero */
+      .hero-sub{font-size:14px;margin:14px 0 24px}
+      .flags-row{flex-wrap:wrap;gap:6px}
+      .hero-ctas{flex-direction:column;gap:10px}
+      .hero-ctas .btn{justify-content:center;width:100%}
+      .hero-stats{display:grid;grid-template-columns:1fr 1fr}
+      .hero-stat{border-right:none;border-bottom:1px solid var(--border);padding:12px 14px}
+      .hero-stat:nth-child(odd){border-right:1px solid var(--border)}
+      .hero-stat:nth-last-child(-n+2){border-bottom:none}
+      .stat-val{font-size:18px}
+
+      /* Grilles */
       .products-grid{grid-template-columns:1fr}
       .audience-grid{grid-template-columns:repeat(2,1fr)}
       .process-grid{grid-template-columns:repeat(2,1fr)}
       .trust-grid{grid-template-columns:1fr}
+
+      /* Contact */
       .contact-layout{grid-template-columns:1fr}
       .contact-info-col{border-left:none;border-top:1px solid var(--border)}
-    }
-    @media(max-width:768px){
-      .prod-card [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important}
-    }
-    @media(max-width:480px){
-      .container{padding:0 16px}
-      h1.hero-title{font-size:30px}
-      .audience-grid,.process-grid{grid-template-columns:1fr}
-      .hero-ctas{flex-direction:column}
-      .hero-ctas .btn{justify-content:center}
+      .contact-cta-col{padding:28px 20px}
+      .contact-cta-col h2{font-size:22px}
+
+      /* Proof strip */
+      .proof-inner{gap:4px}
       .proof-sep{display:none}
-      .hero-stats{flex-direction:column}
-      .hero-stat{border-right:none;border-bottom:1px solid var(--border)}
-      .hero-stat:last-child{border-bottom:none}
+      .proof-item{padding:6px 10px}
+      .proof-num{font-size:20px}
+
+      /* Section Conseil&Création — grilles internes navy */
+      [style*="grid-template-columns:repeat(2,1fr)"]{grid-template-columns:1fr !important}
+      [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important}
+
+      /* Formation & identité visuelle full-width internes */
+      [style*="display:grid"][style*="align-items:start"]{grid-template-columns:1fr !important}
+      [style*="display:grid"][style*="align-items:flex-start"]{grid-template-columns:1fr !important}
+
+      /* Footer */
+      footer{flex-direction:column;text-align:center;padding:16px}
+
+      /* Wholesale */
+      .wholesale{padding:24px 20px}
+      .ws-title{font-size:18px}
     }
-    .portfolio-gallery { display:flex; flex-direction:column; gap:1.5rem; margin-top:1.5rem; }
-.portfolio-category { background:#f8f9fa; border-radius:12px; padding:1.25rem; }
-.portfolio-cat-header { display:flex; align-items:center; gap:.75rem; margin-bottom:.75rem; }
-.portfolio-cat-header span { font-size:1.5rem; }
-.portfolio-cat-header strong { display:block; color:#1a2e4a; }
-.portfolio-cat-header p { margin:0; font-size:.85rem; color:#666; }
-.portfolio-images { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:.75rem; }
-.portfolio-images img { width:100%; border-radius:8px; object-fit:cover; aspect-ratio:4/3; transition:transform .2s; cursor:zoom-in; }
-.portfolio-images img:hover { transform:scale(1.03); }
+
+    /* ── Petit mobile (≤480px) ── */
+    @media(max-width:480px){
+      h1.hero-title{font-size:28px;line-height:1.12}
+      .section-h2{font-size:22px}
+      .audience-grid{grid-template-columns:1fr}
+      .process-grid{grid-template-columns:1fr}
+      .hero-stats{grid-template-columns:1fr 1fr}
+      .prod-card{padding:18px}
+      .aud-card{padding:18px}
+      .trust-card{padding:22px}
+      .tabs-row{gap:4px}
+      .tab-btn{padding:8px 12px;font-size:12px}
+      /* Bouton WhatsApp plus petit sur 480 */
+      #wa-btn{width:50px;height:50px;bottom:16px;right:16px}
+    }
+
+    /* Portfolio gallery responsive */
+    .portfolio-gallery{display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem}
+    .portfolio-category{background:#f8f9fa;border-radius:12px;padding:1.25rem}
+    .portfolio-cat-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+    .portfolio-cat-header span{font-size:1.5rem}
+    .portfolio-cat-header strong{display:block;color:#1a2e4a}
+    .portfolio-cat-header p{margin:0;font-size:.85rem;color:#666}
+    .portfolio-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem}
+    .portfolio-images img{width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;transition:transform .2s;cursor:zoom-in}
+    .portfolio-images img:hover{transform:scale(1.03)}
   </style>
 </head>
 <body>
@@ -284,6 +361,21 @@
     <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
       <div class="rccm-badge">Société enregistrée CM</div>
       <a href="#contact" class="btn btn-navy">Demander un devis</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="nav-drawer" id="nav-drawer">
+      <div class="nav-drawer-inner">
+        <a href="#processus" class="nav-link">Comment ça marche</a>
+        <a href="#catalogue" class="nav-link">Catalogue</a>
+        <a href="#services-conseil" class="nav-link">Conseil & Création</a>
+        <a href="#confiance" class="nav-link">Garanties</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#contact" class="btn btn-navy">Demander un devis</a>
+      </div>
     </div>
   </div>
 </header>
@@ -597,215 +689,175 @@
   </div>
 </section>
 
-<section class="section" id="services-conseil" style="background:var(--navy);border-top:1px solid rgba(255,255,255,0.08);">
+<section class="section section-alt" id="services-conseil" style="border-top:1px solid var(--border);">
   <div class="container">
-    <div class="overline" style="color:var(--gold-lt);">Conseil &amp; Création</div>
-    <h2 class="section-h2" style="color:#fff;">Bien plus que de l'import —<br /><em style="color:var(--gold-lt);">votre partenaire de développement</em></h2>
+    <div class="overline">Conseil &amp; Création</div>
+    <h2 class="section-h2">Bien plus que de l'import —<br /><em>votre partenaire de développement</em></h2>
     <div class="rule"></div>
-    <p class="body-lg" style="max-width:640px;margin-bottom:48px;color:rgba(255,255,255,0.65);">FGS accompagne les entrepreneurs à chaque étape : de l'idée initiale à l'entreprise lancée, en passant par l'identité visuelle, la présence digitale et la montée en compétences.</p>
+    <p class="body-lg" style="max-width:640px;margin-bottom:48px;">FGS accompagne les entrepreneurs à chaque étape : de l'idée initiale à l'entreprise lancée, en passant par l'identité visuelle, la présence digitale et la montée en compétences.</p>
 
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;">
 
-      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:18px;padding:28px;transition:background .22s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-        <div style="width:44px;height:44px;border-radius:10px;background:rgba(176,138,62,0.15);border:1px solid rgba(201,169,110,0.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;">⚖️</div>
-        <h3 style="font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;margin-bottom:10px;">Création & développement d'entreprise</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:14px;">De l'idée à l'immatriculation : choix de la forme juridique, rédaction des statuts, business plan, positionnement stratégique et accompagnement au développement commercial.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Business plan</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Conseil juridique</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Immatriculation</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Stratégie commerciale</span>
+      <!-- CONSEIL ENTREPRISE -->
+      <div class="trust-card" style="position:relative;">
+        <div class="trust-card-bar"></div>
+        <div class="trust-card-icon tci-gold">⚖️</div>
+        <h3>Création &amp; développement d'entreprise</h3>
+        <p style="font-size:14px;color:var(--text-soft);line-height:1.7;margin-bottom:14px;">De l'idée à l'immatriculation : choix de la forme juridique, rédaction des statuts, business plan, positionnement stratégique et accompagnement commercial.</p>
+        <div class="prod-tags" style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span class="prod-tag">Business plan</span>
+          <span class="prod-tag">Conseil juridique</span>
+          <span class="prod-tag">Immatriculation</span>
+          <span class="prod-tag">Stratégie commerciale</span>
         </div>
+        <div style="margin-top:16px;"><a href="#contact" class="btn btn-navy" style="font-size:13px;padding:9px 20px;">Prendre rendez-vous →</a></div>
       </div>
 
-      <div style="grid-column:1/-1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:18px;padding:28px 32px;transition:background .22s;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-        <div style="position:absolute;top:0;right:0;background:linear-gradient(135deg,rgba(192,57,43,0.18),rgba(200,50,150,0.08),transparent);width:320px;height:320px;border-radius:0 18px 0 320px;pointer-events:none;"></div>
-        <div style="position:absolute;top:12px;right:16px;background:rgba(192,57,43,0.15);border:1px solid rgba(224,100,80,0.3);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;color:#f5a58a;letter-spacing:.05em;z-index:1;">Partenaire créatif</div>
+      <!-- SITE WEB -->
+      <div class="trust-card" style="position:relative;">
+        <div class="trust-card-bar" style="background:var(--teal);"></div>
+        <div class="trust-card-icon tci-teal">📱</div>
+        <h3>Site web &amp; Application Mobile</h3>
+        <p style="font-size:14px;color:var(--text-soft);line-height:1.7;margin-bottom:14px;">De la vitrine au e-commerce, du site institutionnel à l'application iOS/Android. Des solutions pensées pour le marché africain : rapides, mobiles, adaptées aux contraintes de connexion.</p>
+        <div class="prod-tags" style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span class="prod-tag">Site vitrine</span>
+          <span class="prod-tag">E-commerce</span>
+          <span class="prod-tag">App iOS &amp; Android</span>
+          <span class="prod-tag">Maintenance incluse</span>
+        </div>
+        <div style="margin-top:16px;"><a href="#contact" class="btn btn-navy" style="font-size:13px;padding:9px 20px;">Demander un devis →</a></div>
+      </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;position:relative;z-index:1;">
+      <!-- IDENTITÉ VISUELLE — pleine largeur -->
+      <div class="trust-card" style="grid-column:1/-1;position:relative;overflow:hidden;">
+        <div class="trust-card-bar" style="background:linear-gradient(90deg,#c0392b,#e8855a);"></div>
+        <div style="position:absolute;top:12px;right:16px;" class="prod-badge" style="background:#fff5f0;color:#c0392b;border:1px solid #f5c0b0;">✦ Création artistique</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
           <div>
-            <div style="width:44px;height:44px;border-radius:10px;background:rgba(192,57,43,0.15);border:1px solid rgba(224,100,80,0.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;">🎨</div>
-            <h3 style="font-family:var(--serif);font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;">Identité visuelle <em style="color:#f5a58a;font-style:italic;">artistique</em></h3>
-            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:14px;font-weight:600;letter-spacing:.04em;">IDENTITÉ VISUELLE · GRAPHIC DESIGN · ART PLASTIQUE · DESIGN 3D</p>
-            <p style="font-size:14px;color:rgba(255,255,255,0.65);line-height:1.75;margin-bottom:18px;">Logo, charte graphique, affiches, packaging, design 3D, design d'intérieur, décoration murale artistique. <strong style="color:#fff;">Zéro IA — création humaine, direction artistique avec plus de 15 ans d'expérience au Cameroun et à l'international.</strong></p>
+            <div class="trust-card-icon" style="background:#fff5f0;font-size:22px;">🎨</div>
+            <h3 style="margin-bottom:4px;">Identité visuelle <em style="color:#c0392b;font-style:italic;">artistique</em></h3>
+            <p style="font-size:11px;color:var(--text-hint);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;">IDENTITÉ VISUELLE · GRAPHIC DESIGN · ART PLASTIQUE · DESIGN 3D</p>
+            <p style="font-size:14px;color:var(--text-soft);line-height:1.75;margin-bottom:16px;">Logo, charte graphique, affiches, packaging, design 3D, décoration murale artistique. <strong style="color:var(--text);">Zéro IA — création humaine, direction artistique avec plus de 15 ans d'expérience au Cameroun et à l'international.</strong></p>
 
-            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:12px;padding:14px 16px;margin-bottom:18px;">
-              <div style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">Ils leur ont fait confiance</div>
-              <div style="display:flex;flex-wrap:wrap;gap:7px;">
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(255,165,0,0.15);color:#ffb347;border:1px solid rgba(255,165,0,0.25);font-weight:600;">Orange CM</span>
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(0,0,0,0.3);color:#fff;border:1px solid rgba(255,255,255,0.15);font-weight:600;">Canal+</span>
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(30,100,200,0.2);color:#8ab4f8;border:1px solid rgba(30,100,200,0.3);font-weight:600;">Ecobank</span>
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(0,100,50,0.2);color:#6fd186;border:1px solid rgba(0,150,80,0.3);font-weight:600;">Bernabé</span>
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(100,30,30,0.2);color:#f5a58a;border:1px solid rgba(150,50,50,0.3);font-weight:600;">CBC Bank</span>
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(180,20,80,0.15);color:#ff7eb8;border:1px solid rgba(200,30,100,0.25);font-weight:600;">Maggi</span>
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(80,60,0,0.2);color:#d4a84b;border:1px solid rgba(120,90,0,0.25);font-weight:600;">Glenfiddich</span>
-                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:rgba(0,80,120,0.2);color:#7ac8e8;border:1px solid rgba(0,120,180,0.25);font-weight:600;">Royal Air Maroc</span>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
+              <div style="font-size:11px;color:var(--text-hint);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">Ils nous ont fait confiance</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:#fff3e0;color:#e65100;border:1px solid #ffcc80;font-weight:600;">Orange CM</span>
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid);font-weight:600;">Canal+</span>
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;font-weight:600;">Ecobank</span>
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:#e8f5e9;color:#2e7d32;border:1px solid #a5d6a7;font-weight:600;">Bernabé</span>
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:#fce4ec;color:#880e4f;border:1px solid #f48fb1;font-weight:600;">CBC Bank</span>
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:#fce4ec;color:#c62828;border:1px solid #ef9a9a;font-weight:600;">Maggi</span>
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-border);font-weight:600;">Glenfiddich</span>
+                <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:#e1f5fe;color:#01579b;border:1px solid #81d4fa;font-weight:600;">Royal Air Maroc</span>
               </div>
             </div>
 
-            <div style="display:flex;flex-wrap:wrap;gap:6px;">
-              <span style="font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(192,57,43,0.18);color:#f5a58a;border:1px solid rgba(224,100,80,0.28);">✦ Zéro IA</span>
-              <span style="font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Logo & branding</span>
-              <span style="font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Charte graphique</span>
-              <span style="font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Packaging</span>
-              <span style="font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Design 3D</span>
-              <span style="font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Art mural</span>
-              <span style="font-size:11px;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Outdoor & print</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+              <span class="prod-tag" style="color:#c0392b;border-color:#f5c0b0;background:#fff5f0;">✦ Zéro IA</span>
+              <span class="prod-tag">Logo &amp; branding</span>
+              <span class="prod-tag">Charte graphique</span>
+              <span class="prod-tag">Packaging</span>
+              <span class="prod-tag">Design 3D</span>
+              <span class="prod-tag">Art mural</span>
+              <span class="prod-tag">Outdoor &amp; print</span>
             </div>
+            <a href="#contact" class="btn btn-navy" style="font-size:13px;padding:9px 20px;">Discuter de mon projet →</a>
           </div>
 
-          <!-- Portfolio visual showcase -->
+          <!-- Portfolio gallery -->
           <div class="portfolio-gallery">
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>🖼️</span><div><strong>Art plastique & Tableaux</strong><p>Œuvres sur commande pour entreprises</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/faapage7.png" alt="Concept Les Ouvertures — série de tableaux" loading="lazy">
-      <img src="images/faapage9.png" alt="Night in City — technique mixte 120×85cm" loading="lazy">
-      <img src="images/faapage17.png" alt="Le Penseur Isolé & Sky Dream — digital painting" loading="lazy">
-      <img src="images/faapage18.png" alt="New Welcome World — grande composition mixte" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>🎯</span><div><strong>Logo & Branding</strong><p>Identités marquantes, marques durables</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page11.png" alt="Création de logos — identités visuelles" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>📦</span><div><strong>Packaging & Print</strong><p>Boîtes, étiquettes, affiches grand format</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page29.png" alt="Packaging produit alimentaire" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>📢</span><div><strong>Outdoor & Campagnes</strong><p>Affiches, banderoles, grand format</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page12.png" alt="Campagne outdoor automobile" loading="lazy">
-      <img src="images/page13.png" alt="Campagne outdoor grande surface" loading="lazy">
-      <img src="images/page15.png" alt="Campagne assurances" loading="lazy">
-    </div>
-  </div>
-
-  <div class="portfolio-category">
-    <div class="portfolio-cat-header"><span>✨</span><div><strong>Design 3D & Stands</strong><p>Intérieur, murale, scénographie</p></div></div>
-    <div class="portfolio-images">
-      <img src="images/page73.png" alt="Design 3D stand transport" loading="lazy">
-      <img src="images/page74.png" alt="Stand foire bancaire" loading="lazy">
-      <img src="images/page76.png" alt="Design 3D luxe" loading="lazy">
-    </div>
-  </div>
-
-</div>
-<p style="margin-top:1rem;font-size:.9rem;color:#555;font-style:italic;">📋 Portfolio complet disponible sur demande — <a href="#contact">contactez-nous</a> pour accéder aux réalisations détaillées.</p>
-                </div>
-                <!-- BANNER PARTENAIRE CRÉATIF -->
-<div style="margin-top:2rem;background:#f0f4ff;border-left:4px solid #2a5caa;padding:1rem 1.5rem;border-radius:6px;font-size:0.9rem;color:#333;">
-  🤝 <strong>FGS coordonne un réseau de partenaires créatifs</strong> — Les réalisations présentées ci-dessous ont été produites par nos partenaires artistiques avec qui nous collaborons pour vous offrir un service complet. Pour toute demande, passez par FGS.
-</div>
-
-<!-- GALERIE PORTFOLIO PARTENAIRES -->
-<div style="margin-top:2rem;">
-  <p style="font-size:0.8rem;color:#888;font-style:italic;margin-bottom:1rem;">Extraits de réalisations — produits réalisés par nos partenaires créatifs</p>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
-    <img src="/images/page11.png" alt="Logos & Branding — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page29.png" alt="Packaging & Print — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page12.png" alt="Outdoor & Affiches — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page13.png" alt="Campagne visuelle — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page15.png" alt="Design print — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page73.png" alt="Design 3D & Stand — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page74.png" alt="Scénographie 3D — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/page76.png" alt="Design intérieur — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage7.png" alt="Art plastique — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage9.png" alt="Œuvre sur commande — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage17.png" alt="Décoration murale — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-    <img src="/images/faapage18.png" alt="Art mural artistique — réalisations partenaires FGS" style="width:100%;border-radius:8px;object-fit:cover;aspect-ratio:4/3;" />
-  </div>
-  <p style="margin-top:0.75rem;font-size:0.8rem;color:#888;font-style:italic;">Portfolio complet disponible sur demande via FGS — <a href="/#contact" style="color:#2a5caa;">Nous contacter</a></p>
-</div>
+            <div class="portfolio-category">
+              <div class="portfolio-cat-header"><span>🖼️</span><div><strong>Art plastique &amp; Tableaux</strong><p>Œuvres sur commande pour entreprises</p></div></div>
+              <div class="portfolio-images">
+                <img src="images/faapage7.png" alt="Concept Les Ouvertures" loading="lazy">
+                <img src="images/faapage9.png" alt="Art plastique sur commande" loading="lazy">
+                <img src="images/faapage17.png" alt="Décoration murale artistique" loading="lazy">
+                <img src="images/faapage18.png" alt="Art mural entreprise" loading="lazy">
               </div>
             </div>
+            <div class="portfolio-category">
+              <div class="portfolio-cat-header"><span>🎨</span><div><strong>Graphic Design &amp; Print</strong><p>Identités visuelles, affiches, packaging</p></div></div>
+              <div class="portfolio-images">
+                <img src="images/page11.png" alt="Identité visuelle" loading="lazy">
+                <img src="images/page12.png" alt="Outdoor &amp; Affiches" loading="lazy">
+                <img src="images/page13.png" alt="Campagne visuelle" loading="lazy">
+                <img src="images/page15.png" alt="Design print" loading="lazy">
+                <img src="images/page29.png" alt="Packaging &amp; Print" loading="lazy">
+              </div>
+            </div>
+            <div class="portfolio-category">
+              <div class="portfolio-cat-header"><span>📐</span><div><strong>Design 3D &amp; Scénographie</strong><p>Stands, design intérieur, architecture</p></div></div>
+              <div class="portfolio-images">
+                <img src="images/page73.png" alt="Design 3D &amp; Stand" loading="lazy">
+                <img src="images/page74.png" alt="Scénographie 3D" loading="lazy">
+                <img src="images/page76.png" alt="Design intérieur" loading="lazy">
+              </div>
+            </div>
+            <p style="font-size:12px;color:var(--text-hint);font-style:italic;margin-top:4px;">Portfolio complet disponible sur demande via FGS</p>
           </div>
         </div>
       </div>
 
-      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:18px;padding:28px;transition:background .22s;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-        <div style="width:44px;height:44px;border-radius:10px;background:rgba(26,122,110,0.15);border:1px solid rgba(43,168,138,0.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;">📱</div>
-        <h3 style="font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;margin-bottom:10px;">Site web & Application Mobile</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:14px;">De la vitrine au e-commerce, du site institutionnel à l'application iOS/Android. Des solutions pensées pour le marché africain : rapides, mobiles, adaptées aux contraintes de connexion.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Site vitrine</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">E-commerce</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">App iOS & Android</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Maintenance incluse</span>
-        </div>
-      </div>
+      <!-- FORMATION — pleine largeur -->
+      <div class="trust-card" style="grid-column:1/-1;position:relative;overflow:hidden;">
+        <div class="trust-card-bar trust-card-bar-gold"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
+          <div>
+            <div style="display:inline-flex;align-items:center;gap:8px;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:999px;padding:4px 14px;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;">★ Formation certifiée FGS</div>
+            <div class="trust-card-icon tci-gold">📣</div>
+            <h3 style="margin-bottom:4px;">Formation Marketing Digital &amp; CM</h3>
+            <p style="font-size:11px;color:var(--text-hint);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;">FORMATION CERTIFIÉE · DOUALA &amp; YAOUNDÉ</p>
+            <p style="font-size:14px;color:var(--text-soft);line-height:1.7;margin-bottom:16px;">Formation pratique et complète : Facebook/Instagram/TikTok Business, SEO, publicité Meta &amp; Google Ads, Community Management, e-commerce, Shopify, IA appliquée. Certificat reconnu, suivi à vie.</p>
 
-      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);border-radius:18px;padding:28px;transition:background .22s;position:relative;overflow:hidden;" onmouseover="this.style.background='rgba(255,255,255,0.08)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-        <div style="position:absolute;top:12px;right:16px;background:rgba(176,138,62,0.15);border:1px solid rgba(201,169,110,0.3);border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;color:var(--gold-lt);letter-spacing:.05em;">Partenaire certifié</div>
-        <div style="width:44px;height:44px;border-radius:10px;background:rgba(176,138,62,0.15);border:1px solid rgba(201,169,110,0.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;">📣</div>
-        <!-- VISUELS FORMATION -->
-<div style="margin-top:2rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;align-items:start;">
-  <div>
-    <img src="/images/formation.jpeg" 
-         alt="Programme de formation Marketing Digital — FGS" 
-         style="width:100%;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.12);" />
-    <p style="font-size:0.75rem;color:#888;margin-top:0.5rem;text-align:center;font-style:italic;">Programme officiel de la formation FGS</p>
-  </div>
-  <div>
-    <img src="/images/remise_diplomes.jpeg" 
-         alt="Remise de certificats aux diplômés — Formation FGS" 
-         style="width:100%;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.12);object-fit:cover;" />
-    <p style="font-size:0.75rem;color:#888;margin-top:0.5rem;text-align:center;font-style:italic;">Remise de certificats — promotion précédente</p>
-  </div>
-</div>
+            <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div style="font-size:12px;color:var(--text-soft);">⏱ <strong style="color:var(--text);">Durée :</strong> 3 mois</div>
+              <div style="font-size:12px;color:var(--text-soft);">📆 <strong style="color:var(--text);">Rythme :</strong> 3×/semaine</div>
+              <div style="font-size:12px;color:var(--text-soft);">🌅 <strong style="color:var(--text);">Matin :</strong> 9h – 12h</div>
+              <div style="font-size:12px;color:var(--text-soft);">🌆 <strong style="color:var(--text);">Soir :</strong> 18h – 20h</div>
+              <div style="font-size:12px;color:var(--text-soft);grid-column:1/-1;">📍 <strong style="color:var(--text);">Lieux :</strong> Douala (CICAM, Ange Raphaël) · Yaoundé (Mvogbi, Madeleine)</div>
+              <div style="font-size:12px;grid-column:1/-1;">📅 <strong style="color:var(--text);">Prochaine session :</strong> <span style="color:var(--teal);font-weight:600;">Nous contacter</span></div>
+            </div>
 
-<!-- BANNER PARTENAIRE FORMATION -->
-<div style="margin-top:1.5rem;background:#f0f4ff;border-left:4px solid #2a5caa;padding:1rem 1.5rem;border-radius:6px;font-size:0.9rem;color:#333;">
-  🤝 <strong>FGS travaille avec un formateur partenaire certifié</strong> — Cette formation est dispensée par un expert en marketing digital avec qui FGS collabore. Toutes les inscriptions et demandes passent par FGS.
-</div>
-        <h3 style="font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;">Formation Marketing Digital & CM</h3>
-        <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:12px;font-weight:600;letter-spacing:.04em;">FORMATION CERTIFIÉE · DOUALA & YAOUNDÉ</p>
-        <p style="font-size:14px;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:16px;">Formation pratique et complète : Facebook/Instagram/TikTok Business, SEO, publicité Meta & Google Ads, Community Management, e-commerce, création de boutiques Shopify, IA appliquée au marketing. Certificat reconnu, suivi à vie.</p>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+              <div style="background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:8px;padding:8px 16px;text-align:center;">
+                <div style="font-size:10px;color:var(--text-hint);margin-bottom:2px;text-transform:uppercase;letter-spacing:.06em;">Inscription</div>
+                <div style="font-size:18px;font-weight:700;color:var(--teal);">10 000 FCFA</div>
+              </div>
+              <div style="background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:8px;padding:8px 16px;text-align:center;">
+                <div style="font-size:10px;color:var(--text-hint);margin-bottom:2px;text-transform:uppercase;letter-spacing:.06em;">Formation</div>
+                <div style="font-size:18px;font-weight:700;color:var(--gold);">150 000 FCFA</div>
+              </div>
+              <div style="font-size:12px;color:var(--text-soft);line-height:1.6;">Certificat reconnu<br/>Suivi à vie · Dress code</div>
+            </div>
 
-        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);"><span style="color:#fff;font-weight:600;">⏱ Durée :</span> 3 mois</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);"><span style="color:#fff;font-weight:600;">📆 Rythme :</span> 3×/semaine</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);"><span style="color:#fff;font-weight:600;">🕐 Séances :</span> Matin 9h–12h · Soir 18h–20h</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);"><span style="color:#fff;font-weight:600;">📅 Prochaine session :</span> Nous contacter</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);grid-column:1/-1;"><span style="color:#fff;font-weight:600;">📍 Lieux :</span> Douala (CICAM, Ange Raphaël) · Yaoundé (Mvogbi, Madeleine)</div>
-        </div>
-
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-          <div style="background:rgba(26,122,110,0.2);border:1px solid rgba(43,168,138,0.3);border-radius:8px;padding:8px 14px;text-align:center;">
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:2px;">INSCRIPTION</div>
-            <div style="font-size:16px;font-weight:700;color:#6fd1c0;">10 000 FCFA</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+              <span class="prod-tag">SEO &amp; SEA</span><span class="prod-tag">Meta &amp; TikTok Ads</span>
+              <span class="prod-tag">Google Ads</span><span class="prod-tag">Canva · CapCut</span>
+              <span class="prod-tag">Shopify</span><span class="prod-tag">Copywriting</span>
+              <span class="prod-tag">Certificat reconnu</span>
+            </div>
+            <a href="#contact" class="btn btn-navy" style="font-size:13px;padding:9px 20px;">S'inscrire à la formation →</a>
           </div>
-          <div style="background:rgba(176,138,62,0.15);border:1px solid rgba(201,169,110,0.3);border-radius:8px;padding:8px 14px;text-align:center;">
-            <div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:2px;">FORMATION</div>
-            <div style="font-size:16px;font-weight:700;color:var(--gold-lt);">150 000 FCFA</div>
-          </div>
-          <div style="flex:1;font-size:12px;color:rgba(255,255,255,0.45);line-height:1.5;">Certificat reconnu · Suivi à vie · Dress code exigé</div>
-        </div>
 
-        <div style="display:flex;flex-wrap:wrap;gap:6px;">
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">SEO & SEA</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Meta & TikTok Ads</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Google Ads</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Canva · CapCut</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Shopify</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Copywriting</span>
-          <span style="font-size:11px;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.12);">Certificat reconnu</span>
+          <!-- Photos formation -->
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div style="border-radius:12px;overflow:hidden;box-shadow:var(--sh-md);border:1px solid var(--border2);">
+              <img src="images/remise_diplomes.jpeg" alt="Remise de certificats — promotion précédente" style="width:100%;height:220px;object-fit:cover;object-position:top;display:block;" />
+            </div>
+            <div style="background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:10px;padding:12px 14px;">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px;">✓ Ils ont obtenu leur certificat</div>
+              <p style="font-size:12px;color:var(--text-soft);line-height:1.55;">Chaque promotion reçoit un certificat reconnu lors d'une cérémonie officielle. Nos diplômés sont accompagnés à vie.</p>
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
 
     <div style="margin-top:32px;text-align:center;">
-      <a href="#contact" class="btn btn-white">Discuter de mon projet →</a>
+      <a href="#contact" class="btn btn-navy">Discuter de mon projet →</a>
     </div>
   </div>
 </section>
@@ -930,6 +982,24 @@
     el.style.transition = 'opacity .55s ease,transform .55s ease';
     io.observe(el);
   });
+
+  // Hamburger menu
+  const toggle = document.getElementById('nav-toggle');
+  const drawer = document.getElementById('nav-drawer');
+  if (toggle && drawer) {
+    toggle.addEventListener('click', () => {
+      toggle.classList.toggle('open');
+      drawer.classList.toggle('open');
+      document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+    });
+    drawer.addEventListener('click', (e) => {
+      if (e.target === drawer || e.target.classList.contains('nav-link') || e.target.classList.contains('btn')) {
+        toggle.classList.remove('open');
+        drawer.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  }
 </script>
 
 <!-- WhatsApp floating button -->
