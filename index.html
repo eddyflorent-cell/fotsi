@@ -320,6 +320,9 @@
       .process-grid{grid-template-columns:1fr}
       .hero-stats{grid-template-columns:1fr 1fr}
       .prod-card{padding:18px}
+      .formation-photo-desktop{display:none}
+      .formation-photo-mobile{display:block}
+      .formation-teal-box{display:none}
       .aud-card{padding:18px}
       .trust-card{padding:22px}
       .tabs-row{gap:4px}
@@ -329,6 +332,9 @@
     }
 
     /* Portfolio gallery responsive */
+    .formation-photo-desktop{display:block}
+    .formation-photo-mobile{display:none}
+    .formation-teal-box{display:block}
     .portfolio-gallery{display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem}
     .portfolio-category{background:#f8f9fa;border-radius:12px;padding:1.25rem}
     .portfolio-cat-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
@@ -852,10 +858,23 @@
 
           <!-- Photos formation -->
           <div style="display:flex;flex-direction:column;gap:14px;">
-            <div style="border-radius:12px;overflow:hidden;box-shadow:var(--sh-md);border:1px solid var(--border2);">
+            <!-- Desktop: full image -->
+            <div class="formation-photo-desktop" style="border-radius:12px;overflow:hidden;box-shadow:var(--sh-md);border:1px solid var(--border2);">
               <img src="images/remise_diplomes.jpeg" alt="Remise de certificats — promotion précédente" style="width:100%;height:371px;max-width:562px;object-fit:cover;object-position:center top;display:block;" />
             </div>
-            <div style="background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:10px;padding:12px 14px;">
+            <!-- Mobile: thumbnail -->
+            <div class="formation-photo-mobile" style="display:none;">
+              <img src="images/remise_diplomes.jpeg" alt="Remise de certificats — promotion précédente"
+                class="lb-trigger"
+                style="width:90px;height:90px;object-fit:cover;object-position:center top;border-radius:10px;border:2px solid var(--teal-border);box-shadow:var(--sh);cursor:zoom-in;float:left;margin:0 12px 8px 0;" />
+              <div style="overflow:hidden;">
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:4px;">✓ Ils ont obtenu leur certificat</div>
+                <p style="font-size:12px;color:var(--text-soft);line-height:1.55;margin:0;">Appuyez sur la photo pour l'agrandir.</p>
+              </div>
+              <div style="clear:both;"></div>
+            </div>
+            <!-- Desktop teal box -->
+            <div class="formation-teal-box" style="background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:10px;padding:12px 14px;">
               <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px;">✓ Ils ont obtenu leur certificat</div>
               <p style="font-size:12px;color:var(--text-soft);line-height:1.55;">Chaque promotion reçoit un certificat reconnu lors d'une cérémonie officielle. Nos diplômés sont accompagnés à vie.</p>
             </div>
@@ -1001,7 +1020,7 @@
     const lbClose = document.getElementById('lb-close');
     if (!lbOverlay || !lbImg || !lbClose) return;
 
-    document.querySelectorAll('.portfolio-images img').forEach(img => {
+    document.querySelectorAll('.portfolio-images img, .lb-trigger').forEach(img => {
       img.addEventListener('click', () => {
         lbImg.src = img.src;
         lbImg.alt = img.alt;
