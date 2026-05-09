@@ -40,7 +40,7 @@
 
     /* HEADER */
     header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(15,45,82,0.06)}
-    .header-inner{max-width:var(--max);margin:0 auto;padding:0 28px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .header-inner{max-width:var(--max);margin:0 auto;padding:0 28px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative}
     .brand{display:flex;align-items:center;gap:14px;flex-shrink:0}
     .logo-wrap{width:48px;height:48px;border-radius:10px;overflow:hidden;border:1px solid var(--border2);flex-shrink:0;box-shadow:var(--sh)}
     .logo-wrap img{width:100%;height:100%;object-fit:cover}
@@ -221,16 +221,16 @@
        ============================================= */
 
     /* Hamburger menu */
-    .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:transparent;z-index:200}
+    .nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:transparent;z-index:300;position:relative}
     .nav-toggle span{display:block;width:22px;height:2px;background:var(--navy);border-radius:2px;transition:all .25s}
     .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
     .nav-toggle.open span:nth-child(2){opacity:0}
     .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
     /* Mobile nav drawer */
-    .nav-drawer{display:none;position:fixed;inset:0;background:rgba(15,29,50,0.55);z-index:150;backdrop-filter:blur(4px)}
+    .nav-drawer{display:none;position:fixed;inset:0;background:rgba(15,29,50,0.55);z-index:500;backdrop-filter:blur(4px)}
     .nav-drawer.open{display:block}
-    .nav-drawer-inner{position:absolute;top:0;right:0;width:min(280px,85vw);height:100%;background:#fff;padding:80px 28px 40px;display:flex;flex-direction:column;gap:8px;box-shadow:-8px 0 40px rgba(15,45,82,0.18);overflow-y:auto}
+    .nav-drawer-inner{position:absolute;top:0;right:0;width:min(280px,85vw);height:100%;background:#fff;padding:80px 28px 40px;display:flex;flex-direction:column;gap:8px;box-shadow:-8px 0 40px rgba(15,45,82,0.18);overflow-y:auto;z-index:501}
     .nav-drawer-inner a{padding:14px 16px;border-radius:10px;font-size:15px;font-weight:600;color:var(--navy);border-bottom:1px solid var(--border);display:block}
     .nav-drawer-inner a:last-child{border-bottom:none}
     .nav-drawer-inner .btn{margin-top:16px;justify-content:center;width:100%;text-align:center}
@@ -258,7 +258,7 @@
       /* Header */
       nav{display:none}
       .rccm-badge{display:none}
-      .nav-toggle{display:flex}
+      .nav-toggle{display:flex;z-index:300}
       .header-inner{padding:0 16px;height:60px}
       .brand-tagline{display:none}
 
@@ -750,7 +750,7 @@
             <p style="font-size:14px;color:var(--text-soft);line-height:1.75;margin-bottom:16px;">Logo, charte graphique, affiches, packaging, design 3D, décoration murale artistique. <strong style="color:var(--text);">Zéro IA — création humaine, direction artistique avec plus de 15 ans d'expérience au Cameroun et à l'international.</strong></p>
 
             <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px;">
-              <div style="font-size:11px;color:var(--text-hint);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">Ils nous ont fait confiance</div>
+              <div style="font-size:11px;color:var(--text-hint);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;">Ils ont fait confiance à nos partenaires</div>
               <div style="display:flex;flex-wrap:wrap;gap:6px;">
                 <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:#fff3e0;color:#e65100;border:1px solid #ffcc80;font-weight:600;">Orange CM</span>
                 <span style="font-size:11px;padding:4px 10px;border-radius:6px;background:var(--blue-soft);color:var(--navy);border:1px solid var(--blue-mid);font-weight:600;">Canal+</span>
