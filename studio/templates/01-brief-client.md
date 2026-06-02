@@ -50,7 +50,34 @@
 
 ---
 
-## 3. Le contenu disponible
+## 3. Présence en ligne existante
+
+**Réseaux sociaux actifs :** _(cocher + indiquer le lien ou le @)_
+
+- [ ] Instagram → `_______________`
+- [ ] Facebook → `_______________`
+- [ ] TikTok → `_______________`
+- [ ] LinkedIn → `_______________`
+- [ ] YouTube → `_______________`
+- [ ] Aucun pour l'instant
+
+**Le site / l'outil doit être en quelle(s) langue(s) ?**
+
+- [ ] Français uniquement
+- [ ] Anglais uniquement
+- [ ] Français + Anglais
+- [ ] Autre : _______________
+
+**Le référencement Google est-il important pour toi ?**  
+_(exemple : "je veux apparaître quand quelqu'un cherche 'traiteur Douala'")_
+
+- [ ] Oui, c'est prioritaire
+- [ ] Oui, mais pas urgent
+- [ ] Non / Je ne sais pas
+
+---
+
+## 4. Le contenu disponible
 
 | Élément | Disponible ? | Remarque |
 |---|---|---|
@@ -66,7 +93,7 @@
 
 ---
 
-## 4. Budget & délai
+## 5. Budget & délai
 
 | Question | Réponse |
 |---|---|
@@ -76,7 +103,7 @@
 
 ---
 
-## 5. Contact & disponibilité
+## 6. Contact & disponibilité
 
 | | |
 |---|---|
@@ -88,12 +115,14 @@
 
 ---
 
-## 6. Notes FGS _(usage interne — ne pas montrer au client)_
+## 7. Notes FGS _(usage interne — ne pas montrer au client)_
 
 ```
 Date du brief : 
 Chargé(e) de projet FGS : 
 Niveau de complexité estimé : Faible / Moyen / Élevé
 Stack pressentie : 
+SEO nécessaire : Oui / Non
+Langues : 
 Prochaine étape : 
 ```
