@@ -124,6 +124,36 @@
 
 ---
 
+## Engagements mutuels
+
+**FGS s'engage à :**
+- Livrer un outil fonctionnel conforme au brief validé
+- Respecter le délai estimé (sauf retard dû au client)
+- Ne jamais sous-traiter sans accord préalable du client
+- Remettre un code propre, documenté, sans dépendance cachée
+- Répondre aux messages WhatsApp sous 24h (jours ouvrés)
+
+**Le client s'engage à :**
+- Fournir les contenus (textes, logos, photos) dans les délais convenus
+- Valider les maquettes avant le démarrage du développement
+- Désigner une seule personne référente pour les retours
+- Répondre aux demandes de validation sous 48h maximum
+- Régler chaque échéance dans les délais prévus
+
+---
+
+## Révisions incluses
+
+| Phase | Révisions incluses | Au-delà |
+|---|---|---|
+| Maquettes / design | **2 cycles** | Facturation au taux horaire |
+| Développement (bugs) | **Illimitées** _(bugs = défauts du code)_ | — |
+| Modifications fonctionnelles | **1 cycle post-recette** | Avenant chiffré |
+
+> Une révision = un retour consolidé par écrit (WhatsApp ou email). Les retours éparpillés sur plusieurs messages comptent comme un seul cycle si envoyés dans la même journée.
+
+---
+
 ## Ce qui n'est pas inclus
 
 - Création de contenu (textes, photos, vidéos) — sauf mention contraire
@@ -138,8 +168,9 @@
 - Le devis est valable **30 jours** à compter de la date d'émission
 - Le démarrage du projet est conditionné à la réception de **l'acompte de 50 %**
 - Toute demande hors périmètre initial fait l'objet d'un **avenant chiffré**
-- Le code source est remis au client à la livraison finale
-- FGS se réserve le droit de mentionner le projet dans son portfolio (sauf refus explicite du client)
+- **Propriété intellectuelle** : le code source appartient intégralement au client après paiement du solde. FGS ne conserve aucun droit d'usage sur le code livré.
+- **Confidentialité** : FGS s'engage à ne pas divulguer les données, contenus ou informations du projet à des tiers.
+- FGS se réserve le droit de mentionner le projet dans son portfolio (sauf refus explicite du client — à indiquer ici : `[ ] Refus portfolio`)
 
 ---
 
