@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light only" />
+  <title>FGS Studio — Votre application sur mesure · Fotsi Global Services</title>
+  <meta name="description" content="FGS Studio construit des outils web et applications sur mesure pour les entrepreneurs. Clés en main, zéro maintenance, code propre. Remplissez le brief en ligne." />
+  <link rel="canonical" href="https://fotsiglobal.com/studio" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      color-scheme: light only;
+      --page:#f7f8fa; --white:#ffffff; --surface:#f0f2f5; --surface2:#e8ecf0;
+      --navy:#0f2d52; --navy-mid:#1a4070; --navy-lt:#2558a0;
+      --blue-soft:#e8eef7; --blue-mid:#c5d4ea;
+      --gold:#b08a3e; --gold-lt:#d4a84b; --gold-bg:#fdf6e8; --gold-border:#e8d5a0;
+      --teal:#1a7a6e; --teal-lt:#22a090; --teal-bg:#e8f5f3; --teal-border:#a8d8d3;
+      --text:#0f1e2e; --text-mid:#3a5068; --text-soft:#6a8399; --text-hint:#a0b4c4;
+      --border:#dde4ec; --border2:#c8d4e0;
+      --serif:'Fraunces',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif;
+      --r:12px; --r-lg:18px; --max:860px;
+      --sh:0 2px 16px rgba(15,45,82,0.07);
+      --sh-md:0 6px 32px rgba(15,45,82,0.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;overflow-x:hidden;color-scheme:light}
+    body{font-family:var(--sans);background:var(--page);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* HEADER */
+    header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(15,45,82,0.06)}
+    .header-inner{max-width:1200px;margin:0 auto;padding:0 28px;height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:14px;flex-shrink:0}
+    .logo-wrap{width:48px;height:48px;border-radius:10px;overflow:hidden;border:1px solid var(--border2);flex-shrink:0;box-shadow:var(--sh)}
+    .logo-wrap img{width:100%;height:100%;object-fit:cover}
+    .brand-name{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--navy);letter-spacing:.01em;line-height:1.2}
+    .brand-tagline{font-size:11px;color:var(--text-soft);letter-spacing:.03em;margin-top:2px}
+    nav{display:flex;align-items:center;gap:2px}
+    nav a{padding:8px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-mid);transition:color .18s,background .18s}
+    nav a:hover,nav a.active{color:var(--navy);background:var(--blue-soft)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:var(--sans);white-space:nowrap;transition:all .22s}
+    .btn-navy{background:var(--navy);color:#fff;box-shadow:0 4px 18px rgba(15,45,82,0.22)}
+    .btn-navy:hover{background:var(--navy-mid);transform:translateY(-1px)}
+    .btn-teal{background:var(--teal);color:#fff;box-shadow:0 4px 18px rgba(26,122,110,0.25)}
+    .btn-teal:hover{background:var(--teal-lt);transform:translateY(-1px)}
+    .btn-outline{background:var(--white);border:1.5px solid var(--border2);color:var(--navy)}
+    .btn-outline:hover{border-color:var(--navy-lt);background:var(--blue-soft)}
+
+    /* LAYOUT */
+    .container{max-width:var(--max);margin:0 auto;padding:0 28px}
+    .section{padding:72px 0}
+    .overline{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+    .overline::before{content:'';display:block;width:20px;height:2px;background:var(--teal);border-radius:1px}
+    h1.hero-title{font-family:var(--serif);font-size:clamp(32px,4vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.015em;color:var(--navy)}
+    h1.hero-title em{font-style:italic;color:var(--teal)}
+    .rule{width:44px;height:3px;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:2px;margin:16px 0 28px}
+
+    /* HERO */
+    .hero{background:var(--white);border-bottom:1px solid var(--border);padding:64px 0 56px;position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:-80px;right:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(26,122,110,0.05) 0%,transparent 68%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:999px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px}
+    .hero-sub{font-size:16px;color:var(--text-mid);line-height:1.72;max-width:580px;margin:18px 0 32px}
+    .hero-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;background:var(--surface);border:1px solid var(--border);color:var(--text-mid)}
+    .pill-teal{background:var(--teal-bg);border-color:var(--teal-border);color:var(--teal)}
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+
+    /* PITCH CARDS */
+    .pitch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+    .pitch-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh);transition:box-shadow .22s,transform .22s}
+    .pitch-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+    .pitch-icon{font-size:28px;margin-bottom:14px}
+    .pitch-title{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--navy);margin-bottom:8px}
+    .pitch-desc{font-size:13px;color:var(--text-soft);line-height:1.65}
+
+    /* FORM */
+    .form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-md);overflow:hidden}
+    .form-header{background:var(--navy);padding:24px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .form-header h2{font-family:var(--serif);font-size:22px;font-weight:700;color:#fff}
+    .form-header p{font-size:13px;color:rgba(255,255,255,.6);margin-top:4px}
+    .form-body{padding:32px}
+    .form-section{margin-bottom:28px}
+    .form-section-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid var(--teal-border)}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px}
+    .form-row.full{grid-template-columns:1fr}
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    label{font-size:12px;font-weight:600;color:var(--text-mid)}
+    label span.req{color:#c0392b;margin-left:2px}
+    input[type="text"],input[type="tel"],input[type="email"],select,textarea{
+      width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:8px;
+      font-family:var(--sans);font-size:13px;color:var(--text);background:var(--white);
+      transition:border-color .18s,box-shadow .18s;outline:none;
+    }
+    input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,110,0.1)}
+    input::placeholder,textarea::placeholder{color:var(--text-hint)}
+    textarea{resize:vertical;min-height:80px;line-height:1.55}
+    select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236a8399' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+
+    /* Checkboxes */
+    .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .check-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:border-color .18s,background .18s}
+    .check-item:hover{border-color:var(--teal-border);background:var(--teal-bg)}
+    .check-item input[type="checkbox"]{width:16px;height:16px;accent-color:var(--teal);cursor:pointer;flex-shrink:0}
+    .check-item input[type="radio"]{width:16px;height:16px;accent-color:var(--teal);cursor:pointer;flex-shrink:0}
+    .check-item label{font-size:13px;font-weight:500;color:var(--text);cursor:pointer;margin:0}
+    .check-item.selected{border-color:var(--teal);background:var(--teal-bg)}
+
+    /* Steps indicator */
+    .steps{display:flex;align-items:center;gap:0;margin-bottom:32px}
+    .step-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600}
+    .step-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;transition:all .3s}
+    .step-num.active{background:var(--teal);color:#fff}
+    .step-num.done{background:var(--teal-bg);color:var(--teal);border:1.5px solid var(--teal-border)}
+    .step-num.pending{background:var(--surface);color:var(--text-hint);border:1.5px solid var(--border)}
+    .step-label.active{color:var(--navy)}
+    .step-label.pending{color:var(--text-hint)}
+    .step-sep{flex:1;height:1px;background:var(--border);margin:0 8px}
+
+    /* Form nav */
+    .form-nav{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border);margin-top:8px}
+    .form-step{display:none}
+    .form-step.active{display:block}
+
+    /* Download box */
+    .dl-box{background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:var(--r-lg);padding:24px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:24px}
+    .dl-icon{font-size:32px;flex-shrink:0}
+    .dl-title{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--navy);margin-bottom:4px}
+    .dl-desc{font-size:13px;color:var(--text-soft)}
+
+    /* Confirmation */
+    #confirm-view{display:none;text-align:center;padding:48px 32px}
+    #confirm-view .big-icon{font-size:56px;margin-bottom:16px}
+    #confirm-view h2{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--navy);margin-bottom:12px}
+    #confirm-view p{font-size:15px;color:var(--text-mid);line-height:1.7;max-width:480px;margin:0 auto 28px}
+
+    /* Footer */
+    footer{background:var(--navy);padding:20px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+    footer span{font-size:12px;color:rgba(255,255,255,.4)}
+    footer a{font-size:12px;color:rgba(255,255,255,.55);text-decoration:none}
+    footer a:hover{color:#fff}
+
+    /* Mobile */
+    @media(max-width:768px){
+      .header-inner{padding:0 16px;height:60px}
+      nav{display:none}
+      .brand-tagline{display:none}
+      .pitch-grid{grid-template-columns:1fr}
+      .form-row{grid-template-columns:1fr}
+      .check-grid{grid-template-columns:1fr}
+      .form-body{padding:20px}
+      .form-header{padding:18px 20px}
+      .dl-box{flex-direction:column;gap:14px}
+      .hero{padding:40px 0 36px}
+      .section{padding:44px 0}
+      .container{padding:0 16px}
+      footer{flex-direction:column;text-align:center}
+      .steps{flex-wrap:wrap;gap:6px}
+      .step-sep{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="brand" aria-label="Fotsi Global Services">
+      <div class="logo-wrap"><img src="data:image/jpeg;base64,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" alt="FGS" /></div>
+      <div>
+        <div class="brand-name">Fotsi Global Services</div>
+        <div class="brand-tagline">Studio · Import · IT · Douala &amp; Paris</div>
+      </div>
+    </a>
+    <nav>
+      <a href="/">Accueil</a>
+      <a href="/#catalogue">Import</a>
+      <a href="/#services-conseil">Services</a>
+      <a href="/studio.html" class="active">FGS Studio</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">FGS Studio — Nouveau</div>
+    <h1 class="hero-title">Votre application sur mesure,<br /><em>sans vous ruiner.</em></h1>
+    <p class="hero-sub">FGS Studio construit des outils web et apps clés en main pour les entrepreneurs qui n'ont pas encore les moyens d'une grande agence. Code propre, zéro maintenance, prêt à scaler quand votre business grandit.</p>
+    <div class="hero-pills">
+      <span class="pill pill-teal">✓ Clés en main</span>
+      <span class="pill pill-teal">✓ Zéro maintenance</span>
+      <span class="pill pill-teal">✓ Code propre &amp; scalable</span>
+      <span class="pill">Site vitrine</span>
+      <span class="pill">E-commerce</span>
+      <span class="pill">App de gestion</span>
+      <span class="pill">PWA mobile</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#brief" class="btn btn-teal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Décrire mon projet
+      </a>
+      <a href="studio/pdf/brief-client.pdf" download class="btn btn-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger le brief PDF
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PITCH -->
+<section class="section" style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="overline">Pourquoi FGS Studio</div>
+    <h2 style="font-family:var(--serif);font-size:clamp(24px,3vw,36px);font-weight:700;color:var(--navy);line-height:1.15;">Vous avez l'idée. <em style="color:var(--teal);font-style:italic;">On construit.</em></h2>
+    <div class="rule"></div>
+    <div class="pitch-grid">
+      <div class="pitch-card">
+        <div class="pitch-icon">🔑</div>
+        <div class="pitch-title">Clés en main</div>
+        <p class="pitch-desc">Vous décrivez votre besoin, on s'occupe de tout — email, domaine, hébergement, code, mise en ligne. Zéro tracas technique.</p>
+      </div>
+      <div class="pitch-card">
+        <div class="pitch-icon">🧹</div>
+        <div class="pitch-title">Code propre &amp; documenté</div>
+        <p class="pitch-desc">Quand votre business grandit et que vous pouvez vous offrir un développeur, il reprend votre code sans difficulté. Pas de cage dorée.</p>
+      </div>
+      <div class="pitch-card">
+        <div class="pitch-icon">💰</div>
+        <div class="pitch-title">Prix accessibles</div>
+        <p class="pitch-desc">Paiement en 2 fois (50 % au démarrage, 50 % à la livraison). Pas de frais cachés. Maintenance optionnelle sans engagement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIEF FORM -->
+<section class="section" id="brief">
+  <div class="container">
+    <div class="overline">Brief en ligne</div>
+    <h2 style="font-family:var(--serif);font-size:clamp(22px,2.8vw,34px);font-weight:700;color:var(--navy);margin-bottom:8px;">Décrivez votre projet</h2>
+    <p style="font-size:14px;color:var(--text-soft);margin-bottom:28px;">15–20 minutes · Aucune connaissance technique requise · On vous répond sous 24h</p>
+
+    <div class="form-card">
+      <div class="form-header">
+        <div>
+          <h2>Brief Client — FGS Studio</h2>
+          <p>Remplissez ce formulaire une fois. On gère tout le reste.</p>
+        </div>
+        <a href="studio/pdf/brief-client.pdf" download class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);font-size:12px;padding:8px 16px;flex-shrink:0;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Version PDF
+        </a>
+      </div>
+
+      <div class="form-body">
+        <!-- Steps -->
+        <div class="steps">
+          <div class="step-item">
+            <div class="step-num active" id="sn1">1</div>
+            <span class="step-label active" id="sl1">Votre projet</span>
+          </div>
+          <div class="step-sep"></div>
+          <div class="step-item">
+            <div class="step-num pending" id="sn2">2</div>
+            <span class="step-label pending" id="sl2">Ce que vous voulez</span>
+          </div>
+          <div class="step-sep"></div>
+          <div class="step-item">
+            <div class="step-num pending" id="sn3">3</div>
+            <span class="step-label pending" id="sl3">Présence &amp; contenu</span>
+          </div>
+          <div class="step-sep"></div>
+          <div class="step-item">
+            <div class="step-num pending" id="sn4">4</div>
+            <span class="step-label pending" id="sl4">Contact</span>
+          </div>
+        </div>
+
+        <form id="brief-form" novalidate>
+
+          <!-- STEP 1 -->
+          <div class="form-step active" id="step1">
+            <div class="form-section">
+              <div class="form-section-title">1 · Votre projet en quelques mots</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="nom_projet">Nom du projet / de l'entreprise <span class="req">*</span></label>
+                  <input type="text" id="nom_projet" name="nom_projet" placeholder="Ex: Mon resto, Boutique Amina..." required />
+                </div>
+                <div class="form-group">
+                  <label for="secteur">Secteur d'activité <span class="req">*</span></label>
+                  <input type="text" id="secteur" name="secteur" placeholder="Ex: Restauration, Mode, Santé..." required />
+                </div>
+              </div>
+              <div class="form-row full">
+                <div class="form-group">
+                  <label for="description">Décris ce que tu fais / vends en 2–3 phrases <span class="req">*</span></label>
+                  <textarea id="description" name="description" placeholder="Ex: Je vends des jus naturels fait maison à Douala. Je livre à domicile et j'ai un point de vente au Marché Central..." required></textarea>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="clients_cibles">Qui sont vos clients ? (âge, lieu, profil)</label>
+                  <input type="text" id="clients_cibles" name="clients_cibles" placeholder="Ex: Femmes 25–45 ans, Douala, CSP+" />
+                </div>
+                <div class="form-group">
+                  <label for="ville_pays">Ville / pays principal d'activité</label>
+                  <input type="text" id="ville_pays" name="ville_pays" placeholder="Ex: Douala, Cameroun" />
+                </div>
+              </div>
+            </div>
+            <div class="form-nav">
+              <span style="font-size:12px;color:var(--text-hint);">Étape 1 sur 4</span>
+              <button type="button" class="btn btn-teal" onclick="nextStep(1)">Suivant →</button>
+            </div>
+          </div>
+
+          <!-- STEP 2 -->
+          <div class="form-step" id="step2">
+            <div class="form-section">
+              <div class="form-section-title">2 · Ce que vous voulez construire</div>
+              <div class="form-group" style="margin-bottom:16px;">
+                <label>Quel type d'outil vous faut-il ? <span class="req">*</span></label>
+                <div class="check-grid" style="margin-top:8px;">
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="type_outil" value="Site vitrine" />
+                    <span>🌐 Site vitrine</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="type_outil" value="E-commerce" />
+                    <span>🛒 E-commerce</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="type_outil" value="App de gestion" />
+                    <span>📊 App de gestion</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="type_outil" value="App mobile" />
+                    <span>📱 App mobile</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-row full">
+                <div class="form-group">
+                  <label for="fonctionnalites">Décrivez les fonctionnalités souhaitées en langage simple</label>
+                  <textarea id="fonctionnalites" name="fonctionnalites" style="min-height:100px;" placeholder="Ex:&#10;- Les clients peuvent commander en ligne&#10;- Je vois mes commandes du jour sur un tableau de bord&#10;- Envoi automatique de confirmation par WhatsApp"></textarea>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="existant">Tu as déjà quelque chose en place ?</label>
+                  <input type="text" id="existant" name="existant" placeholder="Non / Oui → lien ou description" />
+                </div>
+                <div class="form-group">
+                  <label for="inspirations">Sites ou apps qui te plaisent ?</label>
+                  <input type="text" id="inspirations" name="inspirations" placeholder="Ex: jumia.com, monkeyshop.cm..." />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="budget">Budget approximatif</label>
+                  <select id="budget" name="budget">
+                    <option value="">-- Sélectionner --</option>
+                    <option>Moins de 150 000 FCFA</option>
+                    <option>150 000 – 300 000 FCFA</option>
+                    <option>300 000 – 600 000 FCFA</option>
+                    <option>Plus de 600 000 FCFA</option>
+                    <option>À définir ensemble</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="delai">Délai souhaité</label>
+                  <select id="delai" name="delai">
+                    <option value="">-- Sélectionner --</option>
+                    <option>Moins d'1 mois</option>
+                    <option>1 à 2 mois</option>
+                    <option>2 à 3 mois</option>
+                    <option>Pas de délai précis</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-nav">
+              <button type="button" class="btn btn-outline" onclick="prevStep(2)">← Retour</button>
+              <button type="button" class="btn btn-teal" onclick="nextStep(2)">Suivant →</button>
+            </div>
+          </div>
+
+          <!-- STEP 3 -->
+          <div class="form-step" id="step3">
+            <div class="form-section">
+              <div class="form-section-title">3 · Présence en ligne &amp; contenu disponible</div>
+              <div class="form-group" style="margin-bottom:16px;">
+                <label>Réseaux sociaux actifs</label>
+                <div class="check-grid" style="margin-top:8px;">
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="reseaux" value="Instagram" /> <span>📸 Instagram</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="reseaux" value="Facebook" /> <span>👥 Facebook</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="reseaux" value="TikTok" /> <span>🎵 TikTok</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="reseaux" value="LinkedIn" /> <span>💼 LinkedIn</span>
+                  </label>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="langue">Langue(s) du site</label>
+                  <select id="langue" name="langue">
+                    <option>Français uniquement</option>
+                    <option>Anglais uniquement</option>
+                    <option>Français + Anglais</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="seo">Référencement Google important ?</label>
+                  <select id="seo" name="seo">
+                    <option>Oui, c'est prioritaire</option>
+                    <option>Oui, mais pas urgent</option>
+                    <option>Non / Je ne sais pas</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group" style="margin-top:8px;">
+                <label>Contenu déjà disponible</label>
+                <div class="check-grid" style="margin-top:8px;">
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="contenu" value="Logo" /> <span>🎨 Logo</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="contenu" value="Photos" /> <span>📷 Photos produits / équipe</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="contenu" value="Textes" /> <span>📝 Textes de présentation</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="contenu" value="Domaine" /> <span>🌍 Nom de domaine</span>
+                  </label>
+                </div>
+                <p style="font-size:12px;color:var(--teal);margin-top:10px;padding:8px 12px;background:var(--teal-bg);border-radius:8px;">Si rien de tout ça → FGS s'occupe de créer et centraliser. Aucun souci.</p>
+              </div>
+            </div>
+            <div class="form-nav">
+              <button type="button" class="btn btn-outline" onclick="prevStep(3)">← Retour</button>
+              <button type="button" class="btn btn-teal" onclick="nextStep(3)">Suivant →</button>
+            </div>
+          </div>
+
+          <!-- STEP 4 -->
+          <div class="form-step" id="step4">
+            <div class="form-section">
+              <div class="form-section-title">4 · Contact &amp; disponibilité</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact_nom">Prénom / Nom <span class="req">*</span></label>
+                  <input type="text" id="contact_nom" name="contact_nom" placeholder="Votre nom complet" required />
+                </div>
+                <div class="form-group">
+                  <label for="contact_wa">WhatsApp <span class="req">*</span></label>
+                  <input type="tel" id="contact_wa" name="contact_wa" placeholder="+237 6XX XXX XXX" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact_email">Email</label>
+                  <input type="email" id="contact_email" name="contact_email" placeholder="votre@email.com" />
+                </div>
+                <div class="form-group">
+                  <label for="contact_dispo">Meilleur moment pour un appel</label>
+                  <input type="text" id="contact_dispo" name="contact_dispo" placeholder="Ex: Matin 8h–10h, ou WhatsApp message" />
+                </div>
+              </div>
+            </div>
+            <div class="form-nav">
+              <button type="button" class="btn btn-outline" onclick="prevStep(4)">← Retour</button>
+              <button type="button" class="btn btn-teal" onclick="submitBrief()" id="submit-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Envoyer via WhatsApp
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- Confirmation -->
+        <div id="confirm-view">
+          <div class="big-icon">✅</div>
+          <h2>Brief envoyé !</h2>
+          <p>Votre brief a été transmis à FGS via WhatsApp. Nous vous répondons sous <strong>24h</strong> (jours ouvrés) avec une première analyse et les prochaines étapes.</p>
+          <a href="/" class="btn btn-navy">← Retour à l'accueil</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Download box -->
+    <div class="dl-box">
+      <div class="dl-icon">📄</div>
+      <div style="flex:1">
+        <div class="dl-title">Préférez remplir le brief hors ligne ?</div>
+        <div class="dl-desc">Téléchargez le PDF fillable, remplissez-le sur votre téléphone ou ordinateur, et envoyez-le nous par WhatsApp.</div>
+      </div>
+      <a href="studio/pdf/brief-client.pdf" download class="btn btn-outline" style="flex-shrink:0;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger brief-client.pdf
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Fotsi Global Services — RCCM CM-DLA-01-2025-A10-0156</span>
+  <div style="display:flex;gap:16px;">
+    <a href="/">Accueil</a>
+    <a href="/#contact">Contact</a>
+    <a href="https://wa.me/237691837274" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</footer>
+
+<!-- WhatsApp floating -->
+<a href="https://wa.me/237691837274" target="_blank" rel="noopener"
+   style="position:fixed;bottom:24px;right:24px;z-index:999;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.4);transition:transform .22s;"
+   onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 4;
+
+  function updateSteps(step) {
+    for (let i = 1; i <= totalSteps; i++) {
+      const num = document.getElementById('sn' + i);
+      const lbl = document.getElementById('sl' + i);
+      if (i < step) {
+        num.className = 'step-num done';
+        num.textContent = '✓';
+        lbl.className = 'step-label active';
+      } else if (i === step) {
+        num.className = 'step-num active';
+        num.textContent = i;
+        lbl.className = 'step-label active';
+      } else {
+        num.className = 'step-num pending';
+        num.textContent = i;
+        lbl.className = 'step-label pending';
+      }
+    }
+  }
+
+  function showStep(step) {
+    document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + step).classList.add('active');
+    updateSteps(step);
+    currentStep = step;
+    document.querySelector('.form-card').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function validateStep(step) {
+    const stepEl = document.getElementById('step' + step);
+    const required = stepEl.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(field => {
+      field.style.borderColor = '';
+      if (!field.value.trim()) {
+        field.style.borderColor = '#c0392b';
+        valid = false;
+      }
+    });
+    return valid;
+  }
+
+  function nextStep(step) {
+    if (!validateStep(step)) {
+      const err = document.getElementById('step' + step).querySelector('[required]:not([value]),[required][value=""]');
+      return;
+    }
+    showStep(step + 1);
+  }
+
+  function prevStep(step) { showStep(step - 1); }
+
+  function submitBrief() {
+    if (!validateStep(4)) return;
+
+    const f = id => document.getElementById(id)?.value || '';
+    const checks = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(c => c.value).join(', ') || 'Aucun';
+
+    const msg = [
+      '🚀 *Nouveau brief FGS Studio*',
+      '',
+      '*1. Le projet*',
+      `Nom : ${f('nom_projet')}`,
+      `Secteur : ${f('secteur')}`,
+      `Description : ${f('description')}`,
+      `Clients : ${f('clients_cibles')}`,
+      `Ville : ${f('ville_pays')}`,
+      '',
+      '*2. Ce qu\'ils veulent*',
+      `Type : ${checks('type_outil')}`,
+      `Fonctionnalités : ${f('fonctionnalites')}`,
+      `Existant : ${f('existant')}`,
+      `Inspirations : ${f('inspirations')}`,
+      `Budget : ${f('budget')}`,
+      `Délai : ${f('delai')}`,
+      '',
+      '*3. Présence & contenu*',
+      `Réseaux : ${checks('reseaux')}`,
+      `Langue : ${f('langue')}`,
+      `SEO : ${f('seo')}`,
+      `Contenu dispo : ${checks('contenu')}`,
+      '',
+      '*4. Contact*',
+      `Nom : ${f('contact_nom')}`,
+      `WhatsApp : ${f('contact_wa')}`,
+      `Email : ${f('contact_email')}`,
+      `Dispo : ${f('contact_dispo')}`,
+    ].join('\n');
+
+    const wa = 'https://wa.me/237691837274?text=' + encodeURIComponent(msg);
+    window.open(wa, '_blank');
+
+    document.getElementById('brief-form').style.display = 'none';
+    document.querySelector('.steps').style.display = 'none';
+    document.getElementById('confirm-view').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
