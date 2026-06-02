@@ -143,10 +143,23 @@
     footer a{font-size:12px;color:rgba(255,255,255,.55);text-decoration:none}
     footer a:hover{color:#fff}
 
+    /* Burger mobile */
+    .nav-toggle-float{display:none;position:fixed;top:10px;right:12px;z-index:998;width:52px;height:52px;border-radius:50%;background:var(--navy);box-shadow:0 4px 20px rgba(15,45,82,0.35);border:none;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;transition:transform .2s}
+    .nav-toggle-float span{display:block;width:20px;height:2px;background:#fff;border-radius:2px;transition:all .25s}
+    .nav-toggle-float.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-toggle-float.open span:nth-child(2){opacity:0}
+    .nav-toggle-float.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    .nav-drawer{display:none;position:fixed;inset:0;background:rgba(15,29,50,0.55);z-index:500;backdrop-filter:blur(4px)}
+    .nav-drawer.open{display:block}
+    .nav-drawer-inner{position:absolute;top:0;right:0;width:min(280px,85vw);height:100%;background:#fff;padding:80px 28px 40px;display:flex;flex-direction:column;gap:8px;box-shadow:-8px 0 40px rgba(15,45,82,0.18);overflow-y:auto}
+    .nav-drawer-inner a{padding:14px 16px;border-radius:10px;font-size:15px;font-weight:600;color:var(--navy);border-bottom:1px solid var(--border);display:block}
+    .nav-drawer-inner a:last-child{border-bottom:none}
+
     /* Mobile */
     @media(max-width:768px){
       .header-inner{padding:0 16px;height:60px}
       nav{display:none}
+      .nav-toggle-float{display:flex}
       .brand-tagline{display:none}
       .pitch-grid{grid-template-columns:1fr}
       .form-row{grid-template-columns:1fr}
@@ -183,6 +196,21 @@
     </nav>
   </div>
 </header>
+
+<!-- Mobile nav drawer -->
+<div class="nav-drawer" id="nav-drawer">
+  <div class="nav-drawer-inner">
+    <a href="/">Accueil</a>
+    <a href="/#catalogue">Import</a>
+    <a href="/#services-conseil">Services</a>
+    <a href="/studio.html" style="color:var(--teal);font-weight:700;">✦ FGS Studio</a>
+    <a href="/#contact">Contact</a>
+    <a href="#brief" style="margin-top:8px;background:var(--teal);color:#fff;text-align:center;border-radius:10px;font-weight:700;" id="drawer-brief">→ Décrire mon projet</a>
+  </div>
+</div>
+<button class="nav-toggle-float" id="nav-toggle-float" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
 
 <!-- HERO -->
 <section class="hero">
@@ -614,50 +642,98 @@
 
   function prevStep(step) { showStep(step - 1); }
 
-  function submitBrief() {
+  async function submitBrief() {
     if (!validateStep(4)) return;
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours...';
 
     const f = id => document.getElementById(id)?.value || '';
     const checks = name => [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(c => c.value).join(', ') || 'Aucun';
 
+    const data = {
+      _subject: `[FGS Studio] Nouveau brief — ${f('nom_projet')} (${f('secteur')})`,
+      _replyto: f('contact_email') || f('contact_wa'),
+      'Nom du projet':    f('nom_projet'),
+      'Secteur':          f('secteur'),
+      'Description':      f('description'),
+      'Clients cibles':   f('clients_cibles'),
+      'Ville / Pays':     f('ville_pays'),
+      'Type d outil':     checks('type_outil'),
+      'Fonctionnalités':  f('fonctionnalites'),
+      'Existant':         f('existant'),
+      'Inspirations':     f('inspirations'),
+      'Budget':           f('budget'),
+      'Délai':            f('delai'),
+      'Réseaux sociaux':  checks('reseaux'),
+      'Langue':           f('langue'),
+      'SEO':              f('seo'),
+      'Contenu dispo':    checks('contenu'),
+      'Contact — Nom':    f('contact_nom'),
+      'Contact — WA':     f('contact_wa'),
+      'Contact — Email':  f('contact_email'),
+      'Disponibilité':    f('contact_dispo'),
+    };
+
+    // Envoi email via Formspree
+    try {
+      await fetch('https://formspree.io/f/VOTRE_ID_ICI', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data),
+      });
+    } catch(e) { /* silencieux — WhatsApp prend le relais */ }
+
+    // Envoi WhatsApp en parallèle
     const msg = [
       '🚀 *Nouveau brief FGS Studio*',
       '',
       '*1. Le projet*',
-      `Nom : ${f('nom_projet')}`,
-      `Secteur : ${f('secteur')}`,
-      `Description : ${f('description')}`,
-      `Clients : ${f('clients_cibles')}`,
-      `Ville : ${f('ville_pays')}`,
+      `Nom : ${data['Nom du projet']}`,
+      `Secteur : ${data['Secteur']}`,
+      `Description : ${data['Description']}`,
+      `Clients : ${data['Clients cibles']}`,
+      `Ville : ${data['Ville / Pays']}`,
       '',
-      '*2. Ce qu\'ils veulent*',
-      `Type : ${checks('type_outil')}`,
-      `Fonctionnalités : ${f('fonctionnalites')}`,
-      `Existant : ${f('existant')}`,
-      `Inspirations : ${f('inspirations')}`,
-      `Budget : ${f('budget')}`,
-      `Délai : ${f('delai')}`,
+      `*2. Ce qu'ils veulent*`,
+      `Type : ${data['Type d outil']}`,
+      `Fonctionnalités : ${data['Fonctionnalités']}`,
+      `Budget : ${data['Budget']} · Délai : ${data['Délai']}`,
       '',
       '*3. Présence & contenu*',
-      `Réseaux : ${checks('reseaux')}`,
-      `Langue : ${f('langue')}`,
-      `SEO : ${f('seo')}`,
-      `Contenu dispo : ${checks('contenu')}`,
+      `Réseaux : ${data['Réseaux sociaux']}`,
+      `Langue : ${data['Langue']} · SEO : ${data['SEO']}`,
+      `Contenu dispo : ${data['Contenu dispo']}`,
       '',
       '*4. Contact*',
-      `Nom : ${f('contact_nom')}`,
-      `WhatsApp : ${f('contact_wa')}`,
-      `Email : ${f('contact_email')}`,
-      `Dispo : ${f('contact_dispo')}`,
+      `Nom : ${data['Contact — Nom']}`,
+      `WhatsApp : ${data['Contact — WA']}`,
+      `Email : ${data['Contact — Email']}`,
+      `Dispo : ${data['Disponibilité']}`,
     ].join('\n');
 
-    const wa = 'https://wa.me/237691837274?text=' + encodeURIComponent(msg);
-    window.open(wa, '_blank');
+    window.open('https://wa.me/237691837274?text=' + encodeURIComponent(msg), '_blank');
 
     document.getElementById('brief-form').style.display = 'none';
     document.querySelector('.steps').style.display = 'none';
     document.getElementById('confirm-view').style.display = 'block';
   }
+  // Burger menu mobile
+  const floatBtn = document.getElementById('nav-toggle-float');
+  const drawer = document.getElementById('nav-drawer');
+  floatBtn.addEventListener('click', () => {
+    floatBtn.classList.toggle('open');
+    drawer.classList.toggle('open');
+    document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+  });
+  drawer.addEventListener('click', e => {
+    if (e.target === drawer || e.target.tagName === 'A') {
+      floatBtn.classList.remove('open');
+      drawer.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
 </script>
 
 </body>
