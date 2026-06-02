@@ -12,6 +12,10 @@
 | Client | |
 | Date de démarrage | |
 | Chargé(e) de projet | |
+| Stack retenue | |
+| Hébergement retenu | |
+| SEO requis | Oui / Non |
+| Paiement en ligne | Oui / Non |
 
 ---
 
@@ -143,6 +147,41 @@ APP_ENV=development
 
 ---
 
+## Étape 9 — Communication projet
+
+> Tout se passe sur WhatsApp. Pas d'email, pas de tickets — simple et direct.
+
+- [ ] Groupe WhatsApp créé : `FGS × NomProjet`
+- [ ] Membres : Eddy (FGS) + client + dev si sous-traitance
+- [ ] Fréquence des points convenus avec le client :
+  - [ ] Point hebdomadaire (recommandé)
+  - [ ] Point bi-mensuel
+  - [ ] À la demande uniquement
+
+**Règles de validation :**
+- Les maquettes / wireframes sont validés par le client **avant** le développement
+- Chaque livraison intermédiaire est confirmée par écrit (WhatsApp suffit)
+- Les demandes de modification hors brief initial font l'objet d'un avenant
+
+---
+
+## Étape 10 — Sauvegarde
+
+**MySQL / IONOS :**
+- [ ] Backup automatique activé dans le panel IONOS (fréquence : quotidienne)
+- [ ] Rétention minimale : 7 jours
+- [ ] Test de restauration effectué au moins une fois avant livraison
+
+**Supabase :**
+- [ ] Backups automatiques activés (inclus dans le plan Supabase)
+- [ ] Point-in-time recovery vérifié si plan Pro
+
+**Fichiers / médias :**
+- [ ] Dossier Google Drive `FGS — NomProjet / Livrables` mis à jour à chaque version livrée
+- [ ] Code source toujours à jour sur GitHub (jamais de fichier "final_v2_VRAI" en local)
+
+---
+
 ## Récapitulatif credentials _(à remplir et stocker dans Bitwarden)_
 
 | Service | Login | Mot de passe | Notes |
@@ -159,9 +198,21 @@ APP_ENV=development
 
 ## Checklist finale avant livraison
 
-- [ ] `.env` jamais dans le repo (vérifier git log)
+**Technique :**
+- [ ] `.env` jamais dans le repo (vérifier `git log --all -- .env`)
 - [ ] HTTPS actif sur le domaine
-- [ ] Tests fonctionnels réalisés sur mobile
-- [ ] Documentation utilisateur basique fournie au client
-- [ ] Credentials remis au client (si demandé) dans un document sécurisé
+- [ ] Tests fonctionnels réalisés sur mobile (Android + iOS si possible)
+- [ ] Backup BDD vérifié et fonctionnel
+- [ ] CI/CD testé — un push sur `main` déclenche bien le déploiement
+
+**Livraison client :**
+- [ ] Documentation utilisateur basique fournie (PDF ou Notion — 1 page max, en français simple)
+- [ ] Vidéo de démonstration enregistrée si l'outil est complexe (WhatsApp ou Loom)
+- [ ] Credentials remis au client dans un document sécurisé (Bitwarden Send ou PDF chiffré)
 - [ ] Facturation émise et archivée dans Google Drive
+
+**Passation (pour un dev futur) :**
+- [ ] `README.md` du repo à jour : stack, variables d'env, comment lancer en local, comment déployer
+- [ ] Aucune logique métier dans des fichiers non versionnés
+- [ ] Aucune clé hardcodée dans le code (vérifier avec `git grep -i "sk_live\|password\|secret"`)
+- [ ] Architecture documentée en 5 lignes max dans le `README.md`
