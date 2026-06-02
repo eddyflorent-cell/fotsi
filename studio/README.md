@@ -17,10 +17,11 @@ FGS Studio conçoit et livre des SaaS et webapps sur mesure — code propre, zé
 
 ## Templates disponibles
 
-| Fichier | Usage |
-|---|---|
-| [`templates/01-brief-client.md`](templates/01-brief-client.md) | À remplir avec le client (15–20 min, aucune tech) |
-| [`templates/02-setup-technique-fgs.md`](templates/02-setup-technique-fgs.md) | Checklist interne FGS avant de coder |
+| Fichier | Usage | Moment |
+|---|---|---|
+| [`templates/01-brief-client.md`](templates/01-brief-client.md) | À remplir avec le client (15–20 min, aucune tech) | Premier échange |
+| [`templates/02-setup-technique-fgs.md`](templates/02-setup-technique-fgs.md) | Checklist interne FGS avant de coder | Après acompte reçu |
+| [`templates/03-devis-type.md`](templates/03-devis-type.md) | Trame de devis — 5 postes, modalités 50/50 | Après brief validé |
 
 ---
 
@@ -28,11 +29,11 @@ FGS Studio conçoit et livre des SaaS et webapps sur mesure — code propre, zé
 
 ```
 1. Appel / WhatsApp client  →  remplir 01-brief-client.md
-2. Devis envoyé             →  attendre validation
-3. Acompte reçu             →  remplir 02-setup-technique-fgs.md
+2. Devis envoyé             →  adapter 03-devis-type.md + envoyer en PDF
+3. Devis signé + acompte    →  remplir 02-setup-technique-fgs.md
 4. Développement            →  stack selon brief
 5. Recette                  →  tests mobile + HTTPS + .env check
-6. Livraison                →  doc utilisateur + facture
+6. Livraison                →  doc utilisateur + solde + facture
 ```
 
 ---
