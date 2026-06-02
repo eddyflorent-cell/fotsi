@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light only" />
-  <title>FGS Studio — Votre application sur mesure · Fotsi Global Services</title>
-  <meta name="description" content="FGS Studio construit des outils web et applications sur mesure pour les entrepreneurs. Clés en main, zéro maintenance, code propre. Remplissez le brief en ligne." />
+  <title>FGS Studio — SaaS, apps &amp; outils métier sur mesure · Fotsi Global Services</title>
+  <meta name="description" content="FGS Studio construit des SaaS, outils métier, sites web et apps sur mesure pour les entrepreneurs. Clés en main, zéro maintenance, code propre. Remplissez le brief en ligne." />
   <link rel="canonical" href="https://fotsiglobal.com/studio" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -188,12 +188,13 @@
 <section class="hero">
   <div class="container">
     <div class="hero-badge">FGS Studio — Nouveau</div>
-    <h1 class="hero-title">Votre application sur mesure,<br /><em>sans vous ruiner.</em></h1>
-    <p class="hero-sub">FGS Studio construit des outils web et apps clés en main pour les entrepreneurs qui n'ont pas encore les moyens d'une grande agence. Code propre, zéro maintenance, prêt à scaler quand votre business grandit.</p>
+    <h1 class="hero-title">Votre SaaS, outil métier<br />ou app — <em>sans vous ruiner.</em></h1>
+    <p class="hero-sub">FGS Studio construit des SaaS, outils de gestion, sites web et apps sur mesure pour les entrepreneurs qui n'ont pas encore les moyens d'une grande agence. Code propre, zéro maintenance, prêt à scaler quand votre business grandit.</p>
     <div class="hero-pills">
       <span class="pill pill-teal">✓ Clés en main</span>
       <span class="pill pill-teal">✓ Zéro maintenance</span>
       <span class="pill pill-teal">✓ Code propre &amp; scalable</span>
+      <span class="pill">SaaS &amp; outil métier</span>
       <span class="pill">Site vitrine</span>
       <span class="pill">E-commerce</span>
       <span class="pill">App de gestion</span>
@@ -233,6 +234,20 @@
         <div class="pitch-icon">💰</div>
         <div class="pitch-title">Prix accessibles</div>
         <p class="pitch-desc">Paiement en 2 fois (50 % au démarrage, 50 % à la livraison). Pas de frais cachés. Maintenance optionnelle sans engagement.</p>
+      </div>
+    </div>
+
+    <!-- Référence BFM -->
+    <div style="margin-top:24px;background:var(--navy);border-radius:var(--r-lg);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;">Réalisé par FGS Studio</div>
+        <div style="font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;margin-bottom:6px;">BusinessFood Manager</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.65);max-width:480px;line-height:1.6;">SaaS B2B de rentabilité cuisine pour restaurateurs — authentification, tableau de bord, calcul de marges, rapports mensuels, abonnement Stripe. Déployé sur <a href="https://businessfoodmanager.com" target="_blank" rel="noopener" style="color:var(--teal-lt);text-decoration:underline;">businessfoodmanager.com</a>.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:5px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);">✓ SaaS &amp; outil métier</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:5px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);">✓ Stripe + Auth + PWA</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:999px;padding:5px 14px;font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);">✓ En production</span>
       </div>
     </div>
   </div>
@@ -328,6 +343,10 @@
                 <label>Quel type d'outil vous faut-il ? <span class="req">*</span></label>
                 <div class="check-grid" style="margin-top:8px;">
                   <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="type_outil" value="SaaS / Outil métier" />
+                    <span>⚙️ SaaS / Outil métier</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
                     <input type="checkbox" name="type_outil" value="Site vitrine" />
                     <span>🌐 Site vitrine</span>
                   </label>
@@ -336,12 +355,16 @@
                     <span>🛒 E-commerce</span>
                   </label>
                   <label class="check-item" onclick="this.classList.toggle('selected')">
-                    <input type="checkbox" name="type_outil" value="App de gestion" />
+                    <input type="checkbox" name="type_outil" value="App de gestion interne" />
                     <span>📊 App de gestion</span>
                   </label>
                   <label class="check-item" onclick="this.classList.toggle('selected')">
-                    <input type="checkbox" name="type_outil" value="App mobile" />
-                    <span>📱 App mobile</span>
+                    <input type="checkbox" name="type_outil" value="PWA mobile" />
+                    <span>📱 PWA mobile</span>
+                  </label>
+                  <label class="check-item" onclick="this.classList.toggle('selected')">
+                    <input type="checkbox" name="type_outil" value="Tableau de bord / Dashboard" />
+                    <span>📈 Dashboard / Reporting</span>
                   </label>
                 </div>
               </div>
