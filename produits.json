@@ -33,5 +33,22 @@
       "images/produits/powerbank-2.jpg",
       "images/produits/powerbank-3.jpg"
     ]
+  },
+  {
+    "id": "powerbank-mirror-20000",
+    "categorie": "High-Tech FGS",
+    "badge": "🪞 Edition Mirror",
+    "badgeClass": "pb-navy",
+    "nom": "Power Bank Mirror 20 000 mAh + Chargeur UK",
+    "description": "Le power bank qui fait tout : 20 000 mAh pour recharger un Samsung S26 ou iPhone 17 jusqu'à 4 fois, double USB, charge rapide 10W. Livré avec son chargeur secteur UK — prêt à l'emploi dès la boîte. Finition miroir noir/bleu élégante, compact pour le voyage. Protection court-circuit, surcharge et basse tension incluse.",
+    "specs": ["20 000 mAh", "10W charge rapide", "Double USB-A", "Chargeur UK inclus", "Finition miroir"],
+    "prix": 5500,
+    "prixLabel": "À partir de 5 500 FCFA",
+    "devise": "XAF",
+    "stock": "disponible",
+    "photos": [
+      "images/produits/powerbank-mirroir.jpg",
+      "images/produits/powerbank-mirroir2.jpg"
+    ]
   }
 ]
