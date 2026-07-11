@@ -50,5 +50,22 @@
       "images/produits/powerbank-mirroir.jpg",
       "images/produits/powerbank-mirroir2.jpg"
     ]
+  },
+  {
+    "id": "ecouteurs-anc-tws",
+    "categorie": "High-Tech FGS",
+    "badge": "🎧 ANC + ENC",
+    "badgeClass": "pb-gold",
+    "nom": "Écouteurs Bluetooth ANC/ENC Sans Fil",
+    "description": "Fini le bruit autour de vous — la suppression active ANC coupe les bruits de fond (rue, transport, bureau), l'ENC isole votre voix en appel pour une clarté parfaite. Connexion TWS instantanée, son équilibré pour la musique et les podcasts. Sport ou bureau, ils restent en place. Recharge sans fil, autonomie longue durée.",
+    "specs": ["ANC actif", "ENC appels", "TWS sans fil", "Recharge sans fil", "Sport & bureau"],
+    "prix": 17500,
+    "prixLabel": "À partir de 17 500 FCFA",
+    "devise": "XAF",
+    "stock": "disponible",
+    "photos": [
+      "images/produits/ecouteurs-1.jpg",
+      "images/produits/ecouteurs-2.jpg"
+    ]
   }
 ]
