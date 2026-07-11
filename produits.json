@@ -1,38 +1,19 @@
 [
   {
-    "id": "restauration",
-    "badge": "✓ Validé FGS",
+    "id": "shawarma-1-foyer",
+    "categorie": "Restauration",
+    "badge": "✓ Stock Douala",
     "badgeClass": "pb-teal",
-    "emoji": "🥙",
-    "nom": "Matériel restauration",
-    "description": "Équipement de cuisine professionnelle, électroménager pro, outils de gestion restauration. Import direct Chine, fiche technique incluse.",
-    "tags": ["Inox 304", "Import direct", "Livraison Douala"],
-    "ctaTexte": "Demander un devis",
-    "ctaLien": "/devis-import.html",
-    "photo": ""
-  },
-  {
-    "id": "high-tech",
-    "badge": "🏷️ Label FGS",
-    "badgeClass": "pb-gold",
-    "emoji": "🎧",
-    "nom": "High-Tech FGS",
-    "description": "Accessoires téléphoniques, électronique grand public sous label FGS. Gros & semi-gros pour revendeurs Douala.",
-    "tags": ["ANC actif", "Label FGS", "Gros & semi-gros"],
-    "ctaTexte": "Commander en gros",
-    "ctaLien": "/devis-import.html",
-    "photo": ""
-  },
-  {
-    "id": "cosmetiques",
-    "badge": "✓ Sélection FGS",
-    "badgeClass": "pb-teal",
-    "emoji": "💄",
-    "nom": "Cosmétiques pro",
-    "description": "Sélection rigoureuse pour salons et revendeurs. Approvisionnement régulier, qualité tracée, conseil inclus.",
-    "tags": ["Traçabilité", "Revendeurs", "Conseil vente"],
-    "ctaTexte": "Demander le catalogue",
-    "ctaLien": "/devis-import.html",
-    "photo": ""
+    "nom": "Machine à Shawarma Gaz",
+    "description": "Brûleur gaz à plateau rotatif électrique — 1 foyer. Inox alimentaire, chauffe homogène, idéale pour snacks et fast-foods.",
+    "specs": ["1 foyer gaz", "Plateau rotatif électrique", "Inox 304", "Livraison Douala"],
+    "prix": 90000,
+    "prixLabel": "À partir de 90 000 FCFA",
+    "devise": "XAF",
+    "stock": "disponible",
+    "photos": [
+      "images/produits/shawarma-ambiance.jpg",
+      "images/produits/shawarma-produit.jpg"
+    ]
   }
 ]
