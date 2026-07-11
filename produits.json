@@ -15,5 +15,23 @@
       "images/produits/shawarma-1.png",
       "images/produits/shawarma-2.png"
     ]
+  },
+  {
+    "id": "powerbank-20000",
+    "categorie": "High-Tech FGS",
+    "badge": "⚡ Charge rapide",
+    "badgeClass": "pb-gold",
+    "nom": "Power Bank 20 000 mAh — 66W",
+    "description": "Rechargez un Samsung S26 ou iPhone 17 jusqu'à 4 fois, un Tecno/Infinix 3 fois, vos écouteurs 30 fois — sans chercher une prise. La charge rapide 66W recharge votre téléphone en moins d'1h. Double sortie USB + Type-C : deux appareils simultanément. Affichage numérique précis, protection contre les courts-circuits, surcharge et basse tension. Le compagnon indispensable pour Douala.",
+    "specs": ["20 000 mAh", "66W charge rapide", "USB-A + Type-C", "Affichage numérique", "Li-polymère"],
+    "prix": 9500,
+    "prixLabel": "À partir de 9 500 FCFA",
+    "devise": "XAF",
+    "stock": "disponible",
+    "photos": [
+      "images/produits/powerbank-1.jpg",
+      "images/produits/powerbank-2.jpg",
+      "images/produits/powerbank-3.jpg"
+    ]
   }
 ]
