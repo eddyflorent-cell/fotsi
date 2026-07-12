@@ -64,6 +64,7 @@
     "devise": "XAF",
     "stock": "disponible",
     "photos": [
+      "images/produits/ecouteurs-3.jpg",
       "images/produits/ecouteurs-1.jpg",
       "images/produits/ecouteurs-2.jpg"
     ]
