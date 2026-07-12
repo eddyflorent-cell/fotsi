@@ -11,7 +11,7 @@
     "prixPublicLabel": "140 000 FCFA",
     "prixRevendeur": 108000,
     "prixRevendeurLabel": "108 000 FCFA",
-    "prixRevendeurMin": 2,
+    "prixRevendeurMin": 3,
     "devise": "XAF",
     "stock": "disponible",
     "photos": [
