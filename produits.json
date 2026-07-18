@@ -41,31 +41,11 @@
     ]
   },
   {
-    "id": "powerbank-mirror-20000",
-    "categorie": "High-Tech FGS",
-    "badge": "🪞 Edition Mirror",
-    "badgeClass": "pb-gold",
-    "nom": "Power Bank Mirror 20 000 mAh",
-    "description": "20 000 mAh pour recharger un Samsung S26 ou iPhone 17 jusqu'à 4 fois. Double USB, charge rapide 10W. Finition miroir noir/bleu élégante, compact pour le voyage. Protection court-circuit, surcharge et basse tension incluse.",
-    "specs": ["20 000 mAh", "10W charge rapide", "Double USB-A", "Finition miroir"],
-    "prixPublic": 7500,
-    "prixPublicLabel": "7 500 FCFA",
-    "prixRevendeur": 5500,
-    "prixRevendeurLabel": "5 500 FCFA",
-    "prixRevendeurMin": 3,
-    "devise": "XAF",
-    "stock": "disponible",
-    "photos": [
-      "images/produits/powerbank-mirroir.jpg",
-      "images/produits/powerbank-mirroir2.jpg"
-    ]
-  },
-  {
     "id": "ecouteurs-anc-tws",
     "categorie": "High-Tech FGS",
     "badge": "🎧 ANC + ENC",
     "badgeClass": "pb-gold",
-    "nom": "AirPods ANC/ENC Sans Fil",
+    "nom": "AirPods A11 Pro ANC/ENC Sans Fil",
     "description": "Fini le bruit autour de vous — la suppression active ANC coupe les bruits de fond (rue, transport, bureau), l'ENC isole votre voix en appel pour une clarté parfaite. Connexion TWS instantanée, son équilibré pour la musique et les podcasts. Sport ou bureau, ils restent en place. Recharge sans fil, autonomie longue durée.",
     "specs": ["ANC actif", "ENC appels", "TWS sans fil", "Recharge sans fil", "Sport & bureau"],
     "prixPublic": 22500,
