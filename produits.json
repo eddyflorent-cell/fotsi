@@ -1,12 +1,12 @@
 [
   {
-    "id": "shawarma-1-foyer",
+    "id": "shawarma-2-foyers",
     "categorie": "Restauration",
     "badge": "✓ Stock Douala",
     "badgeClass": "pb-teal",
     "nom": "Machine à Shawarma Gaz",
-    "description": "Brûleur gaz à plateau rotatif électrique — 1 foyer. Inox alimentaire, chauffe homogène, idéale pour snacks et fast-foods.",
-    "specs": ["1 foyer gaz", "Plateau rotatif électrique", "Inox 304", "Livraison Douala"],
+    "description": "Brûleur gaz à plateau rotatif électrique — 2 foyers. Inox alimentaire, chauffe homogène, idéale pour snacks et fast-foods.",
+    "specs": ["2 foyers gaz", "Plateau rotatif électrique", "Inox 304", "Livraison Douala"],
     "prixPublic": 140000,
     "prixPublicLabel": "140 000 FCFA",
     "prixRevendeur": 108000,
