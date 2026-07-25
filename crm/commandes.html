@@ -30,10 +30,11 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .progress-label{font-size:11px;color:var(--muted);margin-top:4px}
 .fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
 .fab:hover{transform:scale(1.05)}
-.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
-.bnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto;scrollbar-width:none}
+.bnav::-webkit-scrollbar{display:none}
+.bnav a{flex:1;min-width:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500;white-space:nowrap}
 .bnav a.active{color:var(--navy)}
-.bnav a .icon{font-size:20px}
+.bnav a .icon{font-size:18px}
 .empty{text-align:center;padding:48px 16px;color:var(--muted)}
 .empty-icon{font-size:48px;margin-bottom:12px}
 .spinner-full{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);gap:10px}
@@ -81,7 +82,8 @@ input:focus,select:focus{border-color:var(--teal)}
   <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
   <a href="/crm/contacts.html"><span class="icon">👥</span>Contacts</a>
   <a href="/crm/commandes.html" class="active"><span class="icon">📦</span>Commandes</a>
-  <a href="/crm/catalogue.html" id="nav-cat" style="display:none"><span class="icon">🛒</span>Catalogue</a>
+  <a href="/crm/catalogue.html"><span class="icon">🛒</span>Catalogue</a>
+  <a href="/crm/contenu.html"><span class="icon">📝</span>Contenu</a>
 </nav>
 
 <!-- Nouvelle commande -->
@@ -183,7 +185,6 @@ import { sb, getProfile, STATUTS_PAIEMENT, STATUTS_LIVRAISON, formatDate, format
 const { data: { session } } = await sb.auth.getSession()
 if (!session) { window.location.href = '/crm/login.html'; throw 0 }
 const profile = await getProfile(session.user.id)
-if (profile?.role === 'admin') document.getElementById('nav-cat').style.display = 'flex'
 
 const filterDefs = [
   { id: 'all',            label: 'Toutes',          color: '#1f2937' },

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FGS CRM — Contenu site</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+.topbar{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
+.topbar h2{font-size:18px;font-weight:800}
+.topbar-sub{font-size:11px;opacity:.6;margin-top:2px}
+.role-badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.role-admin{background:var(--gold);color:#fff}
+.role-commercial{background:rgba(255,255,255,.2);color:#fff}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:56px;z-index:50;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:13px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:.15s}
+.tab.active{color:var(--navy);border-color:var(--navy)}
+.content{padding:16px;max-width:700px;margin:0 auto}
+.section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:16px 0 10px}
+.readonly-banner{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1e40af;display:flex;align-items:center;gap:10px}
+/* Cards contenu */
+.content-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:16px;margin-bottom:10px}
+.content-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:8px}
+.content-card-title{font-weight:700;font-size:15px}
+.content-card-meta{font-size:12px;color:var(--muted);margin-top:3px}
+.content-card-body{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:10px}
+.content-card-img{width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-bottom:10px}
+.content-card-actions{display:flex;gap:8px;flex-wrap:wrap}
+.badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;display:inline-block}
+.btn-edit{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--text)}
+.btn-del{padding:7px 14px;border-radius:8px;border:1.5px solid #fecaca;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#dc2626}
+.btn-note{padding:7px 14px;border-radius:8px;border:1.5px solid var(--teal);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--teal)}
+.btn-publish{padding:7px 14px;border-radius:8px;border:1.5px solid var(--gold);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--gold)}
+/* Photo grid */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.photo-item{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;cursor:pointer;background:#e5e7eb}
+.photo-item img{width:100%;height:100%;object-fit:cover;transition:transform .2s}
+.photo-item:hover img{transform:scale(1.05)}
+.photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.photo-item:hover .photo-overlay{opacity:1}
+.photo-overlay-btn{color:#fff;font-size:20px;background:none;border:none;cursor:pointer;padding:4px}
+.photo-placeholder{aspect-ratio:1;border-radius:10px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;color:var(--muted);transition:border-color .2s}
+.photo-placeholder:hover{border-color:var(--teal)}
+/* Promo */
+.promo-card{background:linear-gradient(135deg,var(--navy),var(--teal));color:#fff;border-radius:14px;padding:20px;margin-bottom:10px;position:relative;overflow:hidden}
+.promo-card::after{content:'';position:absolute;right:-20px;top:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.08)}
+.promo-amount{font-size:32px;font-weight:900;color:var(--gold)}
+.promo-desc{font-size:14px;opacity:.9;margin-top:4px}
+.promo-condition{font-size:12px;opacity:.7;margin-top:8px}
+.promo-actions{margin-top:14px;display:flex;gap:8px}
+.promo-btn{padding:8px 16px;border-radius:8px;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.1);color:#fff;font-size:13px;font-weight:600;cursor:pointer}
+/* Témoignages */
+.temoignage-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:16px;margin-bottom:10px}
+.temo-stars{color:var(--gold);font-size:16px;margin-bottom:6px}
+.temo-text{font-size:14px;line-height:1.5;color:var(--text);margin-bottom:8px;font-style:italic}
+.temo-author{font-size:12px;color:var(--muted);font-weight:600}
+.temo-pending{background:#fffbeb;border:1px solid #fbbf24}
+.temo-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;display:inline-block;margin-left:8px}
+/* FAB */
+.fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
+.fab:hover{transform:scale(1.05)}
+/* BNAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto}
+.bnav a{flex:1;min-width:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500;transition:color .15s;white-space:nowrap}
+.bnav a.active{color:var(--navy)}
+.bnav a .icon{font-size:18px}
+/* Modals */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s;max-height:90dvh;overflow-y:auto}
+.modal-bg.open .modal{transform:translateY(0)}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:16px;color:var(--navy)}
+.form-group{margin-bottom:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+.modal-footer{display:flex;gap:10px;margin-top:20px}
+.btn-cancel{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:15px;font-weight:600;cursor:pointer;color:var(--muted)}
+.btn-save{flex:2;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+.btn-save:disabled{opacity:.6}
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:14px}
+.spinner-full{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);gap:10px}
+.spinner{width:20px;height:20px;border:2.5px solid #e5e7eb;border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div><h2>Contenu site web</h2><div class="topbar-sub" id="topbar-sub"></div></div>
+  <span class="role-badge" id="role-badge"></span>
+</div>
+
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="actualites">📰 Actualités</div>
+  <div class="tab" data-tab="photos">🖼️ Photos</div>
+  <div class="tab" data-tab="promos">🎁 Promos</div>
+  <div class="tab" data-tab="temoignages">⭐ Témoignages</div>
+</div>
+
+<div class="content" id="content">
+  <div class="spinner-full"><div class="spinner"></div></div>
+</div>
+
+<button class="fab" id="fab-btn" style="display:none">＋</button>
+
+<nav class="bnav">
+  <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
+  <a href="/crm/contacts.html"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
+  <a href="/crm/catalogue.html"><span class="icon">🛒</span>Catalogue</a>
+  <a href="/crm/contenu.html" class="active"><span class="icon">📝</span>Contenu</a>
+</nav>
+
+<!-- Modal note terrain -->
+<div class="modal-bg" id="note-modal">
+  <div class="modal">
+    <h3>💬 Demande de modification</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px" id="note-target-label"></p>
+    <div class="form-group">
+      <label>Votre message pour Eddy</label>
+      <textarea id="note-contenu" rows="5" placeholder="Ex: Les clients demandent souvent une photo de nuit du stand shawarma, le texte de la promo est trop petit sur mobile, beaucoup posent des questions sur les délais…"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="note-cancel">Annuler</button>
+      <button class="btn-save" id="note-save">Envoyer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal article (admin) -->
+<div class="modal-bg" id="article-modal">
+  <div class="modal">
+    <h3 id="article-modal-title">Nouvel article</h3>
+    <input type="hidden" id="a-id">
+    <div class="form-group"><label>Titre *</label><input id="a-titre" placeholder="Ex: Découvrez notre nouveau shawarma !"></div>
+    <div class="form-group"><label>Résumé</label><textarea id="a-resume" rows="2" placeholder="Court texte d'accroche…"></textarea></div>
+    <div class="form-group"><label>Contenu complet</label><textarea id="a-contenu" rows="6" placeholder="Corps de l'article…"></textarea></div>
+    <div class="form-group"><label>URL image</label><input id="a-img" type="url" placeholder="https://…"></div>
+    <div class="form-group">
+      <label>Statut</label>
+      <select id="a-statut">
+        <option value="brouillon">Brouillon</option>
+        <option value="publie">Publié</option>
+        <option value="archive">Archivé</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="a-cancel">Annuler</button>
+      <button class="btn-save" id="a-save">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal témoignage (admin) -->
+<div class="modal-bg" id="temo-modal">
+  <div class="modal">
+    <h3 id="temo-modal-title">Nouveau témoignage</h3>
+    <input type="hidden" id="t-id">
+    <div class="form-group"><label>Auteur *</label><input id="t-auteur" placeholder="Marie D."></div>
+    <div class="form-group"><label>Témoignage *</label><textarea id="t-texte" rows="4" placeholder="Ce que le client a dit…"></textarea></div>
+    <div class="form-group">
+      <label>Note</label>
+      <select id="t-stars">
+        <option value="5">⭐⭐⭐⭐⭐ 5 étoiles</option>
+        <option value="4">⭐⭐⭐⭐ 4 étoiles</option>
+        <option value="3">⭐⭐⭐ 3 étoiles</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Statut</label>
+      <select id="t-statut">
+        <option value="en_attente">En attente de validation</option>
+        <option value="publie">Publié sur le site</option>
+        <option value="rejete">Rejeté</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="t-cancel">Annuler</button>
+      <button class="btn-save" id="t-save">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, getProfile, formatDate } from './js/client.js'
+
+const { data: { session } } = await sb.auth.getSession()
+if (!session) { window.location.href = '/crm/login.html'; throw 0 }
+const profile = await getProfile(session.user.id)
+const isAdmin = profile?.role === 'admin'
+
+document.getElementById('topbar-sub').textContent = isAdmin ? 'Gestion du contenu' : 'Vue & suggestions'
+const badge = document.getElementById('role-badge')
+badge.textContent = isAdmin ? 'Admin' : 'Lecture seule'
+badge.className = 'role-badge ' + (isAdmin ? 'role-admin' : 'role-commercial')
+if (isAdmin) document.getElementById('fab-btn').style.display = 'flex'
+
+let activeTab = 'actualites'
+let noteTargetLabel = ''
+
+// ─── Tabs ────────────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  activeTab = t.dataset.tab
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x.dataset.tab === activeTab))
+  renderTab()
+}))
+
+document.getElementById('fab-btn').addEventListener('click', () => {
+  if (activeTab === 'actualites') openArticle(null)
+  else if (activeTab === 'temoignages') openTemoignage(null)
+  else if (activeTab === 'promos') openNoteModal('Promos — nouvelle promotion')
+  else if (activeTab === 'photos') openNoteModal('Photos — nouvelle photo à ajouter')
+})
+
+// ─── Note modale (pour commercial et pour admin sur photos/promos) ─────────────
+const noteModal = document.getElementById('note-modal')
+document.getElementById('note-cancel').addEventListener('click', () => noteModal.classList.remove('open'))
+noteModal.addEventListener('click', e => { if(e.target===noteModal) noteModal.classList.remove('open') })
+
+function openNoteModal(label) {
+  noteTargetLabel = label
+  document.getElementById('note-target-label').textContent = label
+  document.getElementById('note-contenu').value = ''
+  noteModal.classList.add('open')
+}
+window.openNoteModal = openNoteModal
+
+document.getElementById('note-save').addEventListener('click', async () => {
+  const contenu = document.getElementById('note-contenu').value.trim()
+  if (!contenu) { alert('Écrivez votre message'); return }
+  const btn = document.getElementById('note-save')
+  btn.disabled = true; btn.textContent = '…'
+  await sb.from('interactions').insert({
+    contact_id: null,
+    type: 'note',
+    contenu: `[Site · ${noteTargetLabel}] ${contenu}`,
+    created_by: session.user.id,
+  })
+  noteModal.classList.remove('open')
+  btn.disabled = false; btn.textContent = 'Envoyer'
+  alert('Message envoyé ✓ Eddy le verra dans le dashboard.')
+})
+
+// ─── Render selon l'onglet actif ──────────────────────────────────────────────
+async function renderTab() {
+  const c = document.getElementById('content')
+  c.innerHTML = '<div class="spinner-full"><div class="spinner"></div></div>'
+
+  const readonlyBanner = !isAdmin ? `<div class="readonly-banner">ℹ️ <span>Vue en <strong>lecture seule</strong>. Utilisez <strong>💬 Suggérer</strong> pour envoyer vos idées ou demandes de modifications à Eddy.</span></div>` : ''
+
+  if (activeTab === 'actualites') await renderActualites(c, readonlyBanner)
+  else if (activeTab === 'photos') await renderPhotos(c, readonlyBanner)
+  else if (activeTab === 'promos') await renderPromos(c, readonlyBanner)
+  else if (activeTab === 'temoignages') await renderTemoignages(c, readonlyBanner)
+}
+
+// ─── ACTUALITÉS ──────────────────────────────────────────────────────────────
+async function renderActualites(c, banner) {
+  const { data, error } = await sb.from('contenus_site').select('*').eq('type','article').order('created_at',{ascending:false})
+  if (error && error.code === '42P01') {
+    c.innerHTML = banner + renderSQLWarning()
+    return
+  }
+  const articles = data || []
+  const statutColors = { publie: '#10b981', brouillon: '#f59e0b', archive: '#6b7280' }
+  const statutLabels = { publie: 'Publié', brouillon: 'Brouillon', archive: 'Archivé' }
+  let html = banner
+  if (!articles.length) { html += '<div class="empty">Aucun article — cliquez + pour en créer un</div>' }
+  else articles.forEach(a => {
+    const sc = statutColors[a.statut]||'#6b7280'
+    const sl = statutLabels[a.statut]||a.statut
+    html += `<div class="content-card">
+      ${a.image_url ? `<img class="content-card-img" src="${a.image_url}" alt="${a.titre}" onerror="this.style.display='none'">` : ''}
+      <div class="content-card-header">
+        <div>
+          <div class="content-card-title">${a.titre}</div>
+          <div class="content-card-meta">${formatDate(a.created_at)}</div>
+        </div>
+        <span class="badge" style="background:${sc}18;color:${sc};border:1px solid ${sc}40;flex-shrink:0">${sl}</span>
+      </div>
+      ${a.resume ? `<div class="content-card-body">${a.resume}</div>` : ''}
+      <div class="content-card-actions">
+        ${isAdmin ? `
+          <button class="btn-edit" onclick="openArticle('${a.id}')">✏️ Modifier</button>
+          <button class="btn-del" onclick="deleteContenu('${a.id}')">Supprimer</button>
+          ${a.statut !== 'publie' ? `<button class="btn-publish" onclick="publishContenu('${a.id}')">🌐 Publier</button>` : ''}
+        ` : `
+          <button class="btn-note" onclick="openNoteModal('Article · ${a.titre.replace(/'/g,"\\'")}')">💬 Suggérer</button>
+        `}
+      </div>
+    </div>`
+  })
+  c.innerHTML = html
+}
+
+// ─── PHOTOS ───────────────────────────────────────────────────────────────────
+async function renderPhotos(c, banner) {
+  const { data, error } = await sb.from('contenus_site').select('*').eq('type','photo').order('created_at',{ascending:false})
+  if (error && error.code === '42P01') { c.innerHTML = banner + renderSQLWarning(); return }
+  const photos = data || []
+  let html = banner
+  if (isAdmin) {
+    html += `<p class="section-title">Galerie (${photos.length} photos)</p>
+    <div class="photo-grid">`
+    photos.forEach(p => {
+      html += `<div class="photo-item" onclick="openNoteModal('Photo · ${(p.titre||'').replace(/'/g,"\\'")}')">
+        <img src="${p.image_url||''}" alt="${p.titre||''}" onerror="this.src='data:image/svg+xml,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"100\\" height=\\"100\\"><rect fill=\\"%23e5e7eb\\" width=\\"100%\\" height=\\"100%\\"/></svg>'">
+        <div class="photo-overlay">
+          <button class="photo-overlay-btn" onclick="event.stopPropagation();deleteContenu('${p.id}')">🗑</button>
+        </div>
+      </div>`
+    })
+    html += `<div class="photo-placeholder" onclick="openAddPhoto()">＋</div></div>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px">Cliquez + pour ajouter une photo par URL</p>`
+  } else {
+    html += `<p class="section-title">Galerie (${photos.length} photos)</p>
+    <div class="photo-grid">`
+    photos.forEach(p => {
+      html += `<div class="photo-item" title="${p.titre||''}">
+        <img src="${p.image_url||''}" alt="${p.titre||''}" onerror="this.src=''">
+        <div class="photo-overlay">
+          <button class="photo-overlay-btn" onclick="event.stopPropagation();openNoteModal('Photo · ${(p.titre||'').replace(/'/g,"\\'")}')">💬</button>
+        </div>
+      </div>`
+    })
+    html += `</div>
+    <button class="btn-note" style="width:100%;padding:12px;margin-top:12px;border-radius:12px" onclick="openNoteModal('Photos — suggestion générale')">💬 Suggérer une photo ou une modification</button>`
+  }
+  c.innerHTML = html
+  if (isAdmin) window.openAddPhoto = () => {
+    const url = prompt('URL de la photo :')
+    const titre = prompt('Description/titre :')
+    if (url) sb.from('contenus_site').insert({ type:'photo', titre, image_url:url }).then(() => renderTab())
+  }
+}
+
+// ─── PROMOS ───────────────────────────────────────────────────────────────────
+async function renderPromos(c, banner) {
+  const { data, error } = await sb.from('contenus_site').select('*').eq('type','promo').order('created_at',{ascending:false})
+  if (error && error.code === '42P01') { c.innerHTML = banner + renderSQLWarning(); return }
+  const promos = data || []
+  let html = banner
+  if (!promos.length) {
+    html += '<div class="empty">Aucune promo active</div>'
+  } else {
+    promos.forEach(p => {
+      const meta = p.meta || {}
+      html += `<div class="promo-card">
+        <div style="font-size:12px;opacity:.7;margin-bottom:6px">${p.statut==='publie'?'🟢 Active':'🔴 Inactive'}</div>
+        <div class="promo-amount">${meta.montant||p.titre||'Promo'}</div>
+        <div class="promo-desc">${p.resume||''}</div>
+        ${p.contenu ? `<div class="promo-condition">${p.contenu}</div>` : ''}
+        <div class="promo-actions">
+          ${isAdmin ? `
+            <button class="promo-btn" onclick="deleteContenu('${p.id}')">🗑 Supprimer</button>
+            ${p.statut!=='publie' ? `<button class="promo-btn" onclick="publishContenu('${p.id}')">🌐 Activer</button>` : `<button class="promo-btn" onclick="archiveContenu('${p.id}')">⏸ Désactiver</button>`}
+          ` : `
+            <button class="promo-btn" onclick="openNoteModal('Promo · ${(p.titre||'').replace(/'/g,"\\'")}')">💬 Suggestion</button>
+          `}
+        </div>
+      </div>`
+    })
+  }
+  if (isAdmin) {
+    html += `<button class="btn-note" style="width:100%;padding:12px;margin-top:4px;border-radius:12px;border:1.5px dashed var(--border);background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted)" onclick="openAddPromo()">+ Créer une promo</button>`
+  } else {
+    html += `<button class="btn-note" style="width:100%;padding:12px;margin-top:4px;border-radius:12px" onclick="openNoteModal('Promos — idée ou suggestion')">💬 Proposer une idée de promo</button>`
+  }
+  c.innerHTML = html
+  if (isAdmin) window.openAddPromo = () => {
+    const montant = prompt('Montant/intitulé (ex: -10 000 FCFA) :')
+    const desc = prompt('Description :')
+    const condition = prompt('Condition (ex: Pour tout achat > 50 000 FCFA) :')
+    if (montant) sb.from('contenus_site').insert({
+      type:'promo', titre: montant, resume: desc, contenu: condition,
+      meta: { montant }, statut: 'brouillon'
+    }).then(() => renderTab())
+  }
+}
+
+// ─── TÉMOIGNAGES ─────────────────────────────────────────────────────────────
+async function renderTemoignages(c, banner) {
+  const { data, error } = await sb.from('contenus_site').select('*').eq('type','temoignage').order('created_at',{ascending:false})
+  if (error && error.code === '42P01') { c.innerHTML = banner + renderSQLWarning(); return }
+  const temos = data || []
+  let html = banner
+  if (!temos.length) {
+    html += '<div class="empty">Aucun témoignage</div>'
+  } else {
+    // Admin voit tous, commercial voit les publiés + en attente
+    const visible = isAdmin ? temos : temos.filter(t => t.statut === 'publie' || t.statut === 'en_attente')
+    visible.forEach(t => {
+      const stars = '⭐'.repeat(t.meta?.stars||5)
+      const isPending = t.statut === 'en_attente'
+      html += `<div class="temoignage-card ${isPending?'temo-pending':''}">
+        <div class="temo-stars">${stars}${isPending?'<span class="temo-badge" style="background:#fef3c7;color:#92400e">En attente</span>':''}${t.statut==='publie'?'<span class="temo-badge" style="background:#d1fae5;color:#065f46">Publié</span>':''}</div>
+        <div class="temo-text">"${t.contenu||t.resume||''}"</div>
+        <div class="temo-author">— ${t.titre||'Anonyme'}</div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          ${isAdmin ? `
+            ${isPending ? `<button class="btn-edit" onclick="publishContenu('${t.id}')">✅ Valider & publier</button>` : ''}
+            <button class="btn-edit" onclick="openTemoignage('${t.id}')">✏️ Modifier</button>
+            <button class="btn-del" onclick="deleteContenu('${t.id}')">Supprimer</button>
+          ` : `
+            <button class="btn-note" onclick="openNoteModal('Témoignage · ${(t.titre||'').replace(/'/g,"\\'")}')">💬 Commenter</button>
+          `}
+        </div>
+      </div>`
+    })
+  }
+  if (!isAdmin) {
+    html += `<button class="btn-note" style="width:100%;padding:12px;margin-top:4px;border-radius:12px" onclick="openNoteModal('Témoignages — nouveau retour client')">💬 Signaler un retour client</button>`
+  }
+  c.innerHTML = html
+}
+
+function renderSQLWarning() {
+  const sql = `CREATE TABLE contenus_site (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  type TEXT NOT NULL CHECK (type IN ('article','photo','promo','temoignage')),
+  titre TEXT,
+  resume TEXT,
+  contenu TEXT,
+  image_url TEXT,
+  statut TEXT DEFAULT 'brouillon' CHECK (statut IN ('brouillon','publie','archive','en_attente','rejete')),
+  meta JSONB DEFAULT '{}'
+);
+ALTER TABLE contenus_site ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "auth_contenu" ON contenus_site FOR ALL USING (auth.role() = 'authenticated');`
+  return isAdmin ? `<div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:12px;padding:16px;font-size:13px;color:#92400e;margin-top:12px">
+    <strong>⚠️ Table contenus_site non créée</strong><br>Exécutez ce SQL dans Supabase :
+    <pre style="margin-top:10px;background:#fff;padding:10px;border-radius:8px;font-size:11px;overflow-x:auto;white-space:pre-wrap">${sql}</pre>
+  </div>` : '<div class="empty">Contenu non encore configuré</div>'
+}
+
+// ─── Actions admin ────────────────────────────────────────────────────────────
+window.deleteContenu = async (id) => {
+  if (!confirm('Supprimer ce contenu ?')) return
+  await sb.from('contenus_site').delete().eq('id', id)
+  renderTab()
+}
+window.publishContenu = async (id) => {
+  await sb.from('contenus_site').update({ statut: 'publie' }).eq('id', id)
+  renderTab()
+}
+window.archiveContenu = async (id) => {
+  await sb.from('contenus_site').update({ statut: 'archive' }).eq('id', id)
+  renderTab()
+}
+
+// ─── Modal article ────────────────────────────────────────────────────────────
+let allArticles = []
+const articleModal = document.getElementById('article-modal')
+document.getElementById('a-cancel').addEventListener('click', () => articleModal.classList.remove('open'))
+articleModal.addEventListener('click', e => { if(e.target===articleModal) articleModal.classList.remove('open') })
+
+window.openArticle = async (id) => {
+  document.getElementById('article-modal-title').textContent = id ? 'Modifier l\'article' : 'Nouvel article'
+  document.getElementById('a-id').value = id||''
+  if (id) {
+    const { data } = await sb.from('contenus_site').select('*').eq('id',id).single()
+    if (data) {
+      document.getElementById('a-titre').value = data.titre||''
+      document.getElementById('a-resume').value = data.resume||''
+      document.getElementById('a-contenu').value = data.contenu||''
+      document.getElementById('a-img').value = data.image_url||''
+      document.getElementById('a-statut').value = data.statut||'brouillon'
+    }
+  } else {
+    ;['a-titre','a-resume','a-contenu','a-img'].forEach(i => document.getElementById(i).value='')
+    document.getElementById('a-statut').value = 'brouillon'
+  }
+  articleModal.classList.add('open')
+}
+
+document.getElementById('a-save').addEventListener('click', async () => {
+  const titre = document.getElementById('a-titre').value.trim()
+  if (!titre) { alert('Titre requis'); return }
+  const btn = document.getElementById('a-save'); btn.disabled=true; btn.textContent='…'
+  const aId = document.getElementById('a-id').value
+  const payload = {
+    type: 'article', titre,
+    resume: document.getElementById('a-resume').value.trim()||null,
+    contenu: document.getElementById('a-contenu').value.trim()||null,
+    image_url: document.getElementById('a-img').value.trim()||null,
+    statut: document.getElementById('a-statut').value,
+  }
+  if (aId) await sb.from('contenus_site').update(payload).eq('id',aId)
+  else await sb.from('contenus_site').insert(payload)
+  articleModal.classList.remove('open'); btn.disabled=false; btn.textContent='Enregistrer'
+  renderTab()
+})
+
+// ─── Modal témoignage ─────────────────────────────────────────────────────────
+const temoModal = document.getElementById('temo-modal')
+document.getElementById('t-cancel').addEventListener('click', () => temoModal.classList.remove('open'))
+temoModal.addEventListener('click', e => { if(e.target===temoModal) temoModal.classList.remove('open') })
+
+window.openTemoignage = async (id) => {
+  document.getElementById('temo-modal-title').textContent = id ? 'Modifier' : 'Nouveau témoignage'
+  document.getElementById('t-id').value = id||''
+  if (id) {
+    const { data } = await sb.from('contenus_site').select('*').eq('id',id).single()
+    if (data) {
+      document.getElementById('t-auteur').value = data.titre||''
+      document.getElementById('t-texte').value = data.contenu||''
+      document.getElementById('t-stars').value = data.meta?.stars||5
+      document.getElementById('t-statut').value = data.statut||'en_attente'
+    }
+  } else {
+    ;['t-auteur','t-texte'].forEach(i => document.getElementById(i).value='')
+    document.getElementById('t-stars').value = '5'
+    document.getElementById('t-statut').value = 'en_attente'
+  }
+  temoModal.classList.add('open')
+}
+
+document.getElementById('t-save').addEventListener('click', async () => {
+  const auteur = document.getElementById('t-auteur').value.trim()
+  const texte = document.getElementById('t-texte').value.trim()
+  if (!auteur||!texte) { alert('Auteur et témoignage requis'); return }
+  const btn = document.getElementById('t-save'); btn.disabled=true; btn.textContent='…'
+  const tId = document.getElementById('t-id').value
+  const payload = {
+    type: 'temoignage', titre: auteur, contenu: texte,
+    statut: document.getElementById('t-statut').value,
+    meta: { stars: +document.getElementById('t-stars').value },
+  }
+  if (tId) await sb.from('contenus_site').update(payload).eq('id',tId)
+  else await sb.from('contenus_site').insert(payload)
+  temoModal.classList.remove('open'); btn.disabled=false; btn.textContent='Enregistrer'
+  renderTab()
+})
+
+await renderTab()
+</script>
+</body>
+</html>

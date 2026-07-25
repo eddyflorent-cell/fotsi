@@ -11,9 +11,13 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .topbar{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
 .topbar h2{font-size:18px;font-weight:800}
 .topbar-sub{font-size:11px;opacity:.6;margin-top:2px}
-.admin-badge{background:var(--gold);color:#fff;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.role-badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.role-admin{background:var(--gold);color:#fff}
+.role-commercial{background:rgba(255,255,255,.2);color:#fff}
 .content{padding:16px;max-width:700px;margin:0 auto}
 .section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:16px 0 10px}
+/* Bandeau info lecture seule */
+.readonly-banner{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1e40af;display:flex;align-items:center;gap:10px}
 .prod-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
 .prod-img{width:70px;height:70px;border-radius:10px;object-fit:cover;background:#f0f4f8;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden}
 .prod-img img{width:100%;height:100%;object-fit:cover}
@@ -27,6 +31,8 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .prod-actions{display:flex;gap:8px;margin-top:10px}
 .btn-edit{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--text)}
 .btn-del{padding:7px 14px;border-radius:8px;border:1.5px solid #fecaca;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#dc2626}
+/* Note commerciale : champ pour laisser un commentaire sur un produit */
+.btn-note{padding:7px 14px;border-radius:8px;border:1.5px solid var(--teal);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--teal)}
 .prod-badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;margin-left:8px}
 .fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
 .fab:hover{transform:scale(1.05)}
@@ -38,8 +44,7 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .spinner-full{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);gap:10px}
 .spinner{width:20px;height:20px;border:2.5px solid #e5e7eb;border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.error-box{background:#fef2f2;color:#dc2626;padding:16px;border-radius:12px;text-align:center}
-/* Modal */
+/* Modals */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-bg.open{opacity:1;pointer-events:all}
 .modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s;max-height:90dvh;overflow-y:auto}
@@ -60,19 +65,22 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
 .stat-card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);text-align:center}
 .stat-val{font-size:22px;font-weight:800;color:var(--navy)}
 .stat-label{font-size:11px;color:var(--muted);margin-top:4px}
+/* Note terrain */
+.note-terrain{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:10px 12px;margin-top:10px;font-size:13px;color:#166534}
+.note-terrain strong{display:block;font-size:11px;margin-bottom:2px;color:#15803d}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <div><h2>Catalogue</h2><div class="topbar-sub">Produits FGS</div></div>
-  <span class="admin-badge">Admin</span>
+  <div><h2>Catalogue produits</h2><div class="topbar-sub" id="topbar-sub"></div></div>
+  <span class="role-badge" id="role-badge"></span>
 </div>
 
 <div class="content" id="content">
   <div class="spinner-full"><div class="spinner"></div></div>
 </div>
 
-<button class="fab" id="fab-btn" title="Nouveau produit">＋</button>
+<button class="fab" id="fab-btn" style="display:none" title="Nouveau produit">＋</button>
 
 <nav class="bnav">
   <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
@@ -81,7 +89,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
   <a href="/crm/catalogue.html" class="active"><span class="icon">🛒</span>Catalogue</a>
 </nav>
 
-<!-- Modal produit -->
+<!-- Modal produit (admin) -->
 <div class="modal-bg" id="modal">
   <div class="modal">
     <h3 id="modal-title">Nouveau produit</h3>
@@ -123,49 +131,49 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
   </div>
 </div>
 
+<!-- Modal note terrain (commercial) -->
+<div class="modal-bg" id="note-modal">
+  <div class="modal">
+    <h3>💬 Note terrain</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px" id="note-prod-name"></p>
+    <div class="form-group">
+      <label>Retour client / tendance observée</label>
+      <textarea id="note-contenu" rows="5" placeholder="Ex: Les clients demandent souvent la couleur blanche, beaucoup comparent avec la concurrence sur le prix, tendance à vouloir tester avant d'acheter…"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="note-cancel">Annuler</button>
+      <button class="btn-save" id="note-save">Envoyer la note</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { sb, getProfile, formatMoney } from './js/client.js'
 
 const { data: { session } } = await sb.auth.getSession()
 if (!session) { window.location.href = '/crm/login.html'; throw 0 }
 const profile = await getProfile(session.user.id)
+const isAdmin = profile?.role === 'admin'
 
-if (profile?.role !== 'admin') {
-  document.getElementById('content').innerHTML = `<div class="error-box">🔒 Accès réservé aux administrateurs.</div>`
-  document.getElementById('fab-btn').style.display = 'none'
-  throw 0
-}
+// UI rôle
+document.getElementById('topbar-sub').textContent = isAdmin ? 'Gestion produits' : 'Vue catalogue'
+const badge = document.getElementById('role-badge')
+badge.textContent = isAdmin ? 'Admin' : 'Lecture seule'
+badge.className = 'role-badge ' + (isAdmin ? 'role-admin' : 'role-commercial')
+if (isAdmin) document.getElementById('fab-btn').style.display = 'flex'
 
 let products = []
+let noteTargetId = ''
 
 async function loadData() {
-  // On utilise la table produits si elle existe, sinon on lit produits.json du site
-  // Pour cette version CRM on gère les produits dans une table Supabase "produits_crm"
-  // Si elle n'existe pas encore, on l'affiche avec les produits du catalogue JSON du site
   try {
     const { data, error } = await sb.from('produits_crm').select('*').order('created_at', { ascending: false })
     if (error && error.code === '42P01') {
-      // Table doesn't exist yet
       products = []
-      render([])
       document.getElementById('content').innerHTML = `
-        <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:12px;padding:16px;margin-bottom:16px;font-size:14px;color:#92400e">
+        <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:12px;padding:16px;font-size:14px;color:#92400e">
           <strong>⚠️ Table produits_crm non créée</strong><br>
-          Exécutez le SQL ci-dessous dans Supabase pour activer la gestion des produits :
-          <pre style="margin-top:10px;background:#fff;padding:10px;border-radius:8px;font-size:12px;overflow-x:auto">CREATE TABLE produits_crm (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  nom TEXT NOT NULL,
-  description TEXT,
-  prix_public NUMERIC(12,0) DEFAULT 0,
-  prix_revendeur NUMERIC(12,0) DEFAULT 0,
-  stock INTEGER DEFAULT 0,
-  categorie TEXT DEFAULT 'autre',
-  image_url TEXT,
-  actif BOOLEAN DEFAULT TRUE
-);
-ALTER TABLE produits_crm ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "auth_produits" ON produits_crm FOR ALL USING (auth.role() = 'authenticated');</pre>
+          ${isAdmin ? `Exécutez le SQL fourni dans Supabase pour activer la gestion des produits.` : `Le catalogue sera disponible dès que l'administrateur l'aura configuré.`}
         </div>`
       return
     }
@@ -180,6 +188,8 @@ CREATE POLICY "auth_produits" ON produits_crm FOR ALL USING (auth.role() = 'auth
 function render(list) {
   const cats = {}
   list.forEach(p => {
+    // Commercial voit uniquement les produits actifs
+    if (!isAdmin && !p.actif) return
     const c = p.categorie || 'autre'
     if (!cats[c]) cats[c] = []
     cats[c].push(p)
@@ -187,20 +197,29 @@ function render(list) {
 
   const catLabels = { 'high-tech': '📱 High-Tech', restauration: '🍽️ Restauration', import: '📦 Import divers', autre: '📁 Autre' }
 
-  // Stats
-  const totalProd = list.length
-  const totalStock = list.reduce((s,p) => s+(p.stock||0), 0)
-  const valeurStock = list.reduce((s,p) => s+(p.stock||0)*(p.prix_public||0), 0)
+  const activeList = isAdmin ? list : list.filter(p => p.actif)
+  const totalProd = activeList.length
+  const totalStock = activeList.reduce((s,p) => s+(p.stock||0), 0)
+  const valeurStock = isAdmin ? activeList.reduce((s,p) => s+(p.stock||0)*(p.prix_public||0), 0) : null
 
-  let html = `
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-val">${totalProd}</div><div class="stat-label">Produits</div></div>
-      <div class="stat-card"><div class="stat-val">${totalStock}</div><div class="stat-label">Stock total</div></div>
-      <div class="stat-card"><div class="stat-val" style="font-size:${valeurStock>9999999?14:valeurStock>999999?16:22}px">${formatMoney(valeurStock)}</div><div class="stat-label">Valeur stock</div></div>
+  let html = ''
+
+  // Bandeau info pour commercial
+  if (!isAdmin) {
+    html += `<div class="readonly-banner">
+      ℹ️ <span>Catalogue en <strong>lecture seule</strong>. Utilisez le bouton <strong>💬 Note</strong> pour signaler une tendance ou demander une modification à Eddy.</span>
     </div>`
+  }
 
-  if (!list.length) {
-    html += `<div class="empty">Aucun produit — cliquez + pour en ajouter</div>`
+  html += `<div class="stats-grid">
+    <div class="stat-card"><div class="stat-val">${totalProd}</div><div class="stat-label">Produits</div></div>
+    <div class="stat-card"><div class="stat-val">${totalStock}</div><div class="stat-label">Stock total</div></div>
+    ${isAdmin ? `<div class="stat-card"><div class="stat-val" style="font-size:${valeurStock>9999999?14:valeurStock>999999?16:22}px">${formatMoney(valeurStock)}</div><div class="stat-label">Valeur stock</div></div>` :
+    `<div class="stat-card"><div class="stat-val">💬</div><div class="stat-label">Vos notes</div></div>`}
+  </div>`
+
+  if (!Object.keys(cats).length) {
+    html += `<div class="empty">Aucun produit disponible</div>`
   } else {
     Object.entries(cats).forEach(([cat, prods]) => {
       html += `<p class="section-title">${catLabels[cat]||cat} (${prods.length})</p>`
@@ -211,16 +230,20 @@ function render(list) {
         html += `<div class="prod-card">
           ${imgHtml}
           <div class="prod-main">
-            <div class="prod-name">${p.nom}${!p.actif?'<span class="prod-badge" style="background:#fee2e2;color:#dc2626">Masqué</span>':''}</div>
+            <div class="prod-name">${p.nom}${isAdmin && !p.actif ? '<span class="prod-badge" style="background:#fee2e2;color:#dc2626">Masqué</span>' : ''}</div>
             ${p.description ? `<div class="prod-desc">${p.description}</div>` : ''}
             <div class="prod-prices">
               <span class="prod-price-pub">${formatMoney(p.prix_public)}</span>
-              ${p.prix_revendeur ? `<span class="prod-price-rev">Gros: ${formatMoney(p.prix_revendeur)}</span>` : ''}
+              ${isAdmin && p.prix_revendeur ? `<span class="prod-price-rev">Gros: ${formatMoney(p.prix_revendeur)}</span>` : ''}
             </div>
-            <div class="prod-qte">Stock: <strong>${p.stock??'—'}</strong> unités</div>
+            <div class="prod-qte">Stock: <strong>${p.stock??'—'}</strong> unité${(p.stock||0)>1?'s':''}</div>
             <div class="prod-actions">
-              <button class="btn-edit" onclick="openEdit('${p.id}')">✏️ Modifier</button>
-              <button class="btn-del" onclick="deleteProd('${p.id}','${p.nom.replace(/'/g,"\\'")}')">Supprimer</button>
+              ${isAdmin ? `
+                <button class="btn-edit" onclick="openEdit('${p.id}')">✏️ Modifier</button>
+                <button class="btn-del" onclick="deleteProd('${p.id}','${p.nom.replace(/'/g,"\\'")}')">Supprimer</button>
+              ` : `
+                <button class="btn-note" onclick="openNote('${p.id}','${p.nom.replace(/'/g,"\\'")}')">💬 Note terrain</button>
+              `}
             </div>
           </div>
         </div>`
@@ -231,20 +254,16 @@ function render(list) {
   document.getElementById('content').innerHTML = html
 }
 
-// Modal
+// ─── Admin : modal produit ────────────────────────────────────────────────────
 const modal = document.getElementById('modal')
 document.getElementById('fab-btn').addEventListener('click', () => {
   document.getElementById('modal-title').textContent = 'Nouveau produit'
   document.getElementById('f-id').value = ''
-  document.getElementById('f-nom').value = ''
-  document.getElementById('f-desc').value = ''
-  document.getElementById('f-prix-pub').value = ''
-  document.getElementById('f-prix-rev').value = ''
-  document.getElementById('f-stock').value = ''
+  ;['f-nom','f-desc','f-img'].forEach(id => document.getElementById(id).value = '')
+  ;['f-prix-pub','f-prix-rev','f-stock'].forEach(id => document.getElementById(id).value = '')
   document.getElementById('f-cat').value = 'high-tech'
-  document.getElementById('f-img').value = ''
-  document.getElementById('img-preview').style.display = 'none'
   document.getElementById('f-actif').value = 'true'
+  document.getElementById('img-preview').style.display = 'none'
   modal.classList.add('open')
 })
 document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
@@ -296,14 +315,44 @@ document.getElementById('btn-save').addEventListener('click', async () => {
     image_url: document.getElementById('f-img').value.trim()||null,
     actif: document.getElementById('f-actif').value === 'true',
   }
-  if (editId) {
-    await sb.from('produits_crm').update(payload).eq('id', editId)
-  } else {
-    await sb.from('produits_crm').insert(payload)
-  }
+  if (editId) await sb.from('produits_crm').update(payload).eq('id', editId)
+  else await sb.from('produits_crm').insert(payload)
   modal.classList.remove('open')
   btn.disabled = false; btn.textContent = 'Enregistrer'
   await loadData()
+})
+
+// ─── Commercial : modal note terrain ─────────────────────────────────────────
+const noteModal = document.getElementById('note-modal')
+document.getElementById('note-cancel').addEventListener('click', () => noteModal.classList.remove('open'))
+noteModal.addEventListener('click', e => { if(e.target===noteModal) noteModal.classList.remove('open') })
+
+window.openNote = (id, nom) => {
+  noteTargetId = id
+  document.getElementById('note-prod-name').textContent = nom
+  document.getElementById('note-contenu').value = ''
+  noteModal.classList.add('open')
+}
+
+document.getElementById('note-save').addEventListener('click', async () => {
+  const contenu = document.getElementById('note-contenu').value.trim()
+  if (!contenu) { alert('Écrivez votre note'); return }
+  const btn = document.getElementById('note-save')
+  btn.disabled = true; btn.textContent = '…'
+  // On enregistre la note comme une interaction sur un contact fictif "catalogue"
+  // En fait on la met dans une table interactions sans contact_id pour que ce soit
+  // visible dans le dashboard comme activité générale — on utilise le type "note"
+  // avec le produit en préfixe dans le contenu
+  const prod = products.find(p => p.id === noteTargetId)
+  await sb.from('interactions').insert({
+    contact_id: null,
+    type: 'note',
+    contenu: `[Catalogue · ${prod?.nom||'Produit'}] ${contenu}`,
+    created_by: session.user.id,
+  })
+  noteModal.classList.remove('open')
+  btn.disabled = false; btn.textContent = 'Envoyer la note'
+  alert('Note envoyée ✓ Eddy la verra dans le dashboard.')
 })
 
 await loadData()
