@@ -29,6 +29,13 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .ci-right{text-align:right;flex-shrink:0}
 .badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
 .ci-date{font-size:11px;color:var(--muted);margin-top:4px}
+/* Niveau fidélité */
+.niveau-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-top:4px}
+.niveau-bronze{background:#92400e18;color:#92400e}
+.niveau-argent{background:#6b728018;color:#4b5563}
+.niveau-or{background:#b08a3e18;color:#b08a3e}
+.niveau-platine{background:#0f2d5218;color:#0f2d52}
+.score-pts{font-size:10px;color:var(--muted);margin-top:2px}
 .fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
 .fab:hover{transform:scale(1.05)}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto;scrollbar-width:none}
@@ -156,6 +163,18 @@ const { data } = await sb.from('contacts').select('*').order('updated_at', { asc
 allContacts = data || []
 render()
 
+const NIVEAUX = {
+  bronze:  { label: '🥉 Bronze',  cls: 'niveau-bronze' },
+  argent:  { label: '🥈 Argent',  cls: 'niveau-argent' },
+  or:      { label: '🥇 Or',      cls: 'niveau-or'     },
+  platine: { label: '💎 Platine', cls: 'niveau-platine' },
+}
+function niveauBadge(niveau, score) {
+  if (!niveau || (!score && niveau === 'bronze')) return ''
+  const n = NIVEAUX[niveau] || NIVEAUX.bronze
+  return `<span class="niveau-badge ${n.cls}">${n.label}</span>${score ? `<span class="score-pts">${score} pts</span>` : ''}`
+}
+
 function render() {
   let list = allContacts
   if (activeFilter !== 'all') list = list.filter(c => c.statut === activeFilter)
@@ -174,11 +193,13 @@ function render() {
   }
   el.innerHTML = list.map(c => {
     const s = STATUTS[c.statut] || STATUTS.nouveau
+    const niv = niveauBadge(c.niveau, c.score)
     return `<a class="contact-card" href="/crm/contact.html?id=${c.id}">
       <div class="ci-avatar" style="background:${s.color}">${initials(c.nom,c.prenom)}</div>
       <div class="ci-main">
         <div class="ci-name">${c.prenom?c.prenom+' ':''}${c.nom}</div>
         <div class="ci-tel">${c.telephone||c.email||c.ville||'—'}</div>
+        ${niv}
       </div>
       <div class="ci-right">
         <span class="badge" style="background:${s.color}18;color:${s.color};border:1px solid ${s.color}40">${s.label}</span>

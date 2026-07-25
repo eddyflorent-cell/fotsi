@@ -112,6 +112,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
   <div class="tab" data-tab="historique">Historique</div>
   <div class="tab" data-tab="commandes">Commandes</div>
   <div class="tab" data-tab="relances">Relances</div>
+  <div class="tab" data-tab="fidelite">⭐ Fidélité</div>
 </div>
 <div class="content" id="content">
   <div class="spinner-full"><div class="spinner"></div></div>
@@ -152,7 +153,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
         <option value="autre">Autre</option>
       </select>
     </div>
-    <div class="form-group"><label>Notes</label><textarea id="e-notes" rows="3"></textarea></div>
+    <div class="form-group"><label>Notes générales</label><textarea id="e-notes" rows="2" placeholder="Intéressé par, contexte…"></textarea></div>
+    <div class="form-group">
+      <label>Parrainé par (client qui l'a amené)</label>
+      <select id="e-parrain"><option value="">— Aucun parrain —</option></select>
+    </div>
     <div class="modal-footer">
       <button class="btn-cancel" id="edit-cancel">Annuler</button>
       <button class="btn-save" id="edit-save">Enregistrer</button>
@@ -197,6 +202,17 @@ function renderHero() {
       <div class="hero-avatar" style="background:${s.color}">${av}</div>
       <div class="hero-name">${contact.prenom ? contact.prenom + ' ' : ''}${contact.nom}</div>
       <div class="hero-phone">${contact.telephone || contact.email || ''}</div>
+      ${contact.niveau && (contact.score > 0 || contact.niveau !== 'bronze') ? `
+      <div style="margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px">
+        <span style="font-size:13px;font-weight:700;padding:3px 12px;border-radius:99px;background:rgba(255,255,255,.2)">
+          ${{ bronze:'🥉 Bronze', argent:'🥈 Argent', or:'🥇 Or', platine:'💎 Platine' }[contact.niveau] || '🥉 Bronze'}
+        </span>
+        <span style="font-size:12px;opacity:.8">${contact.score || 0} pts</span>
+        <button onclick="recalcScore()" style="font-size:11px;background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:6px;padding:3px 8px;cursor:pointer">↻ Recalc.</button>
+      </div>` : `
+      <div style="margin-top:6px">
+        <button onclick="recalcScore()" style="font-size:11px;background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:6px;padding:3px 8px;cursor:pointer">⭐ Calculer le score</button>
+      </div>`}
       <div class="hero-actions">
         ${contact.telephone ? `
           <a class="hero-btn" href="tel:${contact.telephone}">
@@ -346,6 +362,110 @@ function renderTab() {
       await load()
     })
   }
+  else if (activeTab === 'fidelite') {
+    // Charger filleuls et CA
+    const [{ data: filleuls }, { data: docs }] = await Promise.all([
+      sb.from('contacts').select('id,nom,prenom,score,niveau').eq('parrain_id', id),
+      sb.from('documents_generes').select('montant_ttc,montant_regle,statut,type,date_emission,numero')
+        .eq('contact_id', id).in('type',['facture','recu']).neq('statut','annule')
+    ])
+    const ca = (docs||[]).reduce((s,d) => s+(d.montant_ttc||0), 0)
+    const enc = (docs||[]).reduce((s,d) => s+(d.montant_regle||0), 0)
+    const NIVEAUX = { bronze:'🥉 Bronze', argent:'🥈 Argent', or:'🥇 Or', platine:'💎 Platine' }
+    const niv = contact.niveau || 'bronze'
+    const score = contact.score || 0
+    const nextNiveaux = { bronze:{label:'🥈 Argent',pts:100}, argent:{label:'🥇 Or',pts:300}, or:{label:'💎 Platine',pts:1000}, platine:null }
+    const next = nextNiveaux[niv]
+    const pct = next ? Math.min(Math.round(score/next.pts*100),100) : 100
+
+    c.innerHTML = `
+      <p class="section-title">Niveau de fidélité</p>
+      <div class="card">
+        <div style="padding:20px;text-align:center">
+          <div style="font-size:40px;margin-bottom:8px">${{bronze:'🥉',argent:'🥈',or:'🥇',platine:'💎'}[niv]}</div>
+          <div style="font-size:20px;font-weight:800;color:var(--navy)">${NIVEAUX[niv]}</div>
+          <div style="font-size:28px;font-weight:800;color:var(--teal);margin:8px 0">${score} pts</div>
+          ${next ? `
+          <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Prochain niveau : ${next.label} à ${next.pts} pts</div>
+          <div style="background:#f0f4f8;border-radius:99px;height:10px;overflow:hidden;margin:0 20px">
+            <div style="width:${pct}%;height:100%;background:var(--teal);border-radius:99px;transition:width .6s"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">${next.pts - score} pts restants</div>` :
+          '<div style="font-size:13px;color:var(--teal);font-weight:700;margin-top:4px">✨ Niveau maximum atteint !</div>'}
+        </div>
+      </div>
+
+      <p class="section-title">Critères de calcul</p>
+      <div class="card">
+        <div class="field-row"><div class="field-label">CA facturé</div><div class="field-val" style="font-weight:700;color:var(--navy)">${(ca).toLocaleString('fr-FR')} FCFA</div></div>
+        <div class="field-row"><div class="field-label">Encaissé</div><div class="field-val" style="color:#10b981;font-weight:600">${enc.toLocaleString('fr-FR')} FCFA</div></div>
+        <div class="field-row"><div class="field-label">Filleuls</div><div class="field-val">${(filleuls||[]).length} client(s) apporté(s)</div></div>
+        <div class="field-row"><div class="field-label">Statut</div><div class="field-val">${contact.statut === 'fidele' ? '⭐ Fidèle (+100 pts)' : contact.statut}</div></div>
+        <div class="field-row">
+          <div class="field-label" style="padding-top:6px">Points :</div>
+          <div class="field-val" style="font-size:12px;color:var(--muted);line-height:1.8">
+            CA : ${Math.floor(ca/1000)} pts (1pt / 1 000 FCFA)<br>
+            Filleuls : ${(filleuls||[]).length * 50} pts (50pts / filleul)<br>
+            Fidèle : ${contact.statut==='fidele'?100:0} pts<br>
+            <strong style="color:var(--navy)">= ${score} pts total</strong>
+          </div>
+        </div>
+      </div>
+
+      ${(filleuls||[]).length ? `
+      <p class="section-title">Clients apportés (${filleuls.length})</p>
+      <div class="card">
+        ${filleuls.map(f => `<div class="field-row">
+          <div class="field-label">${{bronze:'🥉',argent:'🥈',or:'🥇',platine:'💎'}[f.niveau||'bronze']}</div>
+          <div class="field-val"><a href="/crm/contact.html?id=${f.id}" style="color:var(--navy);font-weight:600">${f.prenom?f.prenom+' ':''}${f.nom}</a></div>
+          <div style="font-size:12px;color:var(--muted)">${f.score||0} pts</div>
+        </div>`).join('')}
+      </div>` : ''}
+
+      <p class="section-title">Notes internes (admin)</p>
+      <div class="add-form">
+        <textarea id="np-notes" rows="4" placeholder="Observations confidentielles, historique relation, points d'attention…">${contact.notes_privees||''}</textarea>
+        <button class="btn-primary" style="margin-top:10px" onclick="saveNotesPrivees()">💾 Enregistrer les notes</button>
+      </div>
+
+      <p class="section-title">Ajustement manuel du score</p>
+      <div class="add-form" style="display:flex;gap:10px;align-items:center">
+        <input type="number" id="score-adj" placeholder="± pts (ex: +50 ou -20)" style="flex:1">
+        <button class="btn-primary" style="width:auto;padding:10px 16px" onclick="adjustScore()">Appliquer</button>
+      </div>`
+
+    document.getElementById('np-notes')?.addEventListener('input', () => {
+      contact.notes_privees = document.getElementById('np-notes').value
+    })
+  }
+}
+
+window.saveNotesPrivees = async () => {
+  const notes = document.getElementById('np-notes')?.value || null
+  await sb.from('contacts').update({ notes_privees: notes }).eq('id', id)
+  contact.notes_privees = notes
+  alert('Notes enregistrées.')
+}
+
+window.adjustScore = async () => {
+  const adj = parseInt(document.getElementById('score-adj')?.value)
+  if (isNaN(adj)) { alert('Entrez un nombre (ex: 50 ou -20)'); return }
+  const newScore = Math.max(0, (contact.score || 0) + adj)
+  const niv = newScore >= 1000 ? 'platine' : newScore >= 300 ? 'or' : newScore >= 100 ? 'argent' : 'bronze'
+  await sb.from('contacts').update({ score: newScore, niveau: niv }).eq('id', id)
+  contact.score = newScore
+  contact.niveau = niv
+  renderHero()
+  switchTab('fidelite')
+}
+
+window.recalcScore = async () => {
+  const { data, error } = await sb.rpc('recalc_score', { p_contact_id: id })
+  if (error) { alert('Erreur : ' + error.message); return }
+  contact.score = data.score
+  contact.niveau = data.niveau
+  renderHero()
+  if (activeTab === 'fidelite') switchTab('fidelite')
 }
 
 window.switchTab = (tab) => {
@@ -376,6 +496,18 @@ const editModal = document.getElementById('edit-modal')
 const eStatut = document.getElementById('e-statut')
 eStatut.innerHTML = Object.entries(STATUTS).map(([k,s]) => `<option value="${k}">${s.label}</option>`).join('')
 
+// Charger la liste des contacts pour le sélecteur parrain
+sb.from('contacts').select('id,nom,prenom').neq('id', id).order('nom').then(({ data }) => {
+  const sel = document.getElementById('e-parrain')
+  if (!data) return
+  data.forEach(c => {
+    const o = document.createElement('option')
+    o.value = c.id
+    o.textContent = (c.prenom ? c.prenom + ' ' : '') + c.nom
+    sel.appendChild(o)
+  })
+})
+
 document.getElementById('btn-edit').addEventListener('click', () => {
   document.getElementById('e-nom').value = contact.nom||''
   document.getElementById('e-prenom').value = contact.prenom||''
@@ -385,6 +517,7 @@ document.getElementById('btn-edit').addEventListener('click', () => {
   document.getElementById('e-notes').value = contact.notes||''
   eStatut.value = contact.statut||'nouveau'
   document.getElementById('e-canal').value = contact.canal||'autre'
+  document.getElementById('e-parrain').value = contact.parrain_id||''
   editModal.classList.add('open')
 })
 document.getElementById('edit-cancel').addEventListener('click', () => editModal.classList.remove('open'))
@@ -401,7 +534,8 @@ document.getElementById('edit-save').addEventListener('click', async () => {
     email: document.getElementById('e-email').value.trim()||null,
     ville: document.getElementById('e-ville').value.trim()||null,
     notes: document.getElementById('e-notes').value.trim()||null,
-    statut: eStatut.value, canal: document.getElementById('e-canal').value
+    statut: eStatut.value, canal: document.getElementById('e-canal').value,
+    parrain_id: document.getElementById('e-parrain').value || null
   }).eq('id', id)
   editModal.classList.remove('open')
   btn.disabled = false; btn.textContent = 'Enregistrer'
