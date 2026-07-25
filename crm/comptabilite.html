@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FGS CRM — Comptabilité</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+.topbar{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.back{color:#fff;text-decoration:none;font-size:22px;line-height:1}
+.topbar-title{flex:1}
+.topbar-title h2{font-size:17px;font-weight:800}
+.topbar-title p{font-size:11px;opacity:.6;margin-top:1px}
+.topbar-badge{background:#b08a3e;color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px}
+
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px 14px 0}
+@media(min-width:600px){.kpi-row{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.kpi-val{font-size:20px;font-weight:800;color:var(--navy);line-height:1.1}
+.kpi-label{font-size:11px;color:var(--muted);margin-top:4px;font-weight:500}
+.kpi-sub{font-size:11px;color:var(--teal);margin-top:2px;font-weight:600}
+
+/* TABS */
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);overflow-x:auto;scrollbar-width:none;position:sticky;top:56px;z-index:50;margin-top:14px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:12px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;white-space:nowrap;flex-shrink:0;transition:.15s}
+.tab.active{color:var(--navy);border-color:var(--navy)}
+
+.content{padding:14px;max-width:900px;margin:0 auto}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* FILTERS */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.filter-select{padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;background:#fff;color:var(--text);cursor:pointer}
+.filter-select:focus{border-color:var(--teal);outline:none}
+.search-input{flex:1;min-width:180px;padding:8px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:13px}
+.search-input:focus{border-color:var(--teal);outline:none}
+
+/* TABLE */
+.table-wrap{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden}
+.doc-table{width:100%;border-collapse:collapse}
+.doc-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:10px 14px;text-align:left;background:#f9fafb;border-bottom:1px solid var(--border)}
+.doc-table td{padding:11px 14px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+.doc-table tr:last-child td{border-bottom:none}
+.doc-table tr:hover td{background:#f9fafb}
+.doc-table .right{text-align:right}
+.doc-table .center{text-align:center}
+.amount{font-weight:700;color:var(--navy)}
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state .icon{font-size:36px;display:block;margin-bottom:8px}
+
+/* MONTHLY CHART */
+.month-grid{display:grid;gap:10px}
+.month-card{background:var(--card);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:14px 16px;display:flex;align-items:center;gap:14px}
+.month-label{font-weight:700;font-size:13px;min-width:70px}
+.bar-wrap{flex:1;background:#f0f4f8;border-radius:6px;overflow:hidden;height:16px}
+.bar-fill{height:100%;border-radius:6px;transition:width .6s ease;background:var(--teal)}
+.month-amount{font-size:13px;font-weight:700;min-width:110px;text-align:right;color:var(--navy)}
+.month-count{font-size:11px;color:var(--muted);min-width:60px;text-align:right}
+
+/* CLIENT TABLE */
+.client-rank{font-size:16px;font-weight:800;color:var(--muted);width:30px}
+.client-rank.gold{color:#b08a3e}
+.client-rank.silver{color:#9ca3af}
+.client-rank.bronze{color:#92400e}
+
+/* TRÉSORERIE */
+.trx-form{background:var(--card);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+label{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:4px}
+input,select{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;color:var(--text);background:#fff}
+input:focus,select:focus{border-color:var(--teal);outline:none}
+.btn-primary{padding:10px 18px;background:var(--teal);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;width:100%}
+.btn-primary:hover{background:#155f55}
+.trx-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.trx-item:last-child{border-bottom:none}
+.trx-icon{font-size:22px;flex-shrink:0}
+.trx-info{flex:1}
+.trx-libelle{font-size:13px;font-weight:600}
+.trx-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.trx-amount{font-size:15px;font-weight:800}
+.trx-amount.recette{color:#10b981}
+.trx-amount.depense{color:#ef4444}
+
+/* BILAN */
+.bilan-section{margin-bottom:20px}
+.bilan-section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.bilan-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden}
+.bilan-row{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)}
+.bilan-row:last-child{border-bottom:none}
+.bilan-row.total{background:#0f2d5208;font-weight:700}
+.bilan-row-label{font-size:13px}
+.bilan-row-val{font-size:14px;font-weight:700;color:var(--navy)}
+.export-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:#fff;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;text-decoration:none;margin-right:8px;margin-bottom:8px}
+.export-btn:hover{border-color:var(--navy);color:var(--navy)}
+
+/* NAV */
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;z-index:100}
+nav::-webkit-scrollbar{display:none}
+nav a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;text-decoration:none;color:var(--muted);font-size:9px;font-weight:600;min-width:56px;flex:1}
+nav a .icon{font-size:20px}
+nav a.active{color:var(--navy)}
+.section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:16px 0 8px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="back" href="/crm/index.html">←</a>
+  <div class="topbar-title">
+    <h2>Comptabilité & Rapports</h2>
+    <p id="topbar-period">Chargement…</p>
+  </div>
+  <span class="topbar-badge" id="topbar-role">Admin</span>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-row" id="kpi-row">
+  <div class="kpi"><div class="kpi-val" id="kpi-ca">—</div><div class="kpi-label">CA ce mois</div><div class="kpi-sub" id="kpi-ca-sub">—</div></div>
+  <div class="kpi"><div class="kpi-val" id="kpi-encaisse">—</div><div class="kpi-label">Encaissé ce mois</div><div class="kpi-sub" id="kpi-encaisse-sub">—</div></div>
+  <div class="kpi"><div class="kpi-val" id="kpi-docs">—</div><div class="kpi-label">Documents émis</div><div class="kpi-sub" id="kpi-docs-sub">—</div></div>
+  <div class="kpi"><div class="kpi-val" id="kpi-impaye">—</div><div class="kpi-label">Impayés en cours</div><div class="kpi-sub" id="kpi-impaye-sub" style="color:#ef4444">—</div></div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('journal')">📋 Journal</div>
+  <div class="tab" onclick="switchTab('mensuel')">📈 CA Mensuel</div>
+  <div class="tab" onclick="switchTab('clients')">👥 Par client</div>
+  <div class="tab" onclick="switchTab('tresorerie')">💵 Trésorerie</div>
+  <div class="tab" onclick="switchTab('bilan')">📊 Bilan & Export</div>
+</div>
+
+<div class="content">
+
+  <!-- ── JOURNAL DES VENTES ─────────────────────────────────────────────────── -->
+  <div class="tab-panel active" id="panel-journal">
+    <div class="filter-bar">
+      <select class="filter-select" id="filter-type" onchange="loadJournal()">
+        <option value="">Tous les types</option>
+        <option value="facture">Factures</option>
+        <option value="devis">Devis</option>
+        <option value="bon_commande">Bons de commande</option>
+        <option value="recu">Reçus</option>
+      </select>
+      <select class="filter-select" id="filter-statut" onchange="loadJournal()">
+        <option value="">Tous les statuts</option>
+        <option value="brouillon">Brouillon</option>
+        <option value="emis">Émis</option>
+        <option value="accepte">Accepté</option>
+        <option value="paye">Payé</option>
+        <option value="partiellement_paye">Part. payé</option>
+        <option value="annule">Annulé</option>
+      </select>
+      <select class="filter-select" id="filter-annee" onchange="loadJournal()">
+        <option value="">Toutes années</option>
+      </select>
+      <input class="search-input" id="filter-search" placeholder="🔍 Client, N°…" oninput="loadJournal()">
+    </div>
+    <div class="table-wrap">
+      <div id="journal-list"><div class="empty-state"><span class="icon">⏳</span>Chargement…</div></div>
+    </div>
+  </div>
+
+  <!-- ── CA MENSUEL ─────────────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-mensuel">
+    <div class="filter-bar">
+      <select class="filter-select" id="filter-annee-mensuel" onchange="loadMensuel()">
+        <option value="">Toutes années</option>
+      </select>
+    </div>
+    <div id="mensuel-list"><div class="empty-state"><span class="icon">⏳</span>Chargement…</div></div>
+    <div id="mensuel-total" style="margin-top:10px"></div>
+  </div>
+
+  <!-- ── PAR CLIENT ─────────────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-clients">
+    <div class="filter-bar">
+      <select class="filter-select" id="filter-annee-clients" onchange="loadClients()">
+        <option value="">Toutes années</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <div id="clients-list"><div class="empty-state"><span class="icon">⏳</span>Chargement…</div></div>
+    </div>
+  </div>
+
+  <!-- ── TRÉSORERIE ─────────────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-tresorerie">
+    <div class="trx-form">
+      <div class="form-row">
+        <div>
+          <label>Type</label>
+          <select id="trx-type" onchange="toggleTrxCat()">
+            <option value="recette">💚 Recette</option>
+            <option value="depense">🔴 Dépense</option>
+          </select>
+        </div>
+        <div>
+          <label>Date</label>
+          <input type="date" id="trx-date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div>
+          <label>Catégorie</label>
+          <select id="trx-cat">
+            <option value="vente_produit">Vente produit</option>
+            <option value="vente_service">Vente service</option>
+            <option value="acompte">Acompte reçu</option>
+            <option value="remboursement">Remboursement</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div>
+          <label>Montant (FCFA)</label>
+          <input type="number" id="trx-montant" placeholder="0" step="100">
+        </div>
+      </div>
+      <div style="margin-bottom:10px">
+        <label>Libellé</label>
+        <input type="text" id="trx-libelle" placeholder="Description de l'opération…">
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <div>
+          <label>Mode de paiement</label>
+          <select id="trx-mode">
+            <option value="Orange Money">Orange Money</option>
+            <option value="MTN Money">MTN Money</option>
+            <option value="Espèces">Espèces</option>
+            <option value="Virement">Virement</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+        <div style="display:flex;align-items:flex-end">
+          <button class="btn-primary" onclick="saveTrx()">+ Ajouter</button>
+        </div>
+      </div>
+    </div>
+    <div class="section-title">Dernières opérations</div>
+    <div class="table-wrap">
+      <div id="trx-list"><div class="empty-state"><span class="icon">⏳</span>Chargement…</div></div>
+    </div>
+  </div>
+
+  <!-- ── BILAN & EXPORT ─────────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="panel-bilan">
+    <div class="filter-bar">
+      <select class="filter-select" id="filter-annee-bilan" onchange="loadBilan()">
+        <option value="">Toutes années</option>
+      </select>
+    </div>
+
+    <div class="bilan-section">
+      <div class="bilan-section-title">📈 Compte de résultat simplifié</div>
+      <div class="bilan-card" id="bilan-resultat">
+        <div class="empty-state"><span class="icon">⏳</span></div>
+      </div>
+    </div>
+
+    <div class="bilan-section">
+      <div class="bilan-section-title">📋 Répartition du chiffre d'affaires</div>
+      <div class="bilan-card" id="bilan-repartition">
+        <div class="empty-state"><span class="icon">⏳</span></div>
+      </div>
+    </div>
+
+    <div class="bilan-section">
+      <div class="bilan-section-title">💰 Situation des paiements</div>
+      <div class="bilan-card" id="bilan-paiements">
+        <div class="empty-state"><span class="icon">⏳</span></div>
+      </div>
+    </div>
+
+    <div class="bilan-section">
+      <div class="bilan-section-title">⬇️ Exports</div>
+      <button class="export-btn" onclick="exportCSV('journal')">📥 Journal des ventes (CSV)</button>
+      <button class="export-btn" onclick="exportCSV('tresorerie')">📥 Trésorerie (CSV)</button>
+      <button class="export-btn" onclick="exportCSV('clients')">📥 CA par client (CSV)</button>
+      <button class="export-btn" onclick="window.print()">🖨️ Imprimer ce rapport</button>
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">Les fichiers CSV sont compatibles Excel, LibreOffice et tous logiciels comptables.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="/crm/index.html"><span class="icon">🏠</span>Dashboard</a>
+  <a href="/crm/contacts.html"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
+  <a href="/crm/catalogue.html"><span class="icon">🛒</span>Catalogue</a>
+  <a href="/crm/contenu.html"><span class="icon">📝</span>Contenu</a>
+  <a href="/crm/documents.html"><span class="icon">📄</span>Documents</a>
+  <a href="/crm/comptabilite.html" class="active"><span class="icon">📊</span>Compta</a>
+</nav>
+
+<script type="module">
+import { sb, getProfile, formatDate, formatMoney } from './js/client.js'
+
+const { data: { session } } = await sb.auth.getSession()
+if (!session) { window.location.href = '/crm/login.html'; throw 0 }
+
+const profile = await getProfile()
+document.getElementById('topbar-role').textContent = profile?.role === 'admin' ? 'Admin' : 'Lecture'
+document.getElementById('topbar-period').textContent = new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})
+
+const fmt = n => (Math.round(n)||0).toLocaleString('fr-FR') + ' FCFA'
+const thisYear = new Date().getFullYear()
+const thisMonth = new Date().toISOString().slice(0,7)
+
+// Stocker les données globalement pour les exports
+window._allDocs = []
+window._allTrx  = []
+window._allContacts = []
+
+// ── ANNÉES DISPONIBLES ────────────────────────────────────────────────────────
+async function loadYears() {
+  const { data } = await sb.from('documents_generes').select('date_emission').order('date_emission', {ascending:true})
+  if (!data?.length) return
+  const years = [...new Set(data.map(d => d.date_emission?.slice(0,4)).filter(Boolean))].sort().reverse()
+  ;['filter-annee','filter-annee-mensuel','filter-annee-clients','filter-annee-bilan'].forEach(id => {
+    const el = document.getElementById(id)
+    if (!el) return
+    years.forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; el.appendChild(o) })
+    el.value = String(thisYear)
+  })
+}
+
+// ── KPIs ──────────────────────────────────────────────────────────────────────
+async function loadKPIs() {
+  const { data: docs } = await sb.from('documents_generes')
+    .select('type,statut,montant_ttc,montant_regle,date_emission')
+    .in('type', ['facture','recu'])
+    .neq('statut','annule')
+
+  if (!docs) return
+
+  const moisDocs = docs.filter(d => d.date_emission?.startsWith(thisMonth))
+  const caMonth = moisDocs.reduce((s,d) => s + (d.montant_ttc||0), 0)
+  const encMonth = moisDocs.reduce((s,d) => s + (d.montant_regle||0), 0)
+  const nbMonth  = moisDocs.length
+  const impaye   = docs.filter(d => !['paye','annule'].includes(d.statut))
+  const totalImp = impaye.reduce((s,d) => s + ((d.montant_ttc||0) - (d.montant_regle||0)), 0)
+
+  document.getElementById('kpi-ca').textContent = fmt(caMonth)
+  document.getElementById('kpi-ca-sub').textContent = `Annuel : ${fmt(docs.filter(d=>d.date_emission?.startsWith(thisYear)).reduce((s,d)=>s+(d.montant_ttc||0),0))}`
+  document.getElementById('kpi-encaisse').textContent = fmt(encMonth)
+  document.getElementById('kpi-encaisse-sub').textContent = `Taux : ${caMonth>0?Math.round(encMonth/caMonth*100):0}%`
+  document.getElementById('kpi-docs').textContent = nbMonth
+  document.getElementById('kpi-docs-sub').textContent = `Total : ${docs.length} docs`
+  document.getElementById('kpi-impaye').textContent = impaye.length + ' doc' + (impaye.length>1?'s':'')
+  document.getElementById('kpi-impaye-sub').textContent = fmt(totalImp)
+}
+
+// ── JOURNAL ───────────────────────────────────────────────────────────────────
+const STATUT_COLORS = {
+  brouillon:'#6b7280', emis:'#3b82f6', accepte:'#8b5cf6',
+  paye:'#10b981', partiellement_paye:'#f59e0b', annule:'#ef4444', refuse:'#ef4444'
+}
+const STATUT_LABELS = {
+  brouillon:'Brouillon', emis:'Émis', accepte:'Accepté',
+  paye:'Payé', partiellement_paye:'Part. payé', annule:'Annulé', refuse:'Refusé'
+}
+const TYPE_LABELS = { facture:'Facture', devis:'Devis', bon_commande:'Bon de cmd', recu:'Reçu', courrier:'Courrier', bon_reduction:'Bon réduct.' }
+
+window.loadJournal = async function() {
+  const type    = document.getElementById('filter-type').value
+  const statut  = document.getElementById('filter-statut').value
+  const annee   = document.getElementById('filter-annee').value
+  const search  = document.getElementById('filter-search').value.toLowerCase()
+
+  let q = sb.from('documents_generes')
+    .select('*,contacts(nom,prenom)')
+    .order('date_emission', {ascending:false})
+    .order('created_at', {ascending:false})
+
+  if (type)   q = q.eq('type', type)
+  if (statut) q = q.eq('statut', statut)
+  if (annee)  q = q.gte('date_emission', `${annee}-01-01`).lte('date_emission', `${annee}-12-31`)
+
+  const { data } = await q
+  if (!data) return
+
+  let docs = data
+  if (search) docs = docs.filter(d => {
+    const client = d.contacts ? (d.contacts.prenom||'') + ' ' + d.contacts.nom : ''
+    return (d.numero||'').toLowerCase().includes(search) ||
+           client.toLowerCase().includes(search) ||
+           (d.objet||'').toLowerCase().includes(search)
+  })
+
+  window._allDocs = docs
+
+  const el = document.getElementById('journal-list')
+  if (!docs.length) { el.innerHTML = '<div class="empty-state"><span class="icon">📋</span>Aucun document trouvé</div>'; return }
+
+  el.innerHTML = `<table class="doc-table">
+    <thead><tr>
+      <th>N°</th><th>Type</th><th>Client</th>
+      <th class="right">Montant</th><th class="center">Statut</th><th>Date</th><th></th>
+    </tr></thead>
+    <tbody>
+    ${docs.map(d => {
+      const client = d.contacts ? (d.contacts.prenom ? d.contacts.prenom+' ' : '') + d.contacts.nom : '—'
+      const sc = STATUT_COLORS[d.statut]||'#6b7280'
+      const sl = STATUT_LABELS[d.statut]||d.statut
+      return `<tr>
+        <td style="font-weight:700;font-size:12px;color:var(--teal)">${d.numero||'—'}</td>
+        <td><span class="badge" style="background:#0f2d5210;color:var(--navy)">${TYPE_LABELS[d.type]||d.type}</span></td>
+        <td style="font-weight:500">${client}</td>
+        <td class="right amount">${fmt(d.montant_ttc)}</td>
+        <td class="center"><span class="badge" style="background:${sc}18;color:${sc};border:1px solid ${sc}40">${sl}</span></td>
+        <td style="font-size:12px;color:var(--muted)">${d.date_emission||'—'}</td>
+        <td>
+          <a href="/crm/documents.html?type=${d.type}${d.contact_id?'&contact='+d.contact_id:''}${d.commande_id?'&commande='+d.commande_id:''}" style="font-size:18px;text-decoration:none" title="Ouvrir">📄</a>
+          ${profile?.role==='admin' ? `<button onclick="changeStatutDoc('${d.id}')" style="background:none;border:none;font-size:16px;cursor:pointer;margin-left:4px" title="Changer statut">✏️</button>` : ''}
+        </td>
+      </tr>`
+    }).join('')}
+    </tbody>
+  </table>`
+}
+
+window.changeStatutDoc = async function(id) {
+  const statuts = ['brouillon','emis','accepte','paye','partiellement_paye','annule']
+  const choix = prompt('Nouveau statut :\n' + statuts.map((s,i)=>`${i+1}. ${STATUT_LABELS[s]}`).join('\n'))
+  if (!choix) return
+  const idx = parseInt(choix) - 1
+  if (idx < 0 || idx >= statuts.length) return
+  const { error } = await sb.from('documents_generes').update({statut: statuts[idx]}).eq('id', id)
+  if (error) { alert('Erreur : ' + error.message); return }
+  loadJournal(); loadKPIs()
+}
+
+// ── CA MENSUEL ────────────────────────────────────────────────────────────────
+window.loadMensuel = async function() {
+  const annee = document.getElementById('filter-annee-mensuel').value
+
+  let q = sb.from('documents_generes')
+    .select('date_emission,montant_ttc,montant_regle,type,statut')
+    .in('type', ['facture','recu'])
+    .neq('statut','annule')
+    .order('date_emission', {ascending:false})
+
+  if (annee) q = q.gte('date_emission', `${annee}-01-01`).lte('date_emission', `${annee}-12-31`)
+
+  const { data } = await q
+  if (!data) return
+
+  const MOIS_FR = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc']
+
+  // Grouper par mois
+  const byMonth = {}
+  data.forEach(d => {
+    const m = d.date_emission?.slice(0,7)
+    if (!m) return
+    if (!byMonth[m]) byMonth[m] = { ca:0, encaisse:0, nb:0 }
+    byMonth[m].ca        += d.montant_ttc||0
+    byMonth[m].encaisse  += d.montant_regle||0
+    byMonth[m].nb        += 1
+  })
+
+  const months = Object.keys(byMonth).sort().reverse()
+  const maxCA  = Math.max(...months.map(m => byMonth[m].ca), 1)
+  const totalCA = months.reduce((s,m) => s + byMonth[m].ca, 0)
+  const totalEnc = months.reduce((s,m) => s + byMonth[m].encaisse, 0)
+
+  const el = document.getElementById('mensuel-list')
+  if (!months.length) { el.innerHTML = '<div class="empty-state"><span class="icon">📈</span>Aucune donnée</div>'; return }
+
+  el.innerHTML = `<div class="month-grid">${months.map(m => {
+    const [y, mo] = m.split('-')
+    const label = MOIS_FR[parseInt(mo)-1] + ' ' + y
+    const pct = Math.round(byMonth[m].ca / maxCA * 100)
+    const encPct = byMonth[m].ca > 0 ? Math.round(byMonth[m].encaisse/byMonth[m].ca*100) : 0
+    return `<div class="month-card">
+      <div class="month-label">${label}</div>
+      <div style="flex:1">
+        <div class="bar-wrap"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:3px">Encaissé : ${encPct}%</div>
+      </div>
+      <div>
+        <div class="month-amount">${fmt(byMonth[m].ca)}</div>
+        <div class="month-count">${byMonth[m].nb} doc${byMonth[m].nb>1?'s':''}</div>
+      </div>
+    </div>`
+  }).join('')}</div>`
+
+  document.getElementById('mensuel-total').innerHTML = `
+    <div class="bilan-card">
+      <div class="bilan-row total"><span class="bilan-row-label">TOTAL CA ${annee||'toutes années'}</span><span class="bilan-row-val">${fmt(totalCA)}</span></div>
+      <div class="bilan-row"><span class="bilan-row-label">Total encaissé</span><span class="bilan-row-val" style="color:#10b981">${fmt(totalEnc)}</span></div>
+      <div class="bilan-row"><span class="bilan-row-label">En attente</span><span class="bilan-row-val" style="color:#f59e0b">${fmt(totalCA-totalEnc)}</span></div>
+    </div>`
+}
+
+// ── PAR CLIENT ────────────────────────────────────────────────────────────────
+window.loadClients = async function() {
+  const annee = document.getElementById('filter-annee-clients').value
+
+  let q = sb.from('documents_generes')
+    .select('contact_id,montant_ttc,montant_regle,statut,contacts(nom,prenom)')
+    .in('type', ['facture','recu'])
+    .neq('statut','annule')
+    .not('contact_id','is',null)
+
+  if (annee) q = q.gte('date_emission', `${annee}-01-01`).lte('date_emission', `${annee}-12-31`)
+
+  const { data } = await q
+  if (!data) return
+  window._allContacts = data
+
+  const byClient = {}
+  data.forEach(d => {
+    const id  = d.contact_id
+    const nom = d.contacts ? (d.contacts.prenom ? d.contacts.prenom+' ' : '') + d.contacts.nom : 'Inconnu'
+    if (!byClient[id]) byClient[id] = { nom, ca:0, encaisse:0, nb:0 }
+    byClient[id].ca       += d.montant_ttc||0
+    byClient[id].encaisse += d.montant_regle||0
+    byClient[id].nb       += 1
+  })
+
+  const clients = Object.entries(byClient).sort((a,b) => b[1].ca - a[1].ca)
+  const el = document.getElementById('clients-list')
+
+  if (!clients.length) { el.innerHTML = '<div class="empty-state"><span class="icon">👥</span>Aucun client avec factures</div>'; return }
+
+  el.innerHTML = `<table class="doc-table">
+    <thead><tr>
+      <th>#</th><th>Client</th>
+      <th class="right">CA total</th>
+      <th class="right">Encaissé</th>
+      <th class="right">Docs</th>
+    </tr></thead>
+    <tbody>
+    ${clients.map(([id, c], i) => `<tr>
+      <td><span class="client-rank ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</span></td>
+      <td style="font-weight:600">${c.nom}</td>
+      <td class="right amount">${fmt(c.ca)}</td>
+      <td class="right" style="color:#10b981;font-weight:600">${fmt(c.encaisse)}</td>
+      <td class="right" style="color:var(--muted)">${c.nb}</td>
+    </tr>`).join('')}
+    </tbody>
+  </table>`
+}
+
+// ── TRÉSORERIE ────────────────────────────────────────────────────────────────
+const TRX_CAT_RECETTE = ['vente_produit','vente_service','acompte','remboursement','autre']
+const TRX_CAT_DEPENSE = ['achat_stock','transport','loyer','salaire','marketing','telecom','autre']
+
+window.toggleTrxCat = function() {
+  const type = document.getElementById('trx-type').value
+  const cats = type === 'recette' ? TRX_CAT_RECETTE : TRX_CAT_DEPENSE
+  const catLabels = {
+    vente_produit:'Vente produit', vente_service:'Vente service', acompte:'Acompte reçu',
+    remboursement:'Remboursement', achat_stock:'Achat stock', transport:'Transport',
+    loyer:'Loyer/Local', salaire:'Salaire/Charge', marketing:'Marketing', telecom:'Télécom/Internet', autre:'Autre'
+  }
+  const el = document.getElementById('trx-cat')
+  el.innerHTML = cats.map(c => `<option value="${c}">${catLabels[c]||c}</option>`).join('')
+}
+
+async function loadTrx() {
+  const { data } = await sb.from('tresorerie').select('*,contacts(nom,prenom)').order('date_op',{ascending:false}).limit(50)
+  if (!data) return
+  window._allTrx = data
+
+  const el = document.getElementById('trx-list')
+  if (!data.length) { el.innerHTML = '<div class="empty-state"><span class="icon">💵</span>Aucune opération enregistrée</div>'; return }
+
+  const catIcons = { vente_produit:'📦', vente_service:'🛠️', acompte:'💳', achat_stock:'🛒', transport:'🚗', loyer:'🏠', salaire:'👷', marketing:'📣', telecom:'📡', remboursement:'↩️', autre:'📝' }
+
+  el.innerHTML = data.map(t => `<div class="trx-item">
+    <div class="trx-icon">${catIcons[t.categorie]||'📝'}</div>
+    <div class="trx-info">
+      <div class="trx-libelle">${t.libelle}</div>
+      <div class="trx-meta">${t.categorie} · ${t.mode_paiement||''} · ${t.date_op||''}</div>
+    </div>
+    <div class="trx-amount ${t.type}">${t.type==='recette'?'+':'-'}${fmt(t.montant)}</div>
+  </div>`).join('')
+}
+
+window.saveTrx = async function() {
+  const type    = document.getElementById('trx-type').value
+  const date    = document.getElementById('trx-date').value
+  const cat     = document.getElementById('trx-cat').value
+  const libelle = document.getElementById('trx-libelle').value.trim()
+  const montant = +document.getElementById('trx-montant').value
+  const mode    = document.getElementById('trx-mode').value
+
+  if (!libelle || !montant || !date) { alert('Remplissez tous les champs obligatoires.'); return }
+
+  const { error } = await sb.from('tresorerie').insert({
+    type, date_op: date, categorie: cat, libelle, montant, mode_paiement: mode,
+    created_by: profile?.id
+  })
+  if (error) { alert('Erreur : ' + error.message); return }
+
+  document.getElementById('trx-libelle').value = ''
+  document.getElementById('trx-montant').value = ''
+  loadTrx(); loadBilan()
+}
+
+// ── BILAN ─────────────────────────────────────────────────────────────────────
+window.loadBilan = async function() {
+  const annee = document.getElementById('filter-annee-bilan').value
+  const range = annee ? { from: `${annee}-01-01`, to: `${annee}-12-31` } : null
+
+  // Documents
+  let qd = sb.from('documents_generes').select('type,statut,montant_ttc,montant_regle,date_emission').neq('statut','annule')
+  if (range) qd = qd.gte('date_emission', range.from).lte('date_emission', range.to)
+  const { data: docs } = await qd
+
+  // Trésorerie
+  let qt = sb.from('tresorerie').select('type,categorie,montant,date_op')
+  if (range) qt = qt.gte('date_op', range.from).lte('date_op', range.to)
+  const { data: trx } = await qt
+
+  if (!docs || !trx) return
+
+  const factures = docs.filter(d => d.type === 'facture')
+  const devis    = docs.filter(d => d.type === 'devis')
+  const ca       = factures.reduce((s,d) => s + (d.montant_ttc||0), 0)
+  const encaisse = factures.reduce((s,d) => s + (d.montant_regle||0), 0)
+  const impaye   = ca - encaisse
+  const recettes = trx.filter(t=>t.type==='recette').reduce((s,t)=>s+(t.montant||0),0)
+  const depenses = trx.filter(t=>t.type==='depense').reduce((s,t)=>s+(t.montant||0),0)
+  const resultat = recettes - depenses
+
+  document.getElementById('bilan-resultat').innerHTML = `
+    <div class="bilan-row"><span class="bilan-row-label">Chiffre d'affaires facturé</span><span class="bilan-row-val">${fmt(ca)}</span></div>
+    <div class="bilan-row"><span class="bilan-row-label">Total recettes (trésorerie)</span><span class="bilan-row-val" style="color:#10b981">${fmt(recettes)}</span></div>
+    <div class="bilan-row"><span class="bilan-row-label">Total dépenses (trésorerie)</span><span class="bilan-row-val" style="color:#ef4444">- ${fmt(depenses)}</span></div>
+    <div class="bilan-row total"><span class="bilan-row-label">Résultat net (trésorerie)</span><span class="bilan-row-val" style="color:${resultat>=0?'#10b981':'#ef4444'}">${resultat>=0?'+':''}${fmt(resultat)}</span></div>`
+
+  // Répartition par type
+  const typeTotaux = {}
+  docs.filter(d=>d.montant_ttc>0).forEach(d => {
+    typeTotaux[d.type] = (typeTotaux[d.type]||0) + (d.montant_ttc||0)
+  })
+  document.getElementById('bilan-repartition').innerHTML = Object.entries(typeTotaux).sort((a,b)=>b[1]-a[1]).map(([t,v])=>`
+    <div class="bilan-row"><span class="bilan-row-label">${TYPE_LABELS[t]||t}</span><span class="bilan-row-val">${fmt(v)}</span></div>
+  `).join('') || '<div class="empty-state" style="padding:16px">Aucune donnée</div>'
+
+  // Paiements
+  const paye   = factures.filter(d=>d.statut==='paye').reduce((s,d)=>s+(d.montant_ttc||0),0)
+  const partiel = factures.filter(d=>d.statut==='partiellement_paye').reduce((s,d)=>s+(d.montant_ttc||0),0)
+  const enAttente = factures.filter(d=>d.statut==='emis').reduce((s,d)=>s+(d.montant_ttc||0),0)
+  const nbDevis  = devis.length
+  const caDevis  = devis.reduce((s,d)=>s+(d.montant_ttc||0),0)
+
+  document.getElementById('bilan-paiements').innerHTML = `
+    <div class="bilan-row"><span class="bilan-row-label">✅ Factures payées</span><span class="bilan-row-val" style="color:#10b981">${fmt(paye)}</span></div>
+    <div class="bilan-row"><span class="bilan-row-label">⚠️ Part. payées</span><span class="bilan-row-val" style="color:#f59e0b">${fmt(partiel)}</span></div>
+    <div class="bilan-row"><span class="bilan-row-label">🔴 En attente paiement</span><span class="bilan-row-val" style="color:#ef4444">${fmt(enAttente)}</span></div>
+    <div class="bilan-row"><span class="bilan-row-label">📋 Devis en cours (${nbDevis})</span><span class="bilan-row-val" style="color:var(--muted)">${fmt(caDevis)}</span></div>`
+}
+
+// ── EXPORTS CSV ───────────────────────────────────────────────────────────────
+window.exportCSV = function(type) {
+  let rows, filename
+  if (type === 'journal') {
+    rows = [['N°','Type','Client','Montant TTC','Encaissé','Statut','Date']]
+    window._allDocs.forEach(d => {
+      const client = d.contacts ? (d.contacts.prenom||'')+' '+d.contacts.nom : ''
+      rows.push([d.numero||'',TYPE_LABELS[d.type]||d.type,client,d.montant_ttc||0,d.montant_regle||0,d.statut,d.date_emission||''])
+    })
+    filename = `FGS_journal_ventes_${new Date().toISOString().slice(0,10)}.csv`
+  } else if (type === 'tresorerie') {
+    rows = [['Date','Type','Catégorie','Libellé','Montant','Mode']]
+    window._allTrx.forEach(t => {
+      rows.push([t.date_op,t.type,t.categorie,t.libelle,t.montant,t.mode_paiement||''])
+    })
+    filename = `FGS_tresorerie_${new Date().toISOString().slice(0,10)}.csv`
+  } else if (type === 'clients') {
+    rows = [['Client','CA Total','Encaissé','Nb docs']]
+    const byClient = {}
+    window._allContacts.forEach(d => {
+      const nom = d.contacts ? (d.contacts.prenom||'')+' '+d.contacts.nom : 'Inconnu'
+      if (!byClient[nom]) byClient[nom] = {ca:0,enc:0,nb:0}
+      byClient[nom].ca  += d.montant_ttc||0
+      byClient[nom].enc += d.montant_regle||0
+      byClient[nom].nb  += 1
+    })
+    Object.entries(byClient).sort((a,b)=>b[1].ca-a[1].ca).forEach(([nom,c])=>{
+      rows.push([nom,c.ca,c.enc,c.nb])
+    })
+    filename = `FGS_CA_clients_${new Date().toISOString().slice(0,10)}.csv`
+  }
+
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(';')).join('\n')
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'})
+  const a = document.createElement('a')
+  a.href = URL.createObjectURL(blob)
+  a.download = filename
+  a.click()
+}
+
+// ── NAVIGATION TABS ───────────────────────────────────────────────────────────
+window.switchTab = function(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const ids = ['journal','mensuel','clients','tresorerie','bilan']
+    t.classList.toggle('active', ids[i] === id)
+  })
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+  document.getElementById('panel-'+id).classList.add('active')
+  if (id === 'mensuel')    loadMensuel()
+  if (id === 'clients')    loadClients()
+  if (id === 'tresorerie') loadTrx()
+  if (id === 'bilan')      loadBilan()
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+document.getElementById('trx-date').value = new Date().toISOString().slice(0,10)
+await loadYears()
+await loadKPIs()
+await loadJournal()
+</script>
+</body>
+</html>

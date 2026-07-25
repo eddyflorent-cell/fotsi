@@ -191,7 +191,7 @@ textarea{resize:vertical;min-height:70px}
     <div class="form-section" id="section-common">
       <div class="form-section-title">Référence & date</div>
       <div class="form-row">
-        <div class="form-group"><label>Numéro</label><input id="f-num" placeholder="2026-001" oninput="render()"></div>
+        <div class="form-group"><label>Numéro <span style="color:#1a7a6e;font-weight:400">(auto-généré à l'émission)</span></label><input id="f-num" placeholder="FA-2026-0001 — auto" oninput="render()"></div>
         <div class="form-group"><label>Date</label><input id="f-date" type="date" oninput="render()"></div>
       </div>
     </div>
@@ -299,8 +299,13 @@ textarea{resize:vertical;min-height:70px}
       <textarea id="f-notes" rows="3" placeholder="Mentions légales, conditions particulières…" oninput="render()"></textarea>
     </div>
 
-    <button class="btn-print" onclick="printDoc()">🖨️ Imprimer / Enregistrer en PDF</button>
-    <button class="btn-secondary" onclick="emailDoc()">✉️ Envoyer par email</button>
+    <button class="btn-print" onclick="printDoc()">🖨️ Imprimer / PDF</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+      <button class="btn-secondary" onclick="emailDoc()">✉️ Email</button>
+      <button id="btn-save" class="btn-secondary" onclick="saveToBase('emis').catch(e=>alert(e.message))" style="background:#0f2d5210;border-color:#0f2d52">💾 Enregistrer</button>
+    </div>
+    <button class="btn-secondary" onclick="markPaye()" style="margin-top:8px;background:#d1fae5;border-color:#10b981;color:#065f46">✅ Marquer comme payé</button>
+    <a href="/crm/comptabilite.html" style="display:block;text-align:center;margin-top:12px;font-size:12px;color:var(--muted);text-decoration:none">📊 Voir le journal comptable →</a>
   </div>
 
   <!-- ── PREVIEW PANEL ─────────────────────────────────────────────────────── -->
@@ -352,6 +357,10 @@ const FGS = {
 let docType = 'facture'
 let lines = [{ desc: '', qte: 1, prix: 0 }]
 let regLines = [{ date: '', client: '', produit: '', qte: 1, montant: 0 }]
+let savedDocId   = null   // UUID du document en base une fois sauvegardé
+let docNumLocked = false  // true dès que le N° est émis (plus modifiable)
+let prefilledContactId  = null
+let prefilledCommandeId = null
 
 // ── INIT ─────────────────────────────────────────────────────────────────────
 document.getElementById('f-date').value = new Date().toISOString().slice(0,10)
@@ -374,8 +383,10 @@ render()
   }
 
   if (commandeId) {
+    prefilledCommandeId = commandeId
     const { data: cmd } = await sb.from('commandes').select('*,contacts(*)').eq('id', commandeId).single()
     if (cmd) {
+      prefilledContactId = cmd.contact_id
       const c = cmd.contacts
       const nom = c ? ((c.prenom ? c.prenom + ' ' : '') + c.nom) : ''
       document.getElementById('f-num').value = cmd.reference || ''
@@ -397,6 +408,7 @@ render()
       render()
     }
   } else if (contactId) {
+    prefilledContactId = contactId
     const { data: contact } = await sb.from('contacts').select('*').eq('id', contactId).single()
     if (contact) {
       const nom = (contact.prenom ? contact.prenom + ' ' : '') + contact.nom
@@ -805,16 +817,113 @@ function buildDocHTML() {
   return ''
 }
 
+// ── NUMÉROTATION AUTOMATIQUE ──────────────────────────────────────────────────
+const DOC_TYPES_NUMEROTES = ['facture','devis','bon_commande','recu']
+
+async function ensureDocNumber() {
+  if (!DOC_TYPES_NUMEROTES.includes(docType)) return
+  const numField = document.getElementById('f-num')
+  if (numField.value && docNumLocked) return  // déjà généré
+
+  // Appel RPC Supabase — atomique, sans doublon
+  const { data, error } = await sb.rpc('next_doc_number', { p_type: docType })
+  if (error) { alert('Erreur génération N° : ' + error.message); throw error }
+
+  numField.value = data
+  numField.readOnly = true
+  numField.style.background = '#f0f9f6'
+  numField.style.color = '#1a7a6e'
+  numField.style.fontWeight = '700'
+  docNumLocked = true
+  render()
+}
+
+// ── SAUVEGARDE EN BASE ────────────────────────────────────────────────────────
+async function saveToBase(statut = 'emis') {
+  await ensureDocNumber()
+  const { ttc, acompte } = calcTotals()
+  const num = document.getElementById('f-num')?.value || ''
+  const profile = await getProfile()
+
+  const payload = {
+    type: docType,
+    numero: num,
+    contact_id: prefilledContactId || null,
+    commande_id: prefilledCommandeId || null,
+    montant_ht: ttc,
+    tva_pct: 0,
+    montant_ttc: ttc,
+    montant_regle: statut === 'paye' ? ttc : acompte,
+    statut,
+    date_emission: document.getElementById('f-date')?.value || new Date().toISOString().slice(0,10),
+    mode_paiement: document.getElementById('f-mode-paiement')?.value || null,
+    data: {
+      type: docType, num, lines,
+      client_nom: document.getElementById('f-client-nom')?.value,
+      client_tel: document.getElementById('f-client-tel')?.value,
+      client_addr: document.getElementById('f-client-addr')?.value,
+      acompte, ttc
+    },
+    notes: document.getElementById('f-notes')?.value || null,
+    created_by: profile?.id || null
+  }
+
+  if (savedDocId) {
+    // Mise à jour
+    const { error } = await sb.from('documents_generes').update(payload).eq('id', savedDocId)
+    if (error) throw error
+  } else {
+    const { data, error } = await sb.from('documents_generes').insert(payload).select().single()
+    if (error) throw error
+    savedDocId = data.id
+  }
+
+  // Log interaction si lié à un contact
+  if (prefilledContactId) {
+    const labels = { facture:'Facture', devis:'Devis', bon_commande:'Bon de commande', recu:'Reçu' }
+    await sb.from('interactions').insert({
+      contact_id: prefilledContactId,
+      type: 'note',
+      contenu: `📄 ${labels[docType]||docType} N°${num} — ${fmt(ttc)} — statut : ${statut}`,
+      created_by: profile?.id || null
+    })
+  }
+
+  updateSaveBtn(statut)
+}
+
+function updateSaveBtn(statut) {
+  const btn = document.getElementById('btn-save')
+  if (!btn) return
+  btn.textContent = statut === 'paye' ? '✅ Payé' : '💾 Enregistré'
+  btn.style.background = statut === 'paye' ? '#10b981' : '#1a7a6e'
+}
+
 // ── IMPRESSION ────────────────────────────────────────────────────────────────
-function printDoc() {
+async function printDoc() {
+  if (DOC_TYPES_NUMEROTES.includes(docType)) {
+    try { await saveToBase('emis') } catch(e) { console.error(e) }
+  }
   const html = buildDocHTML()
   const pz = document.getElementById('print-zone')
   pz.innerHTML = `<div class="a4-page">${html}</div>`
   window.print()
 }
 
+// ── MARQUER PAYÉ ──────────────────────────────────────────────────────────────
+async function markPaye() {
+  if (!DOC_TYPES_NUMEROTES.includes(docType)) return
+  try {
+    await saveToBase('paye')
+    alert('✅ Document marqué comme payé et enregistré.')
+  } catch(e) { alert('Erreur : ' + e.message) }
+}
+
 // ── EMAIL ─────────────────────────────────────────────────────────────────────
-function emailDoc() {
+async function emailDoc() {
+  if (DOC_TYPES_NUMEROTES.includes(docType)) {
+    try { await saveToBase('emis') } catch(e) { console.error(e) }
+  }
   const num = getNum()
   const labels = {
     facture:'Facture', devis:'Devis', bon_commande:'Bon de commande',
