@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FGS CRM — Catalogue</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+.topbar{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
+.topbar h2{font-size:18px;font-weight:800}
+.topbar-sub{font-size:11px;opacity:.6;margin-top:2px}
+.admin-badge{background:var(--gold);color:#fff;padding:3px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.content{padding:16px;max-width:700px;margin:0 auto}
+.section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:16px 0 10px}
+.prod-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:16px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start}
+.prod-img{width:70px;height:70px;border-radius:10px;object-fit:cover;background:#f0f4f8;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden}
+.prod-img img{width:100%;height:100%;object-fit:cover}
+.prod-main{flex:1;min-width:0}
+.prod-name{font-weight:700;font-size:15px;margin-bottom:4px}
+.prod-desc{font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.4}
+.prod-prices{display:flex;gap:12px;flex-wrap:wrap}
+.prod-price-pub{font-size:16px;font-weight:800;color:var(--navy)}
+.prod-price-rev{font-size:13px;color:var(--teal);font-weight:600}
+.prod-qte{font-size:12px;color:var(--muted);margin-top:4px}
+.prod-actions{display:flex;gap:8px;margin-top:10px}
+.btn-edit{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:var(--text)}
+.btn-del{padding:7px 14px;border-radius:8px;border:1.5px solid #fecaca;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#dc2626}
+.prod-badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;margin-left:8px}
+.fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
+.fab:hover{transform:scale(1.05)}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500}
+.bnav a.active{color:var(--navy)}
+.bnav a .icon{font-size:20px}
+.empty{text-align:center;padding:48px;color:var(--muted)}
+.spinner-full{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);gap:10px}
+.spinner{width:20px;height:20px;border:2.5px solid #e5e7eb;border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-box{background:#fef2f2;color:#dc2626;padding:16px;border-radius:12px;text-align:center}
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s;max-height:90dvh;overflow-y:auto}
+.modal-bg.open .modal{transform:translateY(0)}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--navy)}
+.form-group{margin-bottom:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+.modal-footer{display:flex;gap:10px;margin-top:20px}
+.btn-cancel{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:15px;font-weight:600;cursor:pointer;color:var(--muted)}
+.btn-save{flex:2;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+.btn-save:disabled{opacity:.6}
+.img-preview{width:80px;height:80px;border-radius:10px;object-fit:cover;border:1.5px solid var(--border);margin-top:8px;display:none}
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:4px}
+.stat-card{background:var(--card);border-radius:12px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);text-align:center}
+.stat-val{font-size:22px;font-weight:800;color:var(--navy)}
+.stat-label{font-size:11px;color:var(--muted);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div><h2>Catalogue</h2><div class="topbar-sub">Produits FGS</div></div>
+  <span class="admin-badge">Admin</span>
+</div>
+
+<div class="content" id="content">
+  <div class="spinner-full"><div class="spinner"></div></div>
+</div>
+
+<button class="fab" id="fab-btn" title="Nouveau produit">＋</button>
+
+<nav class="bnav">
+  <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
+  <a href="/crm/contacts.html"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
+  <a href="/crm/catalogue.html" class="active"><span class="icon">🛒</span>Catalogue</a>
+</nav>
+
+<!-- Modal produit -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3 id="modal-title">Nouveau produit</h3>
+    <input type="hidden" id="f-id">
+    <div class="form-group"><label>Nom du produit *</label><input id="f-nom" placeholder="Ex: AirPods A11 Pro ANC"></div>
+    <div class="form-group"><label>Description</label><textarea id="f-desc" rows="2" placeholder="Caractéristiques principales…"></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Prix public (FCFA)</label><input id="f-prix-pub" type="number" min="0" step="100" placeholder="0"></div>
+      <div class="form-group"><label>Prix revendeur (FCFA)</label><input id="f-prix-rev" type="number" min="0" step="100" placeholder="0"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Stock disponible</label><input id="f-stock" type="number" min="0" step="1" placeholder="0"></div>
+      <div class="form-group">
+        <label>Catégorie</label>
+        <select id="f-cat">
+          <option value="high-tech">High-Tech</option>
+          <option value="restauration">Restauration</option>
+          <option value="import">Import divers</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>URL image (optionnel)</label>
+      <input id="f-img" type="url" placeholder="https://…">
+      <img id="img-preview" class="img-preview" alt="">
+    </div>
+    <div class="form-group">
+      <label>Disponible à la vente</label>
+      <select id="f-actif">
+        <option value="true">Oui</option>
+        <option value="false">Non (masqué)</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="btn-cancel">Annuler</button>
+      <button class="btn-save" id="btn-save">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, getProfile, formatMoney } from './js/client.js'
+
+const { data: { session } } = await sb.auth.getSession()
+if (!session) { window.location.href = '/crm/login.html'; throw 0 }
+const profile = await getProfile(session.user.id)
+
+if (profile?.role !== 'admin') {
+  document.getElementById('content').innerHTML = `<div class="error-box">🔒 Accès réservé aux administrateurs.</div>`
+  document.getElementById('fab-btn').style.display = 'none'
+  throw 0
+}
+
+let products = []
+
+async function loadData() {
+  // On utilise la table produits si elle existe, sinon on lit produits.json du site
+  // Pour cette version CRM on gère les produits dans une table Supabase "produits_crm"
+  // Si elle n'existe pas encore, on l'affiche avec les produits du catalogue JSON du site
+  try {
+    const { data, error } = await sb.from('produits_crm').select('*').order('created_at', { ascending: false })
+    if (error && error.code === '42P01') {
+      // Table doesn't exist yet
+      products = []
+      render([])
+      document.getElementById('content').innerHTML = `
+        <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:12px;padding:16px;margin-bottom:16px;font-size:14px;color:#92400e">
+          <strong>⚠️ Table produits_crm non créée</strong><br>
+          Exécutez le SQL ci-dessous dans Supabase pour activer la gestion des produits :
+          <pre style="margin-top:10px;background:#fff;padding:10px;border-radius:8px;font-size:12px;overflow-x:auto">CREATE TABLE produits_crm (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  nom TEXT NOT NULL,
+  description TEXT,
+  prix_public NUMERIC(12,0) DEFAULT 0,
+  prix_revendeur NUMERIC(12,0) DEFAULT 0,
+  stock INTEGER DEFAULT 0,
+  categorie TEXT DEFAULT 'autre',
+  image_url TEXT,
+  actif BOOLEAN DEFAULT TRUE
+);
+ALTER TABLE produits_crm ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "auth_produits" ON produits_crm FOR ALL USING (auth.role() = 'authenticated');</pre>
+        </div>`
+      return
+    }
+    products = data || []
+    render(products)
+  } catch(e) {
+    products = []
+    render([])
+  }
+}
+
+function render(list) {
+  const cats = {}
+  list.forEach(p => {
+    const c = p.categorie || 'autre'
+    if (!cats[c]) cats[c] = []
+    cats[c].push(p)
+  })
+
+  const catLabels = { 'high-tech': '📱 High-Tech', restauration: '🍽️ Restauration', import: '📦 Import divers', autre: '📁 Autre' }
+
+  // Stats
+  const totalProd = list.length
+  const totalStock = list.reduce((s,p) => s+(p.stock||0), 0)
+  const valeurStock = list.reduce((s,p) => s+(p.stock||0)*(p.prix_public||0), 0)
+
+  let html = `
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-val">${totalProd}</div><div class="stat-label">Produits</div></div>
+      <div class="stat-card"><div class="stat-val">${totalStock}</div><div class="stat-label">Stock total</div></div>
+      <div class="stat-card"><div class="stat-val" style="font-size:${valeurStock>9999999?14:valeurStock>999999?16:22}px">${formatMoney(valeurStock)}</div><div class="stat-label">Valeur stock</div></div>
+    </div>`
+
+  if (!list.length) {
+    html += `<div class="empty">Aucun produit — cliquez + pour en ajouter</div>`
+  } else {
+    Object.entries(cats).forEach(([cat, prods]) => {
+      html += `<p class="section-title">${catLabels[cat]||cat} (${prods.length})</p>`
+      prods.forEach(p => {
+        const imgHtml = p.image_url
+          ? `<div class="prod-img"><img src="${p.image_url}" alt="${p.nom}" onerror="this.parentElement.textContent='🛍️'"></div>`
+          : `<div class="prod-img">🛍️</div>`
+        html += `<div class="prod-card">
+          ${imgHtml}
+          <div class="prod-main">
+            <div class="prod-name">${p.nom}${!p.actif?'<span class="prod-badge" style="background:#fee2e2;color:#dc2626">Masqué</span>':''}</div>
+            ${p.description ? `<div class="prod-desc">${p.description}</div>` : ''}
+            <div class="prod-prices">
+              <span class="prod-price-pub">${formatMoney(p.prix_public)}</span>
+              ${p.prix_revendeur ? `<span class="prod-price-rev">Gros: ${formatMoney(p.prix_revendeur)}</span>` : ''}
+            </div>
+            <div class="prod-qte">Stock: <strong>${p.stock??'—'}</strong> unités</div>
+            <div class="prod-actions">
+              <button class="btn-edit" onclick="openEdit('${p.id}')">✏️ Modifier</button>
+              <button class="btn-del" onclick="deleteProd('${p.id}','${p.nom.replace(/'/g,"\\'")}')">Supprimer</button>
+            </div>
+          </div>
+        </div>`
+      })
+    })
+  }
+
+  document.getElementById('content').innerHTML = html
+}
+
+// Modal
+const modal = document.getElementById('modal')
+document.getElementById('fab-btn').addEventListener('click', () => {
+  document.getElementById('modal-title').textContent = 'Nouveau produit'
+  document.getElementById('f-id').value = ''
+  document.getElementById('f-nom').value = ''
+  document.getElementById('f-desc').value = ''
+  document.getElementById('f-prix-pub').value = ''
+  document.getElementById('f-prix-rev').value = ''
+  document.getElementById('f-stock').value = ''
+  document.getElementById('f-cat').value = 'high-tech'
+  document.getElementById('f-img').value = ''
+  document.getElementById('img-preview').style.display = 'none'
+  document.getElementById('f-actif').value = 'true'
+  modal.classList.add('open')
+})
+document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
+modal.addEventListener('click', e => { if(e.target===modal) modal.classList.remove('open') })
+
+document.getElementById('f-img').addEventListener('input', e => {
+  const prev = document.getElementById('img-preview')
+  if (e.target.value) { prev.src = e.target.value; prev.style.display = 'block' }
+  else { prev.style.display = 'none' }
+})
+
+window.openEdit = (id) => {
+  const p = products.find(x => x.id === id)
+  if (!p) return
+  document.getElementById('modal-title').textContent = 'Modifier le produit'
+  document.getElementById('f-id').value = p.id
+  document.getElementById('f-nom').value = p.nom||''
+  document.getElementById('f-desc').value = p.description||''
+  document.getElementById('f-prix-pub').value = p.prix_public||''
+  document.getElementById('f-prix-rev').value = p.prix_revendeur||''
+  document.getElementById('f-stock').value = p.stock??''
+  document.getElementById('f-cat').value = p.categorie||'autre'
+  document.getElementById('f-img').value = p.image_url||''
+  const prev = document.getElementById('img-preview')
+  if (p.image_url) { prev.src = p.image_url; prev.style.display = 'block' } else { prev.style.display = 'none' }
+  document.getElementById('f-actif').value = p.actif !== false ? 'true' : 'false'
+  modal.classList.add('open')
+}
+
+window.deleteProd = async (id, nom) => {
+  if (!confirm(`Supprimer "${nom}" ?`)) return
+  await sb.from('produits_crm').delete().eq('id', id)
+  await loadData()
+}
+
+document.getElementById('btn-save').addEventListener('click', async () => {
+  const nom = document.getElementById('f-nom').value.trim()
+  if (!nom) { alert('Nom requis'); return }
+  const btn = document.getElementById('btn-save')
+  btn.disabled = true; btn.textContent = '…'
+  const editId = document.getElementById('f-id').value
+  const payload = {
+    nom,
+    description: document.getElementById('f-desc').value.trim()||null,
+    prix_public: +document.getElementById('f-prix-pub').value||0,
+    prix_revendeur: +document.getElementById('f-prix-rev').value||0,
+    stock: parseInt(document.getElementById('f-stock').value)||0,
+    categorie: document.getElementById('f-cat').value,
+    image_url: document.getElementById('f-img').value.trim()||null,
+    actif: document.getElementById('f-actif').value === 'true',
+  }
+  if (editId) {
+    await sb.from('produits_crm').update(payload).eq('id', editId)
+  } else {
+    await sb.from('produits_crm').insert(payload)
+  }
+  modal.classList.remove('open')
+  btn.disabled = false; btn.textContent = 'Enregistrer'
+  await loadData()
+})
+
+await loadData()
+</script>
+</body>
+</html>

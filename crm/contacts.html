@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FGS CRM — Contacts</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+.topbar{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100}
+.topbar h2{font-size:18px;font-weight:800}
+.search-bar{padding:12px 16px;background:var(--navy);padding-top:0}
+.search-input{width:100%;padding:10px 14px 10px 38px;border:none;border-radius:10px;font-size:14px;background:#fff;outline:none;position:relative}
+.search-wrap{position:relative}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;pointer-events:none}
+.filters{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none;background:#fff;border-bottom:1px solid var(--border)}
+.filters::-webkit-scrollbar{display:none}
+.filter-btn{flex-shrink:0;padding:6px 14px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid var(--border);background:#fff;cursor:pointer;color:var(--muted);transition:.15s}
+.filter-btn.active{border-color:currentColor}
+.content{padding:12px 16px;max-width:700px;margin:0 auto}
+.count-label{font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:500}
+.contact-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:10px;display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;text-decoration:none;color:inherit;transition:background .15s}
+.contact-card:hover{background:#f9fafb}
+.ci-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex-shrink:0}
+.ci-main{flex:1;min-width:0}
+.ci-name{font-weight:700;font-size:15px}
+.ci-tel{font-size:13px;color:var(--muted);margin-top:2px}
+.ci-right{text-align:right;flex-shrink:0}
+.badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
+.ci-date{font-size:11px;color:var(--muted);margin-top:4px}
+.fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
+.fab:hover{transform:scale(1.05)}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500}
+.bnav a.active{color:var(--navy)}
+.bnav a .icon{font-size:20px}
+.empty{text-align:center;padding:48px 16px;color:var(--muted)}
+.empty-icon{font-size:48px;margin-bottom:12px}
+.spinner-full{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);gap:10px}
+.spinner{width:20px;height:20px;border:2.5px solid #e5e7eb;border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Modal nouveau contact */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s}
+.modal-bg.open .modal{transform:translateY(0)}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--navy)}
+.form-group{margin-bottom:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+.modal-footer{display:flex;gap:10px;margin-top:20px}
+.btn-cancel{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:15px;font-weight:600;cursor:pointer;color:var(--muted)}
+.btn-save{flex:2;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+.btn-save:disabled{opacity:.6}
+.canal-chips{display:flex;gap:6px;flex-wrap:wrap}
+.canal-chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;border:1.5px solid var(--border);cursor:pointer;color:var(--muted)}
+.canal-chip.sel{border-color:var(--teal);color:var(--teal);background:#1a7a6e10}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h2>Contacts</h2>
+</div>
+<div class="search-bar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="search" id="search" placeholder="Rechercher un contact…">
+  </div>
+</div>
+<div class="filters" id="filters"></div>
+<div class="content">
+  <div id="count-label" class="count-label"></div>
+  <div id="list"><div class="spinner-full"><div class="spinner"></div> Chargement…</div></div>
+</div>
+
+<button class="fab" id="fab-btn" title="Nouveau contact">＋</button>
+
+<nav class="bnav">
+  <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
+  <a href="/crm/contacts.html" class="active"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
+  <a href="/crm/catalogue.html" id="nav-cat" style="display:none"><span class="icon">🛒</span>Catalogue</a>
+</nav>
+
+<!-- Modal nouveau contact -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h3>Nouveau contact</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Prénom</label><input id="f-prenom" placeholder="Jean"></div>
+      <div class="form-group"><label>Nom *</label><input id="f-nom" placeholder="Dupont" required></div>
+    </div>
+    <div class="form-group"><label>Téléphone</label><input id="f-tel" type="tel" placeholder="+237 6 00 00 00 00"></div>
+    <div class="form-group"><label>Email</label><input id="f-email" type="email" placeholder="jean@exemple.com"></div>
+    <div class="form-group"><label>Ville</label><input id="f-ville" placeholder="Douala"></div>
+    <div class="form-group">
+      <label>Canal d'acquisition</label>
+      <div class="canal-chips" id="canal-chips">
+        <div class="canal-chip sel" data-val="whatsapp">WhatsApp</div>
+        <div class="canal-chip" data-val="bouche_oreille">Bouche à oreille</div>
+        <div class="canal-chip" data-val="site">Site web</div>
+        <div class="canal-chip" data-val="social">Réseaux</div>
+        <div class="canal-chip" data-val="autre">Autre</div>
+      </div>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea id="f-notes" rows="2" placeholder="Intéressé par…"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="btn-cancel">Annuler</button>
+      <button class="btn-save" id="btn-save">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, getProfile, STATUTS, CANAUX, formatDate, initials, avatarColor, badge } from './js/client.js'
+
+const { data: { session } } = await sb.auth.getSession()
+if (!session) { window.location.href = '/crm/login.html'; throw 0 }
+const profile = await getProfile(session.user.id)
+if (profile?.role === 'admin') document.getElementById('nav-cat').style.display = 'flex'
+
+// Filters
+let activeFilter = new URLSearchParams(location.search).get('statut') || 'all'
+let allContacts = []
+let query = ''
+
+const filtersEl = document.getElementById('filters')
+const filterDefs = [{ id: 'all', label: 'Tous', color: '#1f2937' }, ...Object.entries(STATUTS).map(([id,s]) => ({ id, label: s.label, color: s.color }))]
+filtersEl.innerHTML = filterDefs.map(f => `<button class="filter-btn ${f.id===activeFilter?'active':''}" data-f="${f.id}" style="color:${f.id===activeFilter?f.color:'#6b7280'};border-color:${f.id===activeFilter?f.color:'#e5e7eb'}">${f.label}</button>`).join('')
+
+filtersEl.addEventListener('click', e => {
+  const b = e.target.closest('[data-f]')
+  if (!b) return
+  activeFilter = b.dataset.f
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn => {
+    const f = filterDefs.find(x => x.id === btn.dataset.f)
+    const on = btn.dataset.f === activeFilter
+    btn.classList.toggle('active', on)
+    btn.style.color = on ? f.color : '#6b7280'
+    btn.style.borderColor = on ? f.color : '#e5e7eb'
+  })
+  render()
+})
+
+document.getElementById('search').addEventListener('input', e => { query = e.target.value.toLowerCase(); render() })
+
+// Load contacts
+const { data } = await sb.from('contacts').select('*').order('updated_at', { ascending: false })
+allContacts = data || []
+render()
+
+function render() {
+  let list = allContacts
+  if (activeFilter !== 'all') list = list.filter(c => c.statut === activeFilter)
+  if (query) list = list.filter(c =>
+    (c.nom||'').toLowerCase().includes(query) ||
+    (c.prenom||'').toLowerCase().includes(query) ||
+    (c.telephone||'').includes(query) ||
+    (c.email||'').toLowerCase().includes(query) ||
+    (c.ville||'').toLowerCase().includes(query)
+  )
+  document.getElementById('count-label').textContent = `${list.length} contact${list.length!==1?'s':''}`
+  const el = document.getElementById('list')
+  if (!list.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-icon">👥</div><p>Aucun contact trouvé</p></div>`
+    return
+  }
+  el.innerHTML = list.map(c => {
+    const s = STATUTS[c.statut] || STATUTS.nouveau
+    return `<a class="contact-card" href="/crm/contact.html?id=${c.id}">
+      <div class="ci-avatar" style="background:${s.color}">${initials(c.nom,c.prenom)}</div>
+      <div class="ci-main">
+        <div class="ci-name">${c.prenom?c.prenom+' ':''}${c.nom}</div>
+        <div class="ci-tel">${c.telephone||c.email||c.ville||'—'}</div>
+      </div>
+      <div class="ci-right">
+        <span class="badge" style="background:${s.color}18;color:${s.color};border:1px solid ${s.color}40">${s.label}</span>
+        <div class="ci-date">${formatDate(c.updated_at)}</div>
+      </div>
+    </a>`
+  }).join('')
+}
+
+// Modal
+const modal = document.getElementById('modal')
+let selectedCanal = 'whatsapp'
+
+document.getElementById('fab-btn').addEventListener('click', () => modal.classList.add('open'))
+document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open') })
+
+document.getElementById('canal-chips').addEventListener('click', e => {
+  const chip = e.target.closest('[data-val]')
+  if (!chip) return
+  selectedCanal = chip.dataset.val
+  document.querySelectorAll('.canal-chip').forEach(c => c.classList.remove('sel'))
+  chip.classList.add('sel')
+})
+
+document.getElementById('btn-save').addEventListener('click', async () => {
+  const nom = document.getElementById('f-nom').value.trim()
+  if (!nom) { alert('Le nom est requis'); return }
+  const btn = document.getElementById('btn-save')
+  btn.disabled = true; btn.textContent = '…'
+
+  const { data: newC, error } = await sb.from('contacts').insert({
+    nom,
+    prenom: document.getElementById('f-prenom').value.trim()||null,
+    telephone: document.getElementById('f-tel').value.trim()||null,
+    email: document.getElementById('f-email').value.trim()||null,
+    ville: document.getElementById('f-ville').value.trim()||null,
+    notes: document.getElementById('f-notes').value.trim()||null,
+    canal: selectedCanal,
+    assigned_to: session.user.id,
+  }).select().single()
+
+  if (!error && newC) {
+    window.location.href = `/crm/contact.html?id=${newC.id}`
+  } else {
+    alert('Erreur: ' + error?.message)
+    btn.disabled = false; btn.textContent = 'Enregistrer'
+  }
+})
+
+// Auto-open modal if ?new=1
+if (new URLSearchParams(location.search).get('new')) modal.classList.add('open')
+</script>
+</body>
+</html>

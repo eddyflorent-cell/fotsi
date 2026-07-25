@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FGS CRM — Dashboard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+/* TOPBAR */
+.topbar{background:var(--navy);color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.topbar-left h2{font-size:18px;font-weight:800;letter-spacing:.3px}
+.topbar-left p{font-size:12px;opacity:.7;margin-top:2px}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;cursor:pointer;flex-shrink:0}
+/* CONTENT */
+.content{padding:20px 16px;max-width:700px;margin:0 auto}
+.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:24px 0 12px}
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.kpi{background:var(--card);border-radius:14px;padding:18px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.kpi-val{font-size:28px;font-weight:800;line-height:1}
+.kpi-label{font-size:12px;color:var(--muted);margin-top:6px;font-weight:500}
+.kpi-icon{font-size:22px;margin-bottom:8px}
+/* PIPELINE */
+.pipeline{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.pipeline::-webkit-scrollbar{display:none}
+.pipe-chip{flex-shrink:0;padding:8px 14px;border-radius:99px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:6px}
+.pipe-count{background:rgba(0,0,0,.15);border-radius:99px;padding:1px 7px;font-size:11px}
+/* CARDS */
+.card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden}
+.card-item{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none;color:inherit;transition:background .15s}
+.card-item:last-child{border-bottom:none}
+.card-item:hover{background:#f9fafb}
+.ci-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
+.ci-main{flex:1;min-width:0}
+.ci-name{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.ci-right{text-align:right;flex-shrink:0}
+.badge{padding:2px 10px;border-radius:99px;font-size:11px;font-weight:600}
+/* RELANCES */
+.relance-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.relance-item:last-child{border-bottom:none}
+.relance-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.relance-main{flex:1}
+.relance-name{font-weight:600;font-size:14px}
+.relance-motif{font-size:12px;color:var(--muted);margin-top:2px}
+.btn-relance{padding:6px 14px;border-radius:8px;border:1.5px solid var(--teal);color:var(--teal);font-size:12px;font-weight:600;background:none;cursor:pointer}
+/* FAB */
+.fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;text-decoration:none;transition:transform .15s}
+.fab:hover{transform:scale(1.05)}
+/* BOTTOM NAV */
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500;transition:color .15s}
+.bnav a.active{color:var(--navy)}
+.bnav a .icon{font-size:20px}
+.bnav a.active .icon{filter:drop-shadow(0 0 0px transparent)}
+/* empty */
+.empty{text-align:center;padding:32px 16px;color:var(--muted);font-size:14px}
+.spinner-full{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);gap:10px}
+.spinner{width:20px;height:20px;border:2.5px solid #e5e7eb;border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(min-width:600px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <h2 id="greeting">Dashboard</h2>
+    <p id="today-date"></p>
+  </div>
+  <div class="topbar-right">
+    <div class="avatar" id="user-avatar" title="Déconnexion" onclick="logout()">?</div>
+  </div>
+</div>
+
+<div class="content" id="content">
+  <div class="spinner-full"><div class="spinner"></div> Chargement…</div>
+</div>
+
+<a class="fab" href="/crm/contacts.html?new=1" title="Nouveau contact">＋</a>
+
+<nav class="bnav">
+  <a href="/crm/index.html" class="active"><span class="icon">⊞</span>Dashboard</a>
+  <a href="/crm/contacts.html"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
+  <a href="/crm/catalogue.html" id="nav-cat" style="display:none"><span class="icon">🛒</span>Catalogue</a>
+</nav>
+
+<script type="module">
+import { sb, getProfile, STATUTS, formatDate, formatMoney, initials, avatarColor, badge } from './js/client.js'
+
+async function logout() {
+  await sb.auth.signOut()
+  window.location.href = '/crm/login.html'
+}
+window.logout = logout
+
+const { data: { session } } = await sb.auth.getSession()
+if (!session) { window.location.href = '/crm/login.html'; throw 0 }
+
+const profile = await getProfile(session.user.id)
+const nom = profile?.nom || session.user.email
+const av = document.getElementById('user-avatar')
+av.textContent = nom.substring(0,2).toUpperCase()
+
+if (profile?.role === 'admin') document.getElementById('nav-cat').style.display = 'flex'
+
+const now = new Date()
+const h = now.getHours()
+const salut = h < 12 ? 'Bonjour' : h < 18 ? 'Bon après-midi' : 'Bonsoir'
+document.getElementById('greeting').textContent = `${salut}, ${nom.split(' ')[0]} 👋`
+document.getElementById('today-date').textContent = now.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'})
+
+// Load data in parallel
+const [
+  { data: contacts },
+  { data: commandes },
+  { data: relances },
+  { data: interactions }
+] = await Promise.all([
+  sb.from('contacts').select('id,nom,prenom,statut,telephone,updated_at'),
+  sb.from('commandes').select('id,montant_total,statut_paiement,statut_livraison,created_at'),
+  sb.from('relances').select('id,contact_id,date_relance,motif,fait,contacts(nom,prenom,statut)').eq('fait',false).lte('date_relance', now.toISOString().slice(0,10)).order('date_relance'),
+  sb.from('interactions').select('id,contact_id,type,contenu,created_at,contacts(nom,prenom,statut)').order('created_at',{ascending:false}).limit(5)
+])
+
+// KPIs
+const totalContacts = contacts?.length || 0
+const cmdEnCours = commandes?.filter(c => c.statut_livraison !== 'livre' && c.statut_livraison !== 'annule').length || 0
+const caMois = commandes?.filter(c => {
+  const d = new Date(c.created_at)
+  return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear() && c.statut_paiement !== 'annule'
+}).reduce((s,c) => s + (c.montant_total||0), 0) || 0
+const relancesAujourdHui = relances?.length || 0
+
+// Pipeline counts
+const pipeline = {}
+Object.keys(STATUTS).forEach(k => pipeline[k] = 0)
+contacts?.forEach(c => { if(pipeline[c.statut] !== undefined) pipeline[c.statut]++ })
+
+const content = document.getElementById('content')
+content.innerHTML = `
+  <p class="section-title">Vue d'ensemble</p>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-icon">👥</div><div class="kpi-val">${totalContacts}</div><div class="kpi-label">Contacts total</div></div>
+    <div class="kpi"><div class="kpi-icon">📦</div><div class="kpi-val">${cmdEnCours}</div><div class="kpi-label">Commandes en cours</div></div>
+    <div class="kpi"><div class="kpi-icon">💰</div><div class="kpi-val" style="font-size:${caMois>999999?16:caMois>99999?20:24}px">${formatMoney(caMois)}</div><div class="kpi-label">CA ce mois</div></div>
+    <div class="kpi"><div class="kpi-icon">${relancesAujourdHui>0?'🔴':'✅'}</div><div class="kpi-val" style="color:${relancesAujourdHui>0?'#dc2626':'#10b981'}">${relancesAujourdHui}</div><div class="kpi-label">Relances du jour</div></div>
+  </div>
+
+  <p class="section-title">Pipeline prospects</p>
+  <div class="pipeline">
+    ${Object.entries(STATUTS).map(([k,s]) => `
+      <a class="pipe-chip" href="/crm/contacts.html?statut=${k}" style="background:${s.color}18;color:${s.color}">
+        ${s.label}<span class="pipe-count">${pipeline[k]}</span>
+      </a>`).join('')}
+  </div>
+
+  ${relancesAujourdHui > 0 ? `
+  <p class="section-title">⚡ Relances à faire aujourd'hui</p>
+  <div class="card">
+    ${relances.slice(0,5).map(r => `
+      <div class="relance-item">
+        <div class="relance-dot" style="background:${avatarColor(r.contacts?.statut)}"></div>
+        <div class="relance-main">
+          <div class="relance-name"><a href="/crm/contact.html?id=${r.contact_id}" style="color:inherit;text-decoration:none">${r.contacts?.prenom||''} ${r.contacts?.nom||'?'}</a></div>
+          <div class="relance-motif">${r.motif||'Pas de motif'} · ${formatDate(r.date_relance)}</div>
+        </div>
+        <button class="btn-relance" onclick="markRelance('${r.id}',this)">Fait ✓</button>
+      </div>`).join('')}
+  </div>` : ''}
+
+  <p class="section-title">Dernières activités</p>
+  <div class="card">
+    ${!interactions?.length ? '<div class="empty">Aucune activité récente</div>' :
+    interactions.map(i => `
+      <a class="card-item" href="/crm/contact.html?id=${i.contact_id}">
+        <div class="ci-avatar" style="background:${avatarColor(i.contacts?.statut)}">${initials(i.contacts?.nom,i.contacts?.prenom)}</div>
+        <div class="ci-main">
+          <div class="ci-name">${i.contacts?.prenom||''} ${i.contacts?.nom||'?'}</div>
+          <div class="ci-sub">${{'note':'📝','appel':'📞','whatsapp':'💬','email':'✉️','visite':'🏠','commande':'📦'}[i.type]||'📌'} ${i.contenu.substring(0,60)}${i.contenu.length>60?'…':''}</div>
+        </div>
+        <div class="ci-right" style="font-size:11px;color:var(--muted)">${formatDate(i.created_at)}</div>
+      </a>`).join('')}
+  </div>
+`
+
+window.markRelance = async (id, btn) => {
+  btn.disabled = true; btn.textContent = '…'
+  await sb.from('relances').update({ fait: true }).eq('id', id)
+  btn.closest('.relance-item').style.opacity = '.4'
+  btn.textContent = 'Fait ✓'
+}
+</script>
+</body>
+</html>

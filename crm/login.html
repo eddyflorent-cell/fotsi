@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FGS CRM — Connexion</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8}
+body{min-height:100dvh;background:linear-gradient(135deg,var(--navy) 0%,#1a3a6a 50%,var(--teal) 100%);display:flex;align-items:center;justify-content:center;font-family:system-ui,sans-serif;padding:16px}
+.card{background:#fff;border-radius:20px;padding:40px 32px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.logo{text-align:center;margin-bottom:32px}
+.logo-circle{width:72px;height:72px;background:var(--navy);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;font-weight:900;color:var(--gold);letter-spacing:-1px}
+.logo h1{color:var(--navy);font-size:20px;font-weight:800;letter-spacing:.5px}
+.logo p{color:#6b7280;font-size:13px;margin-top:4px}
+.form-group{margin-bottom:20px}
+label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px}
+input{width:100%;padding:12px 16px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:15px;transition:border-color .2s;outline:none;background:#fafafa}
+input:focus{border-color:var(--teal);background:#fff}
+.btn{width:100%;padding:14px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:8px}
+.btn:hover{background:#1a3a6a}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.error{background:#fef2f2;color:#dc2626;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:16px;display:none}
+.spinner{display:inline-block;width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brand-bar{display:flex;gap:6px;justify-content:center;margin-top:24px}
+.brand-dot{width:8px;height:8px;border-radius:50%}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="logo-circle">FGS</div>
+    <h1>FOTSI GLOBAL SERVICES</h1>
+    <p>CRM — Accès sécurisé</p>
+  </div>
+  <div class="error" id="err"></div>
+  <form id="form">
+    <div class="form-group">
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" placeholder="vous@exemple.com" autocomplete="email" required>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Mot de passe</label>
+      <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" required>
+    </div>
+    <button class="btn" type="submit" id="btn">Se connecter</button>
+  </form>
+  <div class="brand-bar">
+    <div class="brand-dot" style="background:#0f2d52"></div>
+    <div class="brand-dot" style="background:#1a7a6e"></div>
+    <div class="brand-dot" style="background:#b08a3e"></div>
+  </div>
+</div>
+<script type="module">
+import { sb } from './js/client.js'
+
+const { data: { session } } = await sb.auth.getSession()
+if (session) { window.location.href = '/crm/index.html' }
+
+const form = document.getElementById('form')
+const btn  = document.getElementById('btn')
+const err  = document.getElementById('err')
+
+form.addEventListener('submit', async e => {
+  e.preventDefault()
+  btn.disabled = true
+  btn.innerHTML = '<span class="spinner"></span>Connexion…'
+  err.style.display = 'none'
+
+  const { error } = await sb.auth.signInWithPassword({
+    email: document.getElementById('email').value.trim(),
+    password: document.getElementById('pwd').value,
+  })
+
+  if (error) {
+    err.textContent = 'Email ou mot de passe incorrect.'
+    err.style.display = 'block'
+    btn.disabled = false
+    btn.textContent = 'Se connecter'
+  } else {
+    window.location.href = '/crm/index.html'
+  }
+})
+</script>
+</body>
+</html>

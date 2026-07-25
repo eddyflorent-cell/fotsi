@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FGS CRM — Contact</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+.topbar{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+.back{color:#fff;text-decoration:none;font-size:22px;line-height:1}
+.topbar h2{font-size:17px;font-weight:800;flex:1}
+.topbar-actions{display:flex;gap:8px}
+.btn-icon{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:8px;padding:7px 10px;font-size:16px;cursor:pointer}
+/* HERO */
+.hero{background:var(--navy);color:#fff;padding:20px 20px 28px;text-align:center}
+.hero-avatar{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;margin:0 auto 12px;border:3px solid rgba(255,255,255,.3)}
+.hero-name{font-size:22px;font-weight:800}
+.hero-phone{font-size:14px;opacity:.8;margin-top:4px}
+.hero-actions{display:flex;justify-content:center;gap:12px;margin-top:16px}
+.hero-btn{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;text-decoration:none}
+.hero-btn-circle{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:20px}
+.hero-btn span{font-size:11px;opacity:.8}
+/* STATUS BAR */
+.status-bar{background:#fff;padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none}
+.status-bar::-webkit-scrollbar{display:none}
+.status-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;cursor:pointer;min-width:56px}
+.status-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;border:2px solid transparent;transition:.2s}
+.status-step.active .status-dot{border-color:currentColor;font-weight:700}
+.status-step.done .status-dot{opacity:.5}
+.status-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+.status-sep{flex:1;height:2px;background:var(--border);flex-shrink:0;min-width:10px}
+/* TABS */
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);position:sticky;top:56px;z-index:50}
+.tab{flex:1;padding:12px 8px;text-align:center;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
+.tab.active{color:var(--navy);border-color:var(--navy)}
+.content{padding:16px;max-width:700px;margin:0 auto}
+.section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin:20px 0 10px}
+.card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow:hidden;margin-bottom:12px}
+.field-row{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
+.field-row:last-child{border-bottom:none}
+.field-label{font-size:12px;color:var(--muted);width:100px;flex-shrink:0;font-weight:500;padding-top:1px}
+.field-val{flex:1;font-size:14px;font-weight:500}
+/* INTERACTIONS */
+.inter-item{padding:12px 16px;border-bottom:1px solid var(--border)}
+.inter-item:last-child{border-bottom:none}
+.inter-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.inter-type{font-size:16px}
+.inter-by{font-size:11px;color:var(--muted)}
+.inter-date{font-size:11px;color:var(--muted);margin-left:auto}
+.inter-text{font-size:14px;color:var(--text);line-height:1.4}
+/* RELANCES */
+.relance-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.relance-item:last-child{border-bottom:none}
+.relance-date{font-weight:700;font-size:13px;color:var(--navy);width:70px;flex-shrink:0}
+.relance-motif{flex:1;font-size:14px}
+.relance-fait{width:24px;height:24px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0}
+.relance-fait.done{background:var(--teal);border-color:var(--teal);color:#fff}
+/* ADD FORM */
+.add-form{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:16px;margin-bottom:12px}
+.add-form h4{font-size:14px;font-weight:700;margin-bottom:12px;color:var(--navy)}
+.form-group{margin-bottom:12px}
+label{display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;outline:none;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--teal)}
+.btn-primary{width:100%;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+.btn-primary:disabled{opacity:.6}
+.badge{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;display:inline-block}
+/* COMMANDES */
+.cmd-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:16px;margin-bottom:10px}
+.cmd-ref{font-size:12px;color:var(--muted);margin-bottom:6px}
+.cmd-amount{font-size:20px;font-weight:800;color:var(--navy)}
+.cmd-badges{display:flex;gap:6px;margin-top:8px}
+.progress-bar{height:6px;background:#e5e7eb;border-radius:3px;margin-top:10px;overflow:hidden}
+.progress-fill{height:100%;background:var(--teal);border-radius:3px;transition:width .5s}
+.progress-label{font-size:11px;color:var(--muted);margin-top:4px}
+/* EDIT MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s;max-height:90dvh;overflow-y:auto}
+.modal-bg.open .modal{transform:translateY(0)}
+.modal h3{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--navy)}
+.modal-footer{display:flex;gap:10px;margin-top:20px}
+.btn-cancel{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:15px;font-weight:600;cursor:pointer;color:var(--muted)}
+.btn-save{flex:2;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
+.bnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500}
+.bnav a.active{color:var(--navy)}
+.bnav a .icon{font-size:20px}
+.empty{text-align:center;padding:32px;color:var(--muted);font-size:14px}
+.spinner-full{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);gap:10px}
+.spinner{width:20px;height:20px;border:2.5px solid #e5e7eb;border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="/crm/contacts.html">←</a>
+  <h2 id="topbar-name">Contact</h2>
+  <div class="topbar-actions">
+    <button class="btn-icon" id="btn-edit" title="Modifier">✏️</button>
+    <button class="btn-icon" id="btn-delete" title="Supprimer">🗑</button>
+  </div>
+</div>
+
+<div id="hero-zone"></div>
+<div class="tabs" id="tabs">
+  <div class="tab active" data-tab="infos">Infos</div>
+  <div class="tab" data-tab="historique">Historique</div>
+  <div class="tab" data-tab="commandes">Commandes</div>
+  <div class="tab" data-tab="relances">Relances</div>
+</div>
+<div class="content" id="content">
+  <div class="spinner-full"><div class="spinner"></div></div>
+</div>
+
+<nav class="bnav">
+  <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
+  <a href="/crm/contacts.html" class="active"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
+  <a href="/crm/catalogue.html" id="nav-cat" style="display:none"><span class="icon">🛒</span>Catalogue</a>
+</nav>
+
+<!-- Edit modal -->
+<div class="modal-bg" id="edit-modal">
+  <div class="modal">
+    <h3>Modifier le contact</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Prénom</label><input id="e-prenom"></div>
+      <div class="form-group"><label>Nom *</label><input id="e-nom"></div>
+    </div>
+    <div class="form-group"><label>Téléphone</label><input id="e-tel" type="tel"></div>
+    <div class="form-group"><label>Email</label><input id="e-email" type="email"></div>
+    <div class="form-group"><label>Ville</label><input id="e-ville"></div>
+    <div class="form-group">
+      <label>Statut</label>
+      <select id="e-statut"></select>
+    </div>
+    <div class="form-group">
+      <label>Canal</label>
+      <select id="e-canal">
+        <option value="whatsapp">WhatsApp</option>
+        <option value="site">Site web</option>
+        <option value="bouche_oreille">Bouche à oreille</option>
+        <option value="social">Réseaux sociaux</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Notes</label><textarea id="e-notes" rows="3"></textarea></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="edit-cancel">Annuler</button>
+      <button class="btn-save" id="edit-save">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { sb, getProfile, STATUTS, CANAUX, STATUTS_PAIEMENT, STATUTS_LIVRAISON, formatDate, formatMoney, initials, avatarColor, badge } from './js/client.js'
+
+const { data: { session } } = await sb.auth.getSession()
+if (!session) { window.location.href = '/crm/login.html'; throw 0 }
+const profile = await getProfile(session.user.id)
+if (profile?.role === 'admin') document.getElementById('nav-cat').style.display = 'flex'
+
+const id = new URLSearchParams(location.search).get('id')
+if (!id) { window.location.href = '/crm/contacts.html'; throw 0 }
+
+let contact, interactions = [], commandes = [], relances = [], activeTab = 'infos'
+
+async function load() {
+  const [r1, r2, r3, r4] = await Promise.all([
+    sb.from('contacts').select('*').eq('id', id).single(),
+    sb.from('interactions').select('*,profiles(nom)').eq('contact_id', id).order('created_at', { ascending: false }),
+    sb.from('commandes').select('*').eq('contact_id', id).order('created_at', { ascending: false }),
+    sb.from('relances').select('*').eq('contact_id', id).order('date_relance'),
+  ])
+  contact = r1.data
+  interactions = r2.data || []
+  commandes = r3.data || []
+  relances = r4.data || []
+  renderHero()
+  renderTab()
+}
+
+function renderHero() {
+  if (!contact) return
+  const s = STATUTS[contact.statut] || STATUTS.nouveau
+  const av = initials(contact.nom, contact.prenom)
+  document.getElementById('topbar-name').textContent = (contact.prenom ? contact.prenom + ' ' : '') + contact.nom
+  document.getElementById('hero-zone').innerHTML = `
+    <div class="hero">
+      <div class="hero-avatar" style="background:${s.color}">${av}</div>
+      <div class="hero-name">${contact.prenom ? contact.prenom + ' ' : ''}${contact.nom}</div>
+      <div class="hero-phone">${contact.telephone || contact.email || ''}</div>
+      <div class="hero-actions">
+        ${contact.telephone ? `
+          <a class="hero-btn" href="tel:${contact.telephone}">
+            <div class="hero-btn-circle">📞</div><span>Appeler</span>
+          </a>
+          <a class="hero-btn" href="https://wa.me/${contact.telephone.replace(/\D/g,'')}">
+            <div class="hero-btn-circle">💬</div><span>WhatsApp</span>
+          </a>` : ''}
+        <div class="hero-btn" onclick="openNewCommande()">
+          <div class="hero-btn-circle">📦</div><span>Commande</span>
+        </div>
+        <div class="hero-btn" onclick="switchTab('relances')">
+          <div class="hero-btn-circle">🔔</div><span>Relance</span>
+        </div>
+      </div>
+    </div>
+    <div class="status-bar" id="status-bar">
+      ${Object.entries(STATUTS).map(([k, s], i, arr) => `
+        ${i > 0 ? '<div class="status-sep"></div>' : ''}
+        <div class="status-step ${contact.statut === k ? 'active' : ''}" data-s="${k}" style="color:${s.color}" onclick="changeStatut('${k}')">
+          <div class="status-dot" style="background:${s.color}18">${['🆕','📞','📋','🛒','📦','⭐','❌'][i]}</div>
+          <div class="status-label" style="color:${s.color}">${s.label}</div>
+        </div>`).join('')}
+    </div>`
+}
+
+function renderTab() {
+  const c = document.getElementById('content')
+  if (activeTab === 'infos') {
+    c.innerHTML = `
+      <p class="section-title">Informations</p>
+      <div class="card">
+        <div class="field-row"><div class="field-label">Téléphone</div><div class="field-val">${contact.telephone||'—'}</div></div>
+        <div class="field-row"><div class="field-label">Email</div><div class="field-val">${contact.email||'—'}</div></div>
+        <div class="field-row"><div class="field-label">Ville</div><div class="field-val">${contact.ville ? contact.ville + (contact.pays ? ', ' + contact.pays : '') : '—'}</div></div>
+        <div class="field-row"><div class="field-label">Canal</div><div class="field-val">${CANAUX[contact.canal]||contact.canal||'—'}</div></div>
+        <div class="field-row"><div class="field-label">Statut</div><div class="field-val">${badge(contact.statut)}</div></div>
+        <div class="field-row"><div class="field-label">Créé le</div><div class="field-val">${formatDate(contact.created_at)}</div></div>
+        ${contact.notes ? `<div class="field-row"><div class="field-label">Notes</div><div class="field-val" style="white-space:pre-wrap">${contact.notes}</div></div>` : ''}
+      </div>
+      <p class="section-title">Ajouter une interaction</p>
+      <div class="add-form">
+        <div class="form-group">
+          <label>Type</label>
+          <select id="i-type">
+            <option value="note">📝 Note</option>
+            <option value="appel">📞 Appel</option>
+            <option value="whatsapp">💬 WhatsApp</option>
+            <option value="email">✉️ Email</option>
+            <option value="visite">🏠 Visite</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Contenu</label>
+          <textarea id="i-contenu" rows="3" placeholder="Détail de l'échange…"></textarea>
+        </div>
+        <button class="btn-primary" id="i-save">Ajouter</button>
+      </div>`
+    document.getElementById('i-save').addEventListener('click', async () => {
+      const contenu = document.getElementById('i-contenu').value.trim()
+      if (!contenu) { alert('Contenu requis'); return }
+      const btn = document.getElementById('i-save')
+      btn.disabled = true; btn.textContent = '…'
+      await sb.from('interactions').insert({
+        contact_id: id,
+        type: document.getElementById('i-type').value,
+        contenu,
+        created_by: session.user.id
+      })
+      await load()
+    })
+  }
+  else if (activeTab === 'historique') {
+    c.innerHTML = `
+      <p class="section-title">Historique (${interactions.length})</p>
+      <div class="card">
+        ${!interactions.length ? '<div class="empty">Aucune interaction</div>' :
+          interactions.map(i => `
+            <div class="inter-item">
+              <div class="inter-header">
+                <span class="inter-type">${{'note':'📝','appel':'📞','whatsapp':'💬','email':'✉️','visite':'🏠','commande':'📦'}[i.type]||'📌'}</span>
+                <span style="font-size:13px;font-weight:600">${{'note':'Note','appel':'Appel','whatsapp':'WhatsApp','email':'Email','visite':'Visite','commande':'Commande'}[i.type]||i.type}</span>
+                <span class="inter-by">${i.profiles?.nom||''}</span>
+                <span class="inter-date">${formatDate(i.created_at)}</span>
+              </div>
+              <div class="inter-text">${i.contenu}</div>
+            </div>`).join('')}
+      </div>`
+  }
+  else if (activeTab === 'commandes') {
+    c.innerHTML = `
+      <p class="section-title">Commandes (${commandes.length})</p>
+      ${commandes.map(cmd => {
+        const pct = cmd.montant_total > 0 ? Math.round((cmd.acompte_verse||0)/cmd.montant_total*100) : 0
+        const sp = STATUTS_PAIEMENT[cmd.statut_paiement]||{label:cmd.statut_paiement,color:'#6b7280'}
+        const sl = STATUTS_LIVRAISON[cmd.statut_livraison]||{label:cmd.statut_livraison,color:'#6b7280'}
+        return `<div class="cmd-card">
+          <div class="cmd-ref">${cmd.reference||'—'} · ${formatDate(cmd.created_at)}</div>
+          <div class="cmd-amount">${formatMoney(cmd.montant_total)}</div>
+          <div class="cmd-badges">
+            <span class="badge" style="background:${sp.color}18;color:${sp.color}">${sp.label}</span>
+            <span class="badge" style="background:${sl.color}18;color:${sl.color}">${sl.label}</span>
+          </div>
+          ${cmd.montant_total > 0 ? `
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div class="progress-label">Acompte : ${formatMoney(cmd.acompte_verse||0)} / ${formatMoney(cmd.montant_total)} (${pct}%)</div>` : ''}
+        </div>`}).join('') || '<div class="empty">Aucune commande</div>'}
+      <button class="btn-primary" style="margin-top:12px" onclick="openNewCommande()">+ Nouvelle commande</button>`
+  }
+  else if (activeTab === 'relances') {
+    c.innerHTML = `
+      <p class="section-title">Relances</p>
+      <div class="card" id="relances-list">
+        ${!relances.length ? '<div class="empty">Aucune relance</div>' :
+          relances.map(r => `
+            <div class="relance-item">
+              <div class="relance-date">${formatDate(r.date_relance)}</div>
+              <div class="relance-motif">${r.motif||'—'}</div>
+              <div class="relance-fait ${r.fait?'done':''}" onclick="toggleRelance('${r.id}',${r.fait},this)">${r.fait?'✓':''}</div>
+            </div>`).join('')}
+      </div>
+      <p class="section-title">Planifier une relance</p>
+      <div class="add-form">
+        <div class="form-row">
+          <div class="form-group"><label>Date *</label><input id="r-date" type="date" value="${new Date().toISOString().slice(0,10)}"></div>
+          <div class="form-group"><label>Motif</label><input id="r-motif" placeholder="Ex: Suivi devis"></div>
+        </div>
+        <button class="btn-primary" id="r-save">Planifier</button>
+      </div>`
+    document.getElementById('r-save').addEventListener('click', async () => {
+      const date = document.getElementById('r-date').value
+      if (!date) { alert('Date requise'); return }
+      const btn = document.getElementById('r-save')
+      btn.disabled = true; btn.textContent = '…'
+      await sb.from('relances').insert({
+        contact_id: id,
+        date_relance: date,
+        motif: document.getElementById('r-motif').value.trim()||null,
+        created_by: session.user.id
+      })
+      await load()
+    })
+  }
+}
+
+window.switchTab = (tab) => {
+  activeTab = tab
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab))
+  renderTab()
+}
+
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)))
+
+window.changeStatut = async (s) => {
+  await sb.from('contacts').update({ statut: s }).eq('id', id)
+  await sb.from('interactions').insert({ contact_id: id, type: 'note', contenu: `Statut → ${STATUTS[s].label}`, created_by: session.user.id })
+  contact.statut = s
+  renderHero()
+}
+
+window.toggleRelance = async (rid, fait, el) => {
+  await sb.from('relances').update({ fait: !fait }).eq('id', rid)
+  el.classList.toggle('done', !fait)
+  el.textContent = !fait ? '✓' : ''
+}
+
+window.openNewCommande = () => { window.location.href = `/crm/commandes.html?contact=${id}` }
+
+// Edit modal
+const editModal = document.getElementById('edit-modal')
+const eStatut = document.getElementById('e-statut')
+eStatut.innerHTML = Object.entries(STATUTS).map(([k,s]) => `<option value="${k}">${s.label}</option>`).join('')
+
+document.getElementById('btn-edit').addEventListener('click', () => {
+  document.getElementById('e-nom').value = contact.nom||''
+  document.getElementById('e-prenom').value = contact.prenom||''
+  document.getElementById('e-tel').value = contact.telephone||''
+  document.getElementById('e-email').value = contact.email||''
+  document.getElementById('e-ville').value = contact.ville||''
+  document.getElementById('e-notes').value = contact.notes||''
+  eStatut.value = contact.statut||'nouveau'
+  document.getElementById('e-canal').value = contact.canal||'autre'
+  editModal.classList.add('open')
+})
+document.getElementById('edit-cancel').addEventListener('click', () => editModal.classList.remove('open'))
+editModal.addEventListener('click', e => { if(e.target===editModal) editModal.classList.remove('open') })
+
+document.getElementById('edit-save').addEventListener('click', async () => {
+  const nom = document.getElementById('e-nom').value.trim()
+  if (!nom) { alert('Nom requis'); return }
+  const btn = document.getElementById('edit-save')
+  btn.disabled = true; btn.textContent = '…'
+  await sb.from('contacts').update({
+    nom, prenom: document.getElementById('e-prenom').value.trim()||null,
+    telephone: document.getElementById('e-tel').value.trim()||null,
+    email: document.getElementById('e-email').value.trim()||null,
+    ville: document.getElementById('e-ville').value.trim()||null,
+    notes: document.getElementById('e-notes').value.trim()||null,
+    statut: eStatut.value, canal: document.getElementById('e-canal').value
+  }).eq('id', id)
+  editModal.classList.remove('open')
+  btn.disabled = false; btn.textContent = 'Enregistrer'
+  await load()
+})
+
+document.getElementById('btn-delete').addEventListener('click', async () => {
+  if (!confirm(`Supprimer ${contact?.nom} ? Cette action est irréversible.`)) return
+  await sb.from('contacts').delete().eq('id', id)
+  window.location.href = '/crm/contacts.html'
+})
+
+await load()
+</script>
+</body>
+</html>
