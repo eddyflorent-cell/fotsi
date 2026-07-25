@@ -636,7 +636,20 @@
 
     <div id="produits-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-bottom:16px;"></div>
 
+    <!-- Lightbox produits -->
+    <div id="prod-lb" onclick="this.style.display='none'" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:99999;align-items:center;justify-content:center;cursor:zoom-out;">
+      <img id="prod-lb-img" src="" alt="" style="max-width:92vw;max-height:90vh;border-radius:10px;object-fit:contain;">
+      <div onclick="document.getElementById('prod-lb').style.display='none'" style="position:absolute;top:16px;right:20px;color:#fff;font-size:32px;cursor:pointer;line-height:1;">✕</div>
+    </div>
+
     <script>
+    function prodLightbox(src,alt){
+      var lb=document.getElementById('prod-lb');
+      document.getElementById('prod-lb-img').src=src;
+      document.getElementById('prod-lb-img').alt=alt||'';
+      lb.style.display='flex';
+    }
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('prod-lb').style.display='none';});
     const SB_URL = 'https://krffbvfbmztwgmdmwkgi.supabase.co'
     const SB_KEY = 'sb_publishable_6TQI0kPaNDgsx_N9mfd2GQ_Q2pbUjOb'
     fetch(`${SB_URL}/rest/v1/produits_crm?select=*&actif=eq.true&order=ordre.asc,created_at.asc`, {
@@ -679,7 +692,7 @@
           const photo = photos.length > 1
             ? `<div id="car-${p.id}" style="position:relative;height:240px;border-radius:12px 12px 0 0;overflow:hidden;background:#f8f9fa;">
                 <div class="car-track" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;height:240px;" onscroll="(function(el,id){const w=el.querySelector('.car-slide').offsetWidth||1;const i=Math.round(el.scrollLeft/w);window._carouselIdx&&(_carouselIdx[id]=i);el.closest('#car-'+id).querySelectorAll('.car-dot').forEach((d,j)=>d.style.opacity=j===i?'1':'.3')})(this,'${p.id}')">
-                  ${photos.map(src=>`<img class="car-slide" src="${src.replace(/\\/g,'/')}" alt="${p.nom}" style="width:100%;height:240px;object-fit:contain;background:#f8f9fa;flex-shrink:0;scroll-snap-align:start;cursor:zoom-in;transition:transform .25s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">`).join('')}
+                  ${photos.map(src=>`<img class="car-slide" src="${src.replace(/\\/g,'/')}" alt="${p.nom}" style="width:100%;height:240px;object-fit:contain;background:#f8f9fa;flex-shrink:0;scroll-snap-align:start;cursor:zoom-in;transition:transform .25s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">`).join('')}
                 </div>
                 <button onclick="event.stopPropagation();_carouselGo('${p.id}',-1)" style="position:absolute;left:6px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:18px;line-height:1;box-shadow:0 1px 6px rgba(0,0,0,.2)">‹</button>
                 <button onclick="event.stopPropagation();_carouselGo('${p.id}',1)" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:18px;line-height:1;box-shadow:0 1px 6px rgba(0,0,0,.2)">›</button>
@@ -688,7 +701,7 @@
                 </div>
               </div>`
             : photos[0]
-            ? `<img src="${photos[0].replace(/\\/g,'/')}" alt="${p.nom}" style="width:100%;height:240px;object-fit:contain;background:#f8f9fa;border-radius:12px 12px 0 0;cursor:zoom-in;transition:transform .25s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">`
+            ? `<img src="${photos[0].replace(/\\/g,'/')}" alt="${p.nom}" style="width:100%;height:240px;object-fit:contain;background:#f8f9fa;border-radius:12px 12px 0 0;cursor:zoom-in;transition:transform .25s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">`
             : `<div style="width:100%;height:240px;background:var(--surface);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;font-size:48px;">${p.emoji||'📦'}</div>`;
           const specs = (p.specs||[]).map(s => `<span class="prod-tag">${s}</span>`).join('');
           const waMsg = encodeURIComponent(`Bonjour FGS 👋\nJe souhaite commander :\n*${p.nom}* — ${p.prixLabel}\nPouvez-vous confirmer la disponibilité ?`);
@@ -820,14 +833,14 @@
             <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px;">
               <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-hint);margin-bottom:10px;">Portfolio — Logos · Affiches · Calendriers · Dessins</div>
               <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-                <img src="images/gliart/portfolio-p1.jpg" alt="Logos" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
-                <img src="images/gliart/portfolio-p2.jpg" alt="Étiquettes" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
-                <img src="images/gliart/portfolio-p3.jpg" alt="Cartes de visite" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
-                <img src="images/gliart/portfolio-p4.jpg" alt="Calendriers" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
-                <img src="images/gliart/portfolio-p5.jpg" alt="Calendriers 2" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
-                <img src="images/gliart/portfolio-p6.jpg" alt="Affiches" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
-                <img src="images/gliart/portfolio-p7.jpg" alt="Affiches 2" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
-                <img src="images/gliart/portfolio-p8.jpg" alt="Dessins" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="fgsLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p1.jpg" alt="Logos" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p2.jpg" alt="Étiquettes" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p3.jpg" alt="Cartes de visite" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p4.jpg" alt="Calendriers" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p5.jpg" alt="Calendriers 2" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p6.jpg" alt="Affiches" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p7.jpg" alt="Affiches 2" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
+                <img src="images/gliart/portfolio-p8.jpg" alt="Dessins" loading="lazy" style="width:100%;border-radius:8px;cursor:zoom-in;transition:transform .2s;" onmouseenter="this.style.transform='scale(1.04)'" onmouseleave="this.style.transform='scale(1)'" onclick="event.stopPropagation();prodLightbox(this.src,this.alt)">
               </div>
 
               <!-- Lightbox -->
