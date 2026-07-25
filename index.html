@@ -665,9 +665,30 @@
         }))
 
         const grid = document.getElementById('produits-grid');
+        const _carouselIdx = {};
+        window._carouselGo = (id, dir) => {
+          const track = document.querySelector(`#car-${id} .car-track`);
+          if (!track) return;
+          const slides = track.querySelectorAll('.car-slide');
+          _carouselIdx[id] = ((_carouselIdx[id]||0) + dir + slides.length) % slides.length;
+          track.scrollTo({ left: slides[0].offsetWidth * _carouselIdx[id], behavior:'smooth' });
+          document.querySelectorAll(`#car-${id} .car-dot`).forEach((d,i) => d.style.opacity = i===_carouselIdx[id]?'1':'.3');
+        };
         grid.innerHTML = produits.map(p => {
-          const photo = p.photos && p.photos[0]
-            ? `<img src="${p.photos[0]}" alt="${p.nom}" style="width:100%;height:200px;object-fit:cover;border-radius:12px 12px 0 0;">`
+          const photos = p.photos && p.photos.length ? p.photos : [];
+          const photo = photos.length > 1
+            ? `<div id="car-${p.id}" style="position:relative;height:200px;border-radius:12px 12px 0 0;overflow:hidden;">
+                <div class="car-track" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;height:200px;" onscroll="(function(el,id){const w=el.querySelector('.car-slide').offsetWidth||1;const i=Math.round(el.scrollLeft/w);window._carouselIdx&&(_carouselIdx[id]=i);el.closest('#car-'+id).querySelectorAll('.car-dot').forEach((d,j)=>d.style.opacity=j===i?'1':'.3')})(this,'${p.id}')">
+                  ${photos.map(src=>`<img class="car-slide" src="${src}" alt="${p.nom}" style="width:100%;height:200px;object-fit:cover;flex-shrink:0;scroll-snap-align:start;">`).join('')}
+                </div>
+                <button onclick="event.stopPropagation();_carouselGo('${p.id}',-1)" style="position:absolute;left:6px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:18px;line-height:1;box-shadow:0 1px 6px rgba(0,0,0,.2)">‹</button>
+                <button onclick="event.stopPropagation();_carouselGo('${p.id}',1)" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.85);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:18px;line-height:1;box-shadow:0 1px 6px rgba(0,0,0,.2)">›</button>
+                <div style="position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:5px;">
+                  ${photos.map((_,i)=>`<span class="car-dot" style="width:6px;height:6px;border-radius:50%;background:#fff;opacity:${i===0?'1':'.3'};transition:opacity .2s;display:inline-block;"></span>`).join('')}
+                </div>
+              </div>`
+            : photos[0]
+            ? `<img src="${photos[0]}" alt="${p.nom}" style="width:100%;height:200px;object-fit:cover;border-radius:12px 12px 0 0;">`
             : `<div style="width:100%;height:200px;background:var(--surface);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;font-size:48px;">${p.emoji||'📦'}</div>`;
           const specs = (p.specs||[]).map(s => `<span class="prod-tag">${s}</span>`).join('');
           const waMsg = encodeURIComponent(`Bonjour FGS 👋\nJe souhaite commander :\n*${p.nom}* — ${p.prixLabel}\nPouvez-vous confirmer la disponibilité ?`);
