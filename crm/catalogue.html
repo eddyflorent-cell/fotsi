@@ -98,35 +98,61 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
     <h3 id="modal-title">Nouveau produit</h3>
     <input type="hidden" id="f-id">
     <div class="form-group"><label>Nom du produit *</label><input id="f-nom" placeholder="Ex: AirPods A11 Pro ANC"></div>
-    <div class="form-group"><label>Description</label><textarea id="f-desc" rows="2" placeholder="Caractéristiques principales…"></textarea></div>
+    <div class="form-group"><label>Description</label><textarea id="f-desc" rows="3" placeholder="Caractéristiques principales…"></textarea></div>
+    <div class="form-group">
+      <label>Spécifications <span style="font-weight:400;color:var(--muted)">(une par ligne)</span></label>
+      <textarea id="f-specs" rows="3" placeholder="ANC actif&#10;Son premium&#10;TWS sans fil"></textarea>
+    </div>
     <div class="form-row">
       <div class="form-group"><label>Prix public (FCFA)</label><input id="f-prix-pub" type="number" min="0" step="100" placeholder="0"></div>
       <div class="form-group"><label>Prix revendeur (FCFA)</label><input id="f-prix-rev" type="number" min="0" step="100" placeholder="0"></div>
     </div>
     <div class="form-row">
+      <div class="form-group"><label>Qté mini revendeur</label><input id="f-min-rev" type="number" min="1" step="1" placeholder="1" value="1"></div>
       <div class="form-group"><label>Stock disponible</label><input id="f-stock" type="number" min="0" step="1" placeholder="0"></div>
+    </div>
+    <div class="form-row">
       <div class="form-group">
         <label>Catégorie</label>
         <select id="f-cat">
-          <option value="high-tech">High-Tech</option>
-          <option value="restauration">Restauration</option>
-          <option value="import">Import divers</option>
-          <option value="autre">Autre</option>
+          <option value="High-Tech FGS">High-Tech FGS</option>
+          <option value="Restauration">Restauration</option>
+          <option value="Import divers">Import divers</option>
+          <option value="Cosmétiques">Cosmétiques</option>
+          <option value="Autre">Autre</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Emoji / icône</label>
+        <input id="f-emoji" placeholder="📦" style="font-size:20px" maxlength="4">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Badge (texte affiché sur la carte)</label>
+        <input id="f-badge" placeholder="✓ Stock Douala">
+      </div>
+      <div class="form-group">
+        <label>Style badge</label>
+        <select id="f-badge-class">
+          <option value="pb-teal">Vert (teal)</option>
+          <option value="pb-gold">Doré</option>
+          <option value="pb-navy">Navy</option>
         </select>
       </div>
     </div>
     <div class="form-group">
-      <label>URL image (optionnel)</label>
-      <input id="f-img" type="url" placeholder="https://…">
-      <img id="img-preview" class="img-preview" alt="">
+      <label>Photos <span style="font-weight:400;color:var(--muted)">(URLs, une par ligne — la 1re est la photo principale)</span></label>
+      <textarea id="f-photos" rows="3" placeholder="images/produits/mon-produit-1.jpg&#10;https://…/photo2.jpg"></textarea>
     </div>
     <div class="form-group">
       <label>Disponible à la vente</label>
       <select id="f-actif">
-        <option value="true">Oui</option>
-        <option value="false">Non (masqué)</option>
+        <option value="true">Oui — visible sur le site</option>
+        <option value="false">Non (masqué partout)</option>
       </select>
     </div>
+    <div class="form-group"><label>Notes internes</label><textarea id="f-notes-int" rows="2" placeholder="Fournisseur, délai réappro…"></textarea></div>
     <div class="modal-footer">
       <button class="btn-cancel" id="btn-cancel">Annuler</button>
       <button class="btn-save" id="btn-save">Enregistrer</button>
@@ -170,7 +196,7 @@ let noteTargetId = ''
 
 async function loadData() {
   try {
-    const { data, error } = await sb.from('produits_crm').select('*').order('created_at', { ascending: false })
+    const { data, error } = await sb.from('produits_crm').select('*').order('ordre', { ascending: true }).order('created_at', { ascending: false })
     if (error && error.code === '42P01') {
       products = []
       document.getElementById('content').innerHTML = `
@@ -227,19 +253,28 @@ function render(list) {
     Object.entries(cats).forEach(([cat, prods]) => {
       html += `<p class="section-title">${catLabels[cat]||cat} (${prods.length})</p>`
       prods.forEach(p => {
-        const imgHtml = p.image_url
-          ? `<div class="prod-img"><img src="${p.image_url}" alt="${p.nom}" onerror="this.parentElement.textContent='🛍️'"></div>`
-          : `<div class="prod-img">🛍️</div>`
+        const mainPhoto = (p.photos && p.photos[0]) || p.image_url
+        const imgHtml = mainPhoto
+          ? `<div class="prod-img"><img src="${mainPhoto}" alt="${p.nom}" onerror="this.parentElement.innerHTML='<span style=font-size:40px>${p.emoji||'📦'}</span>'"></div>`
+          : `<div class="prod-img" style="font-size:40px">${p.emoji||'📦'}</div>`
+        const specsHtml = (p.specs||[]).length
+          ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${p.specs.map(s=>`<span style="font-size:10px;background:#f0f4f8;color:#374151;padding:2px 7px;border-radius:99px;font-weight:600">${s}</span>`).join('')}</div>` : ''
+        const badgeHtml = p.badge ? `<span style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:${p.badge_class==='pb-gold'?'#b08a3e18':p.badge_class==='pb-navy'?'#0f2d5218':'#1a7a6e18'};color:${p.badge_class==='pb-gold'?'#b08a3e':p.badge_class==='pb-navy'?'#0f2d52':'#1a7a6e'}">${p.badge}</span>` : ''
         html += `<div class="prod-card">
           ${imgHtml}
           <div class="prod-main">
-            <div class="prod-name">${p.nom}${isAdmin && !p.actif ? '<span class="prod-badge" style="background:#fee2e2;color:#dc2626">Masqué</span>' : ''}</div>
+            <div class="prod-name">
+              ${p.nom}
+              ${!p.actif ? '<span class="prod-badge" style="background:#fee2e2;color:#dc2626;font-size:10px;padding:2px 7px;border-radius:99px;margin-left:6px">Masqué</span>' : ''}
+              ${badgeHtml}
+            </div>
             ${p.description ? `<div class="prod-desc">${p.description}</div>` : ''}
+            ${specsHtml}
             <div class="prod-prices">
               <span class="prod-price-pub">${formatMoney(p.prix_public)}</span>
-              ${isAdmin && p.prix_revendeur ? `<span class="prod-price-rev">Gros: ${formatMoney(p.prix_revendeur)}</span>` : ''}
+              ${isAdmin && p.prix_revendeur ? `<span class="prod-price-rev">Gros: ${formatMoney(p.prix_revendeur)}${p.min_qty_revendeur>1?' (min '+p.min_qty_revendeur+')':''}</span>` : ''}
             </div>
-            <div class="prod-qte">Stock: <strong>${p.stock??'—'}</strong> unité${(p.stock||0)>1?'s':''}</div>
+            <div class="prod-qte">Stock: <strong style="color:${(p.stock||0)>0?'#10b981':'#ef4444'}">${p.stock??'—'}</strong> unité${(p.stock||0)>1?'s':''}</div>
             <div class="prod-actions">
               ${isAdmin ? `
                 <button class="btn-edit" onclick="openEdit('${p.id}')">✏️ Modifier</button>
@@ -262,11 +297,14 @@ const modal = document.getElementById('modal')
 document.getElementById('fab-btn').addEventListener('click', () => {
   document.getElementById('modal-title').textContent = 'Nouveau produit'
   document.getElementById('f-id').value = ''
-  ;['f-nom','f-desc','f-img'].forEach(id => document.getElementById(id).value = '')
+  ;['f-nom','f-desc','f-specs','f-photos','f-badge','f-notes-int'].forEach(id => document.getElementById(id).value = '')
   ;['f-prix-pub','f-prix-rev','f-stock'].forEach(id => document.getElementById(id).value = '')
-  document.getElementById('f-cat').value = 'high-tech'
+  document.getElementById('f-min-rev').value = '1'
+  document.getElementById('f-cat').value = 'High-Tech FGS'
+  document.getElementById('f-emoji').value = '📦'
+  document.getElementById('f-badge').value = '✓ Stock Douala'
+  document.getElementById('f-badge-class').value = 'pb-teal'
   document.getElementById('f-actif').value = 'true'
-  document.getElementById('img-preview').style.display = 'none'
   modal.classList.add('open')
 })
 document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
@@ -285,14 +323,18 @@ window.openEdit = (id) => {
   document.getElementById('f-id').value = p.id
   document.getElementById('f-nom').value = p.nom||''
   document.getElementById('f-desc').value = p.description||''
+  document.getElementById('f-specs').value = (p.specs||[]).join('\n')
+  document.getElementById('f-photos').value = (p.photos||[]).join('\n') || (p.image_url ? p.image_url : '')
   document.getElementById('f-prix-pub').value = p.prix_public||''
   document.getElementById('f-prix-rev').value = p.prix_revendeur||''
+  document.getElementById('f-min-rev').value = p.min_qty_revendeur||1
   document.getElementById('f-stock').value = p.stock??''
-  document.getElementById('f-cat').value = p.categorie||'autre'
-  document.getElementById('f-img').value = p.image_url||''
-  const prev = document.getElementById('img-preview')
-  if (p.image_url) { prev.src = p.image_url; prev.style.display = 'block' } else { prev.style.display = 'none' }
+  document.getElementById('f-cat').value = p.categorie||'Autre'
+  document.getElementById('f-emoji').value = p.emoji||'📦'
+  document.getElementById('f-badge').value = p.badge||''
+  document.getElementById('f-badge-class').value = p.badge_class||'pb-teal'
   document.getElementById('f-actif').value = p.actif !== false ? 'true' : 'false'
+  document.getElementById('f-notes-int').value = p.notes_internes||''
   modal.classList.add('open')
 }
 
@@ -308,15 +350,24 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   const btn = document.getElementById('btn-save')
   btn.disabled = true; btn.textContent = '…'
   const editId = document.getElementById('f-id').value
+  const photos = document.getElementById('f-photos').value.split('\n').map(s=>s.trim()).filter(Boolean)
+  const specs  = document.getElementById('f-specs').value.split('\n').map(s=>s.trim()).filter(Boolean)
   const payload = {
     nom,
-    description: document.getElementById('f-desc').value.trim()||null,
-    prix_public: +document.getElementById('f-prix-pub').value||0,
-    prix_revendeur: +document.getElementById('f-prix-rev').value||0,
-    stock: parseInt(document.getElementById('f-stock').value)||0,
-    categorie: document.getElementById('f-cat').value,
-    image_url: document.getElementById('f-img').value.trim()||null,
-    actif: document.getElementById('f-actif').value === 'true',
+    description:       document.getElementById('f-desc').value.trim()||null,
+    specs:             specs.length ? specs : null,
+    photos:            photos.length ? photos : null,
+    image_url:         photos[0] || null,
+    prix_public:       +document.getElementById('f-prix-pub').value||0,
+    prix_revendeur:    +document.getElementById('f-prix-rev').value||0,
+    min_qty_revendeur: +document.getElementById('f-min-rev').value||1,
+    stock:             parseInt(document.getElementById('f-stock').value)||0,
+    categorie:         document.getElementById('f-cat').value,
+    emoji:             document.getElementById('f-emoji').value.trim()||'📦',
+    badge:             document.getElementById('f-badge').value.trim()||null,
+    badge_class:       document.getElementById('f-badge-class').value,
+    actif:             document.getElementById('f-actif').value === 'true',
+    notes_internes:    document.getElementById('f-notes-int').value.trim()||null,
   }
   if (editId) await sb.from('produits_crm').update(payload).eq('id', editId)
   else await sb.from('produits_crm').insert(payload)

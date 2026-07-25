@@ -637,9 +637,33 @@
     <div id="produits-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-bottom:16px;"></div>
 
     <script>
-    fetch('/produits.json?v=' + Date.now())
-      .then(r => r.json())
-      .then(produits => {
+    const SB_URL = 'https://krffbvfbmztwgmdmwkgi.supabase.co'
+    const SB_KEY = 'sb_publishable_6TQI0kPaNDgsx_N9mfd2GQ_Q2pbUjOb'
+    fetch(`${SB_URL}/rest/v1/produits_crm?select=*&actif=eq.true&order=ordre.asc,created_at.asc`, {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    })
+      .then(r => r.ok ? r.json() : fetch('/produits.json').then(r2=>r2.json()))
+      .then(data => {
+        // Normalise les champs Supabase → format produits.json
+        const produits = data.map(p => ({
+          id:              p.slug || p.id,
+          categorie:       p.categorie,
+          badge:           p.badge || '✓ Disponible',
+          badgeClass:      p.badge_class || 'pb-teal',
+          nom:             p.nom,
+          description:     p.description || '',
+          specs:           p.specs || [],
+          prixPublic:      p.prix_public || 0,
+          prixPublicLabel: (p.prix_public||0).toLocaleString('fr-FR') + ' FCFA',
+          prixRevendeur:   p.prix_revendeur || 0,
+          prixRevendeurLabel: (p.prix_revendeur||0).toLocaleString('fr-FR') + ' FCFA',
+          prixRevendeurMin: p.min_qty_revendeur || 1,
+          devise:          'XAF',
+          stock:           (p.stock > 0) ? 'disponible' : 'sur_commande',
+          photos:          p.photos || (p.image_url ? [p.image_url] : []),
+          emoji:           p.emoji || '📦',
+        }))
+
         const grid = document.getElementById('produits-grid');
         grid.innerHTML = produits.map(p => {
           const photo = p.photos && p.photos[0]
