@@ -310,9 +310,10 @@ document.getElementById('fab-btn').addEventListener('click', () => {
 document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
 modal.addEventListener('click', e => { if(e.target===modal) modal.classList.remove('open') })
 
-document.getElementById('f-img').addEventListener('input', e => {
+document.getElementById('f-photos').addEventListener('input', e => {
   const prev = document.getElementById('img-preview')
-  if (e.target.value) { prev.src = e.target.value; prev.style.display = 'block' }
+  const first = e.target.value.split('\n')[0].trim()
+  if (first) { prev.src = first; prev.style.display = 'block' }
   else { prev.style.display = 'none' }
 })
 
