@@ -327,7 +327,13 @@ textarea{resize:vertical;min-height:70px}
   <a href="/crm/documents.html" class="active"><span class="icon">📄</span>Documents</a>
 </nav>
 
-<script>
+<script type="module">
+import { sb, getProfile, formatMoney } from './js/client.js'
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+const { data: { session } } = await sb.auth.getSession()
+if (!session) { window.location.href = '/crm/login.html'; throw 0 }
+
 // ── CONSTANTES FGS ───────────────────────────────────────────────────────────
 const FGS = {
   nom:     'FOTSI GLOBAL SERVICES',
@@ -353,6 +359,55 @@ document.getElementById('f-br-validite').value = new Date(Date.now()+90*86400000
 renderLines()
 renderRegLines()
 render()
+
+// ── PRÉ-REMPLISSAGE DEPUIS CRM ───────────────────────────────────────────────
+;(async () => {
+  const params = new URLSearchParams(location.search)
+  const typeParam = params.get('type')
+  const contactId = params.get('contact')
+  const commandeId = params.get('commande')
+
+  if (typeParam) {
+    docType = typeParam
+    document.querySelectorAll('.doc-type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === typeParam))
+    updateFormVisibility()
+  }
+
+  if (commandeId) {
+    const { data: cmd } = await sb.from('commandes').select('*,contacts(*)').eq('id', commandeId).single()
+    if (cmd) {
+      const c = cmd.contacts
+      const nom = c ? ((c.prenom ? c.prenom + ' ' : '') + c.nom) : ''
+      document.getElementById('f-num').value = cmd.reference || ''
+      document.getElementById('f-client-nom').value = nom
+      document.getElementById('f-client-tel').value = c?.telephone || ''
+      document.getElementById('f-client-addr').value = c?.ville || ''
+      document.getElementById('f-acompte').value = cmd.acompte_verse || ''
+      const modeMap = { orange_money: 'Orange Money', mtn_money: 'MTN Money', especes: 'Espèces', paypal: 'PayPal' }
+      document.getElementById('f-mode-paiement').value = modeMap[cmd.mode_paiement] || cmd.mode_paiement || 'Orange Money'
+      // reçu
+      document.getElementById('f-recu-montant').value = cmd.montant_total || ''
+      document.getElementById('f-recu-de').value = nom
+      document.getElementById('f-recu-mode').value = modeMap[cmd.mode_paiement] || cmd.mode_paiement || ''
+      // articles depuis produits JSONB
+      if (Array.isArray(cmd.produits) && cmd.produits.length) {
+        lines = cmd.produits.map(p => ({ desc: p.nom || p.desc || '', qte: p.qte || 1, prix: p.prix || 0 }))
+        renderLines()
+      }
+      render()
+    }
+  } else if (contactId) {
+    const { data: contact } = await sb.from('contacts').select('*').eq('id', contactId).single()
+    if (contact) {
+      const nom = (contact.prenom ? contact.prenom + ' ' : '') + contact.nom
+      document.getElementById('f-client-nom').value = nom
+      document.getElementById('f-client-tel').value = contact.telephone || ''
+      document.getElementById('f-client-addr').value = contact.ville || ''
+      document.getElementById('f-recu-de').value = nom
+      render()
+    }
+  }
+})()
 
 // ── TYPE SELECTOR ─────────────────────────────────────────────────────────────
 document.getElementById('type-grid').addEventListener('click', e => {

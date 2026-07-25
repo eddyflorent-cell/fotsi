@@ -204,6 +204,12 @@ function renderHero() {
           <a class="hero-btn" href="https://wa.me/${contact.telephone.replace(/\D/g,'')}">
             <div class="hero-btn-circle">💬</div><span>WhatsApp</span>
           </a>` : ''}
+        <a class="hero-btn" href="/crm/documents.html?contact=${contact.id}&type=devis">
+          <div class="hero-btn-circle">📋</div><span>Devis</span>
+        </a>
+        <a class="hero-btn" href="/crm/documents.html?contact=${contact.id}&type=facture">
+          <div class="hero-btn-circle">🧾</div><span>Facture</span>
+        </a>
         <div class="hero-btn" onclick="openNewCommande()">
           <div class="hero-btn-circle">📦</div><span>Commande</span>
         </div>

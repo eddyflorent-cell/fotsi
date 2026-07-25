@@ -28,6 +28,9 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .progress-bar{height:6px;background:#e5e7eb;border-radius:3px;margin-top:10px;overflow:hidden}
 .progress-fill{height:100%;border-radius:3px;transition:width .5s}
 .progress-label{font-size:11px;color:var(--muted);margin-top:4px}
+.cmd-doc-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.cmd-doc-btn{font-size:12px;font-weight:600;padding:5px 10px;border-radius:8px;background:#f0f4f8;color:#0f2d52;text-decoration:none;border:1px solid #dde3ea;transition:.15s}
+.cmd-doc-btn:hover{background:#0f2d52;color:#fff}
 .fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
 .fab:hover{transform:scale(1.05)}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto;scrollbar-width:none}
@@ -251,6 +254,11 @@ function render() {
       ${cmd.montant_total > 0 ? `
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${pct>=100?'#10b981':'#1a7a6e'}"></div></div>
       <div class="progress-label">Acompte ${formatMoney(cmd.acompte_verse||0)} / ${formatMoney(cmd.montant_total)} · ${pct}% réglé</div>` : ''}
+      <div class="cmd-doc-actions" onclick="event.stopPropagation()">
+        <a class="cmd-doc-btn" href="/crm/documents.html?commande=${cmd.id}&type=facture">🧾 Facture</a>
+        <a class="cmd-doc-btn" href="/crm/documents.html?commande=${cmd.id}&type=recu">✅ Reçu</a>
+        <a class="cmd-doc-btn" href="/crm/documents.html?commande=${cmd.id}&type=devis">📋 Devis</a>
+      </div>
     </div>`
   }).join('')
 }
