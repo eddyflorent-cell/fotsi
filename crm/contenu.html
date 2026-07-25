@@ -2,12 +2,12 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>FGS CRM — Contenu site</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
-body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:80px}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 .topbar{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between}
 .topbar h2{font-size:18px;font-weight:800}
 .topbar-sub{font-size:11px;opacity:.6;margin-top:2px}
@@ -63,7 +63,7 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
 .fab:hover{transform:scale(1.05)}
 /* BNAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:64px;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:calc(64px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto;scrollbar-width:none}
 .bnav a{flex-shrink:0;min-width:68px;padding:0 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:10px;font-weight:500;white-space:nowrap}
 .bnav a.active{color:var(--navy)}
 .bnav a .icon{font-size:18px}
