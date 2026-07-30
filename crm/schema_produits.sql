@@ -50,7 +50,7 @@ VALUES
   'Brûleur gaz à plateau rotatif électrique — 2 foyers. Inox alimentaire, chauffe homogène, idéale pour snacks et fast-foods.',
   ARRAY['2 foyers gaz','Plateau rotatif électrique','Inox 304','Livraison Douala'],
   140000, 110000, 3, 99,
-  ARRAY['images/produits/shawarma-1.png','images/produits/shawarma-2.png'],
+  ARRAY['images/produits/shawarma-1.jpg','images/produits/shawarma-2.jpg'],
   true, '🍖', 1
 ),
 (
