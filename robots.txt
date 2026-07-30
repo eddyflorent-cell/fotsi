@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /crm/
+Allow: /
+
+Sitemap: https://fotsiglobal.com/sitemap.xml
