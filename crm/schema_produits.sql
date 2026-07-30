@@ -77,7 +77,7 @@ VALUES
   'Suppression active du bruit ANC pour écouter sans distraction. Son HiFi stéréo, affichage LED de la batterie sur le boîtier. Connexion TWS instantanée, micro intégré pour les appels. Design sport noir et orange — robuste et accrocheur.',
   ARRAY['ANC actif','HiFi stéréo','Affichage LED','TWS sans fil','Micro intégré'],
   11000, 8500, 3, 99,
-  ARRAY['images/produits/ecouteurs-jm19.avif'],
+  ARRAY['images/produits/ecouteurs-a11pro-1.jpg','images/produits/ecouteurs-a11pro-2.jpg'],
   true, '🎧', 4
 ),
 (
