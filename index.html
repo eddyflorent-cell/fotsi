@@ -1158,5 +1158,47 @@
   <img src="" id="lb-img" alt="" />
   <div class="lb-caption" id="lb-caption"></div>
 </div>
+
+<!-- Bandeau consentement cookies / Google Analytics -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0f2d52;color:#fff;padding:16px 20px;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;font-family:'DM Sans',system-ui,sans-serif;font-size:13px;box-shadow:0 -4px 20px rgba(0,0,0,.25);">
+  <span style="max-width:520px;line-height:1.5;">Ce site utilise Google Analytics pour mesurer l'audience. Vos données ne servent qu'à des statistiques de visite.</span>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <button id="cookie-refuse" style="background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer;">Refuser</button>
+    <button id="cookie-accept" style="background:#1a7a6e;border:none;color:#fff;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;">Accepter</button>
+  </div>
+</div>
+<script>
+(function(){
+  var GA_ID = 'G-J2FCMB0ZK8';
+  function loadGA(){
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  }
+  var consent = localStorage.getItem('fgs-consent');
+  var banner = document.getElementById('cookie-banner');
+  if (consent === 'granted') {
+    loadGA();
+  } else if (consent !== 'denied' && banner) {
+    banner.style.display = 'flex';
+  }
+  if (banner) {
+    document.getElementById('cookie-accept').addEventListener('click', function(){
+      localStorage.setItem('fgs-consent', 'granted');
+      loadGA();
+      banner.style.display = 'none';
+    });
+    document.getElementById('cookie-refuse').addEventListener('click', function(){
+      localStorage.setItem('fgs-consent', 'denied');
+      banner.style.display = 'none';
+    });
+  }
+})();
+</script>
 </body>
 </html>
