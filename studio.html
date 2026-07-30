@@ -713,6 +713,7 @@
       `Dispo : ${data['Disponibilité']}`,
     ].join('\n');
 
+    if (typeof gtag === 'function') gtag('event', 'generate_lead', { method: 'brief_form' });
     window.open('https://wa.me/237691837274?text=' + encodeURIComponent(msg), '_blank');
 
     document.getElementById('brief-form').style.display = 'none';
@@ -776,6 +777,18 @@
     });
   }
 })();
+
+// Suivi des clics à valeur de lead (WhatsApp, tel)
+document.addEventListener('click', function(e){
+  var a = e.target.closest('a[href]');
+  if (!a || typeof gtag !== 'function') return;
+  var href = a.getAttribute('href');
+  if (href.indexOf('wa.me') > -1) {
+    gtag('event', 'generate_lead', { method: 'whatsapp' });
+  } else if (href.indexOf('tel:') === 0) {
+    gtag('event', 'generate_lead', { method: 'telephone' });
+  }
+});
 </script>
 </body>
 </html>
