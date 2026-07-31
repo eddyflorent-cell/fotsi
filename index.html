@@ -550,7 +550,7 @@
           <span class="flag flag-fr">🇫🇷 Paris</span>
         </div>
         <h1 class="hero-title">Import sécurisé<br />depuis la Chine<br /><em>— livraison à Douala.</em></h1>
-        <p class="hero-sub">Vous voulez un produit depuis la Chine ? FGS s'occupe de tout — négociation, fournisseurs, contrôle qualité, chargement et logistique. <strong>60 % à la commande, 40 % après vérification physique dans nos locaux à Douala.</strong> Rien avant d'avoir vu votre marchandise.</p>
+        <p class="hero-sub">Vous voulez un produit depuis la Chine ? FGS s'occupe de tout — négociation, fournisseurs, contrôle qualité, chargement et logistique. <strong>60 % à la commande, 40 % après vérification physique dans nos locaux à Douala.</strong> Vous ne réglez jamais le solde avant d'avoir vérifié votre marchandise.</p>
         <div class="hero-ctas">
           <a href="/devis-import.html" class="btn btn-navy">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -872,32 +872,46 @@
           </div>
           <div>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
-              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;">
+              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;cursor:pointer;" onclick="toggleGliVideo(this)">
                 <video src="images/gliart/demo-gli-art-2.mp4" muted loop playsinline preload="none"
                   style="width:100%;height:100%;object-fit:cover;opacity:.85;"
-                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>
+                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
+                  onplay="this.nextElementSibling.style.display='none'" onpause="this.nextElementSibling.style.display='flex'"></video>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);pointer-events:none;">▶</div>
                 <div style="position:absolute;bottom:6px;left:8px;font-size:10px;font-weight:700;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:4px;">Démo Gli Art</div>
               </div>
-              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;">
+              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;cursor:pointer;" onclick="toggleGliVideo(this)">
                 <video src="images/gliart/au-secours-eneo-1-1.mp4" muted loop playsinline preload="none"
                   style="width:100%;height:100%;object-fit:cover;opacity:.85;"
-                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>
+                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
+                  onplay="this.nextElementSibling.style.display='none'" onpause="this.nextElementSibling.style.display='flex'"></video>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);pointer-events:none;">▶</div>
                 <div style="position:absolute;bottom:6px;left:8px;font-size:10px;font-weight:700;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:4px;">Eneo CM</div>
               </div>
-              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;">
+              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;cursor:pointer;" onclick="toggleGliVideo(this)">
                 <video src="images/gliart/spot-loterie-1.mp4" muted loop playsinline preload="none"
                   style="width:100%;height:100%;object-fit:cover;opacity:.85;"
-                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>
+                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
+                  onplay="this.nextElementSibling.style.display='none'" onpause="this.nextElementSibling.style.display='flex'"></video>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);pointer-events:none;">▶</div>
                 <div style="position:absolute;bottom:6px;left:8px;font-size:10px;font-weight:700;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:4px;">Spot Loterie</div>
               </div>
-              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;">
+              <div style="position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;cursor:pointer;" onclick="toggleGliVideo(this)">
                 <video src="images/gliart/spot-nyamga-1.mp4" muted loop playsinline preload="none"
                   style="width:100%;height:100%;object-fit:cover;opacity:.85;"
-                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"></video>
+                  onmouseenter="this.play()" onmouseleave="this.pause();this.currentTime=0"
+                  onplay="this.nextElementSibling.style.display='none'" onpause="this.nextElementSibling.style.display='flex'"></video>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);pointer-events:none;">▶</div>
                 <div style="position:absolute;bottom:6px;left:8px;font-size:10px;font-weight:700;color:#fff;background:rgba(0,0,0,.5);padding:2px 6px;border-radius:4px;">Spot Nyamga</div>
               </div>
             </div>
-            <p style="font-size:11px;color:var(--text-hint);margin-top:8px;text-align:center;font-style:italic;">↗ Survolez pour lancer la vidéo</p>
+            <p style="font-size:11px;color:var(--text-hint);margin-top:8px;text-align:center;font-style:italic;">↗ Survolez ou touchez pour lancer la vidéo</p>
+            <script>
+            function toggleGliVideo(el){
+              var v = el.querySelector('video');
+              if (v.paused) { v.play(); } else { v.pause(); v.currentTime = 0; }
+            }
+            </script>
 
             <!-- Portfolio statique -->
             <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px;">
@@ -940,7 +954,7 @@
             <div style="display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:999px;padding:3px 12px;font-size:11px;font-weight:700;color:var(--gold);margin-bottom:10px;">★ Formation certifiée FGS</div>
             <div class="trust-card-icon tci-gold" style="margin-bottom:10px;">📣</div>
             <h3 style="margin-bottom:6px;">Formation Marketing Digital &amp; CM</h3>
-            <p style="font-size:14px;color:var(--text-soft);line-height:1.7;margin-bottom:12px;">3 mois · 3×/semaine · Douala &amp; Yaoundé.<br/>Facebook, Google Ads, SEO, TikTok, Shopify, IA. Certificat reconnu, suivi à vie.</p>
+            <p style="font-size:14px;color:var(--text-soft);line-height:1.7;margin-bottom:12px;">3 mois · 3×/semaine · Douala &amp; Yaoundé.<br/>Facebook, Google Ads, SEO, TikTok, Shopify, IA. Certificat de fin de formation délivré par FGS, accompagnement après la formation.</p>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
               <div style="background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:8px;padding:6px 14px;text-align:center;">
                 <div style="font-size:10px;color:var(--text-hint);text-transform:uppercase;letter-spacing:.06em;">Inscription</div>
@@ -1006,7 +1020,7 @@
         <div class="trust-card-bar"></div>
         <div class="trust-card-icon tci-teal">🌍</div>
         <h3>Présence Paris &amp; Douala</h3>
-        <p>Une lecture concrète des réalités terrain entre la France, la Chine et le Cameroun. Nous avons un pied dans chaque marché.</p>
+        <p>Une lecture concrète des réalités terrain entre la Chine, le Cameroun et la France. Nous avons un pied dans chaque marché.</p>
         <ul class="trust-points">
           <li><div class="tp-dot"></div><span><strong>Approche terrain</strong> — on comprend vos contraintes locales</span></li>
           <li><div class="tp-dot"></div><span><strong>Réseau fournisseurs qualifiés</strong> — testés et validés</span></li>
