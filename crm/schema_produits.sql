@@ -45,11 +45,11 @@ ALTER TABLE produits_crm ADD COLUMN IF NOT EXISTS notes_internes   TEXT;
 INSERT INTO produits_crm (slug, categorie, badge, badge_class, nom, description, specs, prix_public, prix_revendeur, min_qty_revendeur, stock, photos, actif, emoji, ordre)
 VALUES
 (
-  'shawarma-2-foyers', 'Restauration', '✓ Stock Douala', 'pb-teal',
-  'Machine à Shawarma Gaz',
-  'Brûleur gaz à plateau rotatif électrique — 2 foyers. Inox alimentaire, chauffe homogène, idéale pour snacks et fast-foods.',
-  ARRAY['2 foyers gaz','Plateau rotatif électrique','Inox 304','Livraison Douala'],
-  140000, 110000, 3, 99,
+  'shawarma-2-foyers', 'Restauration', '🔥 Prix d''appel', 'pb-gold',
+  'Machine à Shawarma Gaz — Double Foyer Compacte',
+  'Format compact, robuste et efficace — jusqu''à 10 kg de viande par service, parfaite pour démarrer ou booster votre activité snack sans gros investissement. Exposée et testable à Makepé BM : la pièce visible peut repartir avec le premier acheteur, remplacée sous 24h. Livrable dans tout le Cameroun (frais de transport en sus hors Douala).',
+  ARRAY['Double foyer gaz','Format compact','Jusqu''à 10 kg de viande','Inox 304','Visible à Makepé BM','Livraison nationale'],
+  130000, 110000, 3, 99,
   ARRAY['images/produits/shawarma-1.jpg','images/produits/shawarma-2.jpg'],
   true, '🍖', 1
 ),
