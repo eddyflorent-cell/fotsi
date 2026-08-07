@@ -236,6 +236,7 @@ textarea{resize:vertical;min-height:70px}
         <tbody id="items-body"></tbody>
       </table>
       <button class="btn-add-line" onclick="addLine()">+ Ajouter une ligne</button>
+      <button class="btn-add-line" style="border-style:solid;color:var(--teal)" onclick="addFraisRevendeurLine()">+ Frais de service revendeur (facturation, gestion…)</button>
       <div class="total-block" id="total-block"></div>
       <div class="form-group"><label>Remise globale (FCFA)</label><input id="f-remise" type="number" min="0" step="100" placeholder="0" oninput="render()"></div>
     </div>
@@ -575,6 +576,7 @@ updateFormVisibility()
 
 // ── LIGNES ARTICLES ───────────────────────────────────────────────────────────
 function addLine() { lines.push({desc:'',qte:1,prix:0}); renderLines(); render() }
+function addFraisRevendeurLine() { lines.push({desc:'Frais de gestion / facturation pour le compte du revendeur',qte:1,prix:0}); renderLines(); render() }
 function removeLine(i) { if(lines.length>1){lines.splice(i,1); renderLines(); render()} }
 
 function renderLines() {
