@@ -308,7 +308,7 @@ import { sb, getProfile, formatDate, formatMoney } from './js/client.js'
 const { data: { session } } = await sb.auth.getSession()
 if (!session) { window.location.href = '/crm/login.html'; throw 0 }
 
-const profile = await getProfile()
+const profile = await getProfile(session.user.id)
 document.getElementById('topbar-role').textContent = profile?.role === 'admin' ? 'Admin' : 'Lecture'
 document.getElementById('topbar-period').textContent = new Date().toLocaleDateString('fr-FR',{month:'long',year:'numeric'})
 

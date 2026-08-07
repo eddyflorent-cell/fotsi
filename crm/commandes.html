@@ -101,6 +101,10 @@ input:focus,select:focus{border-color:var(--teal)}
       <select id="f-contact"><option value="">Chargement…</option></select>
     </div>
     <div class="form-group">
+      <label>Revendeur / apporteur d'affaire <span style="font-weight:400;color:var(--muted)">(optionnel)</span></label>
+      <select id="f-revendeur"><option value="">— Vente directe FGS —</option></select>
+    </div>
+    <div class="form-group">
       <label>Produits commandés</label>
       <div class="produits-lines" id="produit-lines"></div>
       <button class="btn-add-line" id="add-line">+ Ajouter un produit</button>
@@ -142,6 +146,10 @@ input:focus,select:focus{border-color:var(--teal)}
   <div class="modal">
     <h3>Modifier la commande</h3>
     <input type="hidden" id="edit-id">
+    <div class="form-group">
+      <label>Revendeur / apporteur d'affaire <span style="font-weight:400;color:var(--muted)">(optionnel)</span></label>
+      <select id="edit-revendeur"><option value="">— Vente directe FGS —</option></select>
+    </div>
     <div class="form-row">
       <div class="form-group"><label>Montant total (FCFA)</label><input id="edit-montant" type="number" min="0" step="100"></div>
       <div class="form-group"><label>Acompte versé (FCFA)</label><input id="edit-acompte" type="number" min="0" step="100"></div>
@@ -221,7 +229,7 @@ filtersEl.addEventListener('click', e => {
 })
 
 async function loadData() {
-  const { data } = await sb.from('commandes').select('*,contacts(nom,prenom)').order('created_at',{ascending:false})
+  const { data } = await sb.from('commandes').select('*,contacts(nom,prenom),revendeurs(nom,prenom)').order('created_at',{ascending:false})
   allCommandes = data || []
   render()
 }
@@ -252,6 +260,7 @@ function render() {
         <span class="badge" style="background:${sp.color}18;color:${sp.color};border:1px solid ${sp.color}40">${sp.label}</span>
         <span class="badge" style="background:${sl.color}18;color:${sl.color};border:1px solid ${sl.color}40">${sl.label}</span>
         <span class="badge" style="background:#1a7a6e18;color:#1a7a6e;border:1px solid #1a7a6e40">${{orange_money:'📱 OM',mtn_money:'📱 MTN',especes:'💵 Espèces',paypal:'💳 PayPal',autre:'Autre'}[cmd.mode_paiement]||cmd.mode_paiement}</span>
+        ${cmd.revendeurs ? `<span class="badge" style="background:#b08a3e18;color:#b08a3e;border:1px solid #b08a3e40">🤝 ${cmd.revendeurs.prenom?cmd.revendeurs.prenom+' ':''}${cmd.revendeurs.nom}</span>` : ''}
       </div>
       ${cmd.montant_total > 0 ? `
       <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${pct>=100?'#10b981':'#1a7a6e'}"></div></div>
@@ -269,6 +278,7 @@ window.openEdit = (id) => {
   const cmd = allCommandes.find(c => c.id === id)
   if (!cmd) return
   document.getElementById('edit-id').value = id
+  document.getElementById('edit-revendeur').value = cmd.revendeur_id||''
   document.getElementById('edit-montant').value = cmd.montant_total||0
   document.getElementById('edit-acompte').value = cmd.acompte_verse||0
   document.getElementById('edit-statut-paiement').value = cmd.statut_paiement||'en_attente'
@@ -285,6 +295,7 @@ document.getElementById('edit-save').addEventListener('click', async () => {
   const btn = document.getElementById('edit-save')
   btn.disabled = true; btn.textContent = '…'
   await sb.from('commandes').update({
+    revendeur_id: document.getElementById('edit-revendeur').value || null,
     montant_total: +document.getElementById('edit-montant').value||0,
     acompte_verse: +document.getElementById('edit-acompte').value||0,
     statut_paiement: document.getElementById('edit-statut-paiement').value,
@@ -299,7 +310,7 @@ document.getElementById('edit-save').addEventListener('click', async () => {
 
 // Nouvelle commande modal
 const modal = document.getElementById('modal')
-document.getElementById('fab-btn').addEventListener('click', () => modal.classList.add('open'))
+document.getElementById('fab-btn').addEventListener('click', () => { document.getElementById('f-revendeur').value = ''; modal.classList.add('open') })
 document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
 modal.addEventListener('click', e => { if(e.target===modal) modal.classList.remove('open') })
 
@@ -308,6 +319,13 @@ const { data: contacts } = await sb.from('contacts').select('id,nom,prenom').ord
 const sel = document.getElementById('f-contact')
 sel.innerHTML = '<option value="">-- Sélectionner un client --</option>' +
   (contacts||[]).map(c => `<option value="${c.id}">${c.prenom?c.prenom+' ':''}${c.nom}</option>`).join('')
+
+// Charger revendeurs (actifs)
+const { data: revendeurs } = await sb.from('revendeurs').select('id,nom,prenom').eq('statut','actif').order('nom')
+const revOpts = '<option value="">— Vente directe FGS —</option>' +
+  (revendeurs||[]).map(r => `<option value="${r.id}">${r.prenom?r.prenom+' ':''}${r.nom}</option>`).join('')
+document.getElementById('f-revendeur').innerHTML = revOpts
+document.getElementById('edit-revendeur').innerHTML = revOpts
 
 // Pré-sélection depuis ?contact=
 const preContact = new URLSearchParams(location.search).get('contact')
@@ -342,6 +360,7 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   const produits = lines.filter(l => l.nom).map(l => ({ nom: l.nom, qte: l.qte||1, prix: l.prix||0 }))
   const { error } = await sb.from('commandes').insert({
     contact_id,
+    revendeur_id: document.getElementById('f-revendeur').value || null,
     produits,
     montant_total: +document.getElementById('f-montant').value||0,
     acompte_verse: +document.getElementById('f-acompte').value||0,

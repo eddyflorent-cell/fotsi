@@ -132,7 +132,14 @@ import { sb, getProfile, formatDate } from './js/client.js'
 
 const { data: { session } } = await sb.auth.getSession()
 if (!session) { window.location.href = '/crm/login.html'; throw 0 }
-await getProfile(session.user.id)
+const profile = await getProfile(session.user.id)
+const isAdmin = profile?.role === 'admin'
+
+if (!isAdmin) {
+  document.getElementById('fab-btn').style.display = 'none'
+  document.querySelector('.info-box').insertAdjacentHTML('afterend',
+    '<div class="empty" style="padding:8px 0 0;font-size:12px">👁️ Vue lecture seule — seul un admin peut ajouter/modifier un revendeur.</div>')
+}
 
 let activeFilter = 'all'
 let allRevendeurs = []
@@ -187,9 +194,12 @@ function render() {
         <span class="badge badge-${r.statut}">${r.statut === 'actif' ? 'Actif' : 'Suspendu'}</span>
       </div>
     </div>`).join('')
-  el.querySelectorAll('.rev-card').forEach(card => {
-    card.addEventListener('click', () => openEdit(card.dataset.id))
-  })
+  if (isAdmin) {
+    el.querySelectorAll('.rev-card').forEach(card => {
+      card.style.cursor = 'pointer'
+      card.addEventListener('click', () => openEdit(card.dataset.id))
+    })
+  }
 }
 
 // Modal

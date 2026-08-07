@@ -18,9 +18,28 @@ CREATE TABLE IF NOT EXISTS produits_crm (
 );
 
 ALTER TABLE produits_crm ENABLE ROW LEVEL SECURITY;
+
+CREATE OR REPLACE FUNCTION is_admin()
+RETURNS BOOLEAN AS $$
+  SELECT EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin');
+$$ LANGUAGE sql SECURITY DEFINER STABLE;
+
+-- Historique : "auth_produits" (FOR ALL, authenticated) permettait à un rôle
+-- commercial de modifier prix/stock via l'API malgré l'UI en lecture seule
+-- de catalogue.html. Remplacée par des policies séparées lecture/écriture.
+DROP POLICY IF EXISTS "auth_produits" ON produits_crm;
 DO $$ BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='produits_crm' AND policyname='auth_produits') THEN
-    CREATE POLICY "auth_produits" ON produits_crm FOR ALL USING (auth.role() = 'authenticated');
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='produits_crm' AND policyname='auth_read_produits') THEN
+    CREATE POLICY "auth_read_produits" ON produits_crm FOR SELECT USING (auth.role() = 'authenticated');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='produits_crm' AND policyname='admin_write_produits') THEN
+    CREATE POLICY "admin_write_produits" ON produits_crm FOR INSERT WITH CHECK (is_admin());
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='produits_crm' AND policyname='admin_update_produits') THEN
+    CREATE POLICY "admin_update_produits" ON produits_crm FOR UPDATE USING (is_admin()) WITH CHECK (is_admin());
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='produits_crm' AND policyname='admin_delete_produits') THEN
+    CREATE POLICY "admin_delete_produits" ON produits_crm FOR DELETE USING (is_admin());
   END IF;
 END $$;
 -- Lecture publique pour le site vitrine (sans auth)

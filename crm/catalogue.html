@@ -145,6 +145,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
     <div class="form-group">
       <label>Photos <span style="font-weight:400;color:var(--muted)">(URLs, une par ligne — la 1re est la photo principale)</span></label>
       <textarea id="f-photos" rows="3" placeholder="images/produits/mon-produit-1.jpg&#10;https://…/photo2.jpg"></textarea>
+      <img id="img-preview" class="img-preview" alt="Aperçu">
     </div>
     <div class="form-group">
       <label>Disponible à la vente</label>
@@ -306,6 +307,7 @@ document.getElementById('fab-btn').addEventListener('click', () => {
   document.getElementById('f-badge').value = '✓ Stock Douala'
   document.getElementById('f-badge-class').value = 'pb-teal'
   document.getElementById('f-actif').value = 'true'
+  document.getElementById('img-preview').style.display = 'none'
   modal.classList.add('open')
 })
 document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
@@ -327,6 +329,9 @@ window.openEdit = (id) => {
   document.getElementById('f-desc').value = p.description||''
   document.getElementById('f-specs').value = (p.specs||[]).join('\n')
   document.getElementById('f-photos').value = (p.photos||[]).join('\n') || (p.image_url ? p.image_url : '')
+  const firstPhoto = (p.photos && p.photos[0]) || p.image_url || ''
+  const prev = document.getElementById('img-preview')
+  if (firstPhoto) { prev.src = firstPhoto; prev.style.display = 'block' } else { prev.style.display = 'none' }
   document.getElementById('f-prix-pub').value = p.prix_public||''
   document.getElementById('f-prix-rev').value = p.prix_revendeur||''
   document.getElementById('f-min-rev').value = p.min_qty_revendeur||1

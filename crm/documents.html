@@ -935,7 +935,7 @@ async function saveToBase(statut = 'emis') {
   await ensureDocNumber()
   const { ttc, acompte } = calcTotals()
   const num = document.getElementById('f-num')?.value || ''
-  const profile = await getProfile()
+  const profile = await getProfile(session.user.id)
 
   const payload = {
     type: docType,

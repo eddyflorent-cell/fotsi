@@ -84,29 +84,3 @@ export function badge(statut, map = STATUTS) {
   const s = map[statut] || { label: statut, color: "#6b7280" };
   return `<span style="background:${s.color}20;color:${s.color};border:1px solid ${s.color}40;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600">${s.label}</span>`;
 }
-
-export function bottomNav(active) {
-  const pages = [
-    { id: "index", icon: "⊞", label: "Dashboard", href: "/crm/index.html" },
-    {
-      id: "contacts",
-      icon: "👥",
-      label: "Contacts",
-      href: "/crm/contacts.html",
-    },
-    {
-      id: "commandes",
-      icon: "📦",
-      label: "Commandes",
-      href: "/crm/commandes.html",
-    },
-    {
-      id: "catalogue",
-      icon: "🛒",
-      label: "Catalogue",
-      href: "/crm/catalogue.html",
-      adminOnly: true,
-    },
-  ];
-  return pages;
-}
