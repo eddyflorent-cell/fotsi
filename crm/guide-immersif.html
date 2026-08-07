@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Guide CRM FGS — pour Wendy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0f2d52;--navy-mid:#1a3a6a;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;padding-bottom:60px}
+img{max-width:100%}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 55%,var(--teal) 100%);color:#fff;padding:48px 20px 60px;text-align:center}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);padding:5px 14px;border-radius:99px;font-size:12px;font-weight:600;margin-bottom:16px}
+.hero h1{font-size:28px;font-weight:900;margin-bottom:10px}
+.hero p{font-size:14px;opacity:.85;max-width:440px;margin:0 auto}
+
+/* PROGRESS NAV */
+.toc{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 8px}
+.toc::-webkit-scrollbar{display:none}
+.toc a{flex-shrink:0;padding:12px 14px;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap}
+.toc a:hover{color:var(--navy)}
+
+/* SECTIONS */
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+section{padding:40px 0;border-bottom:1px solid var(--border)}
+section:last-of-type{border-bottom:none}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:14px;flex-shrink:0}
+.section-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.section-head h2{font-size:20px;font-weight:800;color:var(--navy)}
+.section-sub{font-size:13px;color:var(--muted);margin-bottom:20px;margin-top:-8px;margin-left:44px}
+
+/* MOCKUP CARDS (imitent l'UI réelle du CRM) */
+.mock{background:var(--card);border:1.5px solid var(--border);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:14px;margin:14px 0}
+.mock-topbar{background:var(--navy);color:#fff;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;margin:-14px -14px 12px}
+.mock-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.mock-row:last-child{border-bottom:none}
+.mock-avatar{width:32px;height:32px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.mock-badge{padding:2px 9px;border-radius:99px;font-size:10px;font-weight:700;margin-left:auto}
+.mock-btn{display:inline-block;background:var(--navy);color:#fff;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;margin-top:8px}
+.mock-btn.teal{background:var(--teal)}
+.mock-btn.gold{background:var(--gold)}
+.mock-fab{width:36px;height:36px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+
+/* STEPS LIST */
+.steps{list-style:none;counter-reset:step}
+.steps li{counter-increment:step;position:relative;padding:10px 0 10px 38px;font-size:14px}
+.steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.steps li strong{color:var(--navy)}
+
+/* CALLOUTS */
+.callout{border-radius:10px;padding:14px 16px;font-size:13px;margin:16px 0;line-height:1.6}
+.callout-warn{background:#fffbeb;border:1px solid #fbbf24;color:#92400e}
+.callout-info{background:#eff6ff;border:1px solid #93c5fd;color:#1e40af}
+.callout-ok{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46}
+.callout-danger{background:#fef2f2;border:1px solid #fca5a5;color:#991b1b}
+.callout strong{display:block;margin-bottom:4px}
+
+/* SCENARIO BOX (dialogue style) */
+.scenario{background:linear-gradient(135deg,#0f2d52,#1a3a6a);color:#fff;border-radius:14px;padding:18px 20px;margin:16px 0}
+.scenario-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;opacity:.7;font-weight:700;margin-bottom:6px}
+.scenario p{font-size:14px;line-height:1.7}
+
+/* NAV MAP */
+.navmap{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:16px 0}
+.navmap-item{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+.navmap-item .ic{font-size:22px;display:block;margin-bottom:4px}
+.navmap-item .lb{font-size:12px;font-weight:700;color:var(--navy)}
+.navmap-item .desc{font-size:10.5px;color:var(--muted);margin-top:2px}
+
+/* FOOTER NAV */
+.pager{display:flex;justify-content:space-between;margin-top:24px}
+.pager a{font-size:13px;font-weight:700;color:var(--teal);text-decoration:none}
+
+/* FAQ */
+details{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+summary{font-weight:700;font-size:13.5px;color:var(--navy);cursor:pointer}
+details p{font-size:13px;color:var(--muted);margin-top:8px}
+
+.final-cta{text-align:center;padding:40px 20px}
+.final-cta a{display:inline-block;background:var(--navy);color:#fff;padding:14px 28px;border-radius:99px;font-weight:700;text-decoration:none;font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">📘 Guide CRM FGS</div>
+  <h1>Bienvenue Wendy 👋</h1>
+  <p>Ce guide vous accompagne pas à pas dans l'outil qui centralise tous les contacts, commandes, revendeurs et documents de Fotsi Global Services.</p>
+</div>
+
+<nav class="toc">
+  <a href="#intro">Vue d'ensemble</a>
+  <a href="#login">Connexion</a>
+  <a href="#contacts">Contacts</a>
+  <a href="#commandes">Commandes</a>
+  <a href="#revendeurs">Revendeurs</a>
+  <a href="#documents">Documents</a>
+  <a href="#compta">Compta</a>
+  <a href="#faq">Astuces</a>
+</nav>
+
+<div class="wrap">
+
+  <!-- ═══ VUE D'ENSEMBLE ═══ -->
+  <section id="intro">
+    <div class="section-head"><span class="step-num">1</span><h2>Vue d'ensemble</h2></div>
+    <div class="section-sub">7 modules, tous accessibles depuis la barre en bas de l'écran</div>
+    <p style="font-size:14px;margin-bottom:16px">Le CRM FGS, c'est votre carnet client + votre facturier + votre suivi commercial, tout en un. Voici les 7 endroits où vous irez le plus souvent :</p>
+    <div class="navmap">
+      <div class="navmap-item"><span class="ic">⊞</span><div class="lb">Dashboard</div><div class="desc">Vue d'ensemble du jour</div></div>
+      <div class="navmap-item"><span class="ic">👥</span><div class="lb">Contacts</div><div class="desc">Vos prospects & clients</div></div>
+      <div class="navmap-item"><span class="ic">🤝</span><div class="lb">Revendeurs</div><div class="desc">Apporteurs d'affaire</div></div>
+      <div class="navmap-item"><span class="ic">📦</span><div class="lb">Commandes</div><div class="desc">Suivi paiement/livraison</div></div>
+      <div class="navmap-item"><span class="ic">🛒</span><div class="lb">Catalogue</div><div class="desc">Les produits FGS</div></div>
+      <div class="navmap-item"><span class="ic">📄</span><div class="lb">Documents</div><div class="desc">Factures, devis, reçus</div></div>
+    </div>
+    <div class="callout callout-info"><strong>💡 Sur téléphone</strong>Tout l'outil est pensé pour être utilisé au pouce, depuis WhatsApp ou en déplacement. Pas besoin d'ordinateur.</div>
+  </section>
+
+  <!-- ═══ CONNEXION ═══ -->
+  <section id="login">
+    <div class="section-head"><span class="step-num">2</span><h2>Se connecter</h2></div>
+    <ol class="steps">
+      <li>Ouvrez <strong>fotsiglobal.com/crm</strong> depuis votre navigateur.</li>
+      <li>Entrez votre <strong>email</strong> et votre <strong>mot de passe</strong> (donnés par Eddy).</li>
+      <li>Vous arrivez directement sur le <strong>Dashboard</strong>.</li>
+    </ol>
+    <div class="mock">
+      <div class="mock-topbar">FGS CRM — Connexion</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Adresse e-mail</div>
+      <div style="background:#f9fafb;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:12px;margin-bottom:8px">wendy@…</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Mot de passe</div>
+      <div style="background:#f9fafb;border:1px solid var(--border);border-radius:8px;padding:8px;font-size:12px">••••••••</div>
+      <div class="mock-btn">Se connecter</div>
+    </div>
+    <div class="callout callout-warn"><strong>🔒 Mot de passe oublié ?</strong>Contactez Eddy directement — le CRM contient des données clients et financières, on ne le partage avec personne d'autre.</div>
+  </section>
+
+  <!-- ═══ CONTACTS ═══ -->
+  <section id="contacts">
+    <div class="section-head"><span class="step-num">3</span><h2>Contacts</h2></div>
+    <div class="section-sub">Chaque prospect ou client passe par ici en premier</div>
+    <div class="scenario">
+      <div class="scenario-label">Scénario</div>
+      <p>Un client vous écrit sur WhatsApp pour une machine à shawarma. Avant même de discuter du prix, créez-lui une fiche.</p>
+    </div>
+    <ol class="steps">
+      <li>Onglet <strong>Contacts</strong> → bouton <strong>➕</strong> en bas à droite.</li>
+      <li>Renseignez nom, téléphone, ville, et le <strong>canal</strong> (WhatsApp, bouche à oreille, site web…).</li>
+      <li>Le contact démarre au statut <strong>« Nouveau »</strong>.</li>
+    </ol>
+    <div class="mock">
+      <div class="mock-topbar">Contacts</div>
+      <div class="mock-row"><div class="mock-avatar">JM</div><div>Jack Mbata<br><span style="color:var(--muted);font-size:11px">658 830 026</span></div><span class="mock-badge" style="background:#6366f120;color:#6366f1">Nouveau</span></div>
+    </div>
+    <p style="font-size:14px;margin-top:10px">Au fil de la conversation, faites glisser le statut du contact :</p>
+    <div class="callout callout-info">
+      <strong>Le parcours d'un contact</strong>
+      Nouveau → Contacté → Devis → Commande → Livré → <strong>Fidèle</strong> (ou Perdu si ça n'aboutit pas)
+    </div>
+    <p style="font-size:13px;color:var(--muted)">Ouvrez une fiche contact pour ajouter des notes, relancer plus tard, ou voir tout l'historique des échanges.</p>
+  </section>
+
+  <!-- ═══ COMMANDES ═══ -->
+  <section id="commandes">
+    <div class="section-head"><span class="step-num">4</span><h2>Commandes</h2></div>
+    <div class="section-sub">Dès qu'un contact confirme un achat</div>
+    <ol class="steps">
+      <li>Depuis la fiche du contact, ou l'onglet <strong>Commandes</strong> → nouvelle commande.</li>
+      <li>Ajoutez le ou les produits, le montant total.</li>
+      <li>Notez l'<strong>acompte versé</strong> (souvent 60 % — le modèle FGS) et le mode de paiement (Orange Money, MTN Money…).</li>
+      <li>Suivez 2 statuts séparés : <strong>paiement</strong> (en attente → acompte reçu → soldé) et <strong>livraison</strong> (en attente → en préparation → expédié → livré).</li>
+    </ol>
+    <div class="callout callout-ok"><strong>✅ Règle d'or FGS</strong>Le solde (les 40 % restants) n'est jamais réclamé avant que le client ait vérifié sa marchandise. Mettez à jour le statut de paiement seulement après vérification.</div>
+  </section>
+
+  <!-- ═══ REVENDEURS (nouveau) ═══ -->
+  <section id="revendeurs">
+    <div class="section-head"><span class="step-num">5</span><h2>Revendeurs <span style="font-size:11px;background:var(--gold);color:#fff;padding:2px 8px;border-radius:99px;vertical-align:middle">NOUVEAU</span></h2></div>
+    <div class="section-sub">Pour les apporteurs d'affaire qui revendent en votre nom</div>
+    <div class="scenario">
+      <div class="scenario-label">Pourquoi ce module existe</div>
+      <p>Un apporteur d'affaire a déjà revendu 2 machines à 2 prix différents (125 000 et 145 000) sans qu'on le sache. Ce module évite que ça se reproduise en cadrant clairement qui vend à qui, et à quel prix.</p>
+    </div>
+    <h3 style="font-size:15px;color:var(--navy);margin:20px 0 10px">A. Ajouter un revendeur</h3>
+    <ol class="steps">
+      <li>Onglet <strong>Revendeurs</strong> → ➕</li>
+      <li>Nom, téléphone, <strong>numéro Orange Money</strong> (c'est là qu'il vous paiera le prix de gros), ville.</li>
+      <li>Statut <strong>Actif</strong> par défaut — passez-le en <strong>Suspendu</strong> si un revendeur pose problème (il n'apparaîtra plus dans les listes de facturation).</li>
+    </ol>
+    <h3 style="font-size:15px;color:var(--navy);margin:20px 0 10px">B. Le principe à retenir</h3>
+    <div class="callout callout-danger">
+      <strong>🚫 Jamais de facture FGS pour le client final d'un revendeur</strong>
+      Si un revendeur vend un produit à son client, ce n'est <strong>pas FGS</strong> qui facture ce client — c'est le revendeur, sous son propre nom. FGS ne facture <strong>que le revendeur</strong>, au prix de gros.
+    </div>
+    <h3 style="font-size:15px;color:var(--navy);margin:20px 0 10px">C. Les 2 factures à faire (module Documents)</h3>
+    <div class="mock">
+      <div class="mock-topbar" style="background:var(--teal)">1️⃣ FGS → Revendeur (prix de gros)</div>
+      <ul style="font-size:12.5px;padding-left:18px;line-height:1.8">
+        <li>Émetteur reste sur <strong>« FGS »</strong></li>
+        <li>Dans « Client », menu <strong>« Pré-remplir depuis un revendeur »</strong> → choisissez-le</li>
+        <li>Ajoutez la ou les lignes produit (prix catalogue « revendeur »)</li>
+        <li>Bouton <strong>« + Frais de service revendeur »</strong> si vous facturez en plus la gestion/facturation pour son compte</li>
+        <li>Bouton <strong>« + Insérer la clause vente en gros revendeur »</strong> dans Notes</li>
+      </ul>
+    </div>
+    <div class="mock">
+      <div class="mock-topbar" style="background:var(--gold)">2️⃣ Revendeur → son client final</div>
+      <ul style="font-size:12.5px;padding-left:18px;line-height:1.8">
+        <li>Tout en haut : basculez l'émetteur sur <strong>« 🤝 Revendeur »</strong></li>
+        <li>Choisissez le revendeur dans la liste</li>
+        <li>L'en-tête, le pied de page et la signature affichent alors <strong>son nom à lui</strong> — FGS n'apparaît nulle part</li>
+        <li>Remplissez les infos du client final normalement</li>
+      </ul>
+    </div>
+    <div class="callout callout-warn"><strong>⚠️ Ne jamais confondre les deux</strong>Si vous laissez l'émetteur sur « FGS » pour la facture du client final d'un revendeur, FGS redevient responsable en cas de souci avec la marchandise. Vérifiez toujours quel émetteur est sélectionné avant d'imprimer.</div>
+  </section>
+
+  <!-- ═══ DOCUMENTS ═══ -->
+  <section id="documents">
+    <div class="section-head"><span class="step-num">6</span><h2>Documents</h2></div>
+    <div class="section-sub">Factures, devis, reçus, bons de commande…</div>
+    <ol class="steps">
+      <li>Choisissez le <strong>type de document</strong> en haut (Facture, Devis, Reçu…).</li>
+      <li>Remplissez le client, les articles, le paiement.</li>
+      <li>L'aperçu à droite (sur ordinateur) montre exactement ce qui sera imprimé.</li>
+      <li><strong>🖨️ Imprimer / PDF</strong> enregistre automatiquement le document et lui donne un numéro officiel.</li>
+      <li><strong>💾 Enregistrer</strong> pour sauvegarder sans imprimer, <strong>✅ Marquer comme payé</strong> une fois le paiement confirmé.</li>
+    </ol>
+    <div class="callout callout-info"><strong>💡 Astuce</strong>Depuis une fiche Contact ou une Commande, un lien pré-remplit automatiquement le document avec les bonnes infos — pas besoin de tout retaper.</div>
+  </section>
+
+  <!-- ═══ COMPTA ═══ -->
+  <section id="compta">
+    <div class="section-head"><span class="step-num">7</span><h2>Compta</h2></div>
+    <div class="section-sub">Le chiffre d'affaires et les dépenses, en un coup d'œil</div>
+    <p style="font-size:14px">Chaque facture enregistrée dans Documents remonte automatiquement ici. Vous pouvez aussi ajouter des dépenses (transport, stock, télécom…) pour garder une vision claire de la trésorerie du mois.</p>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section id="faq">
+    <div class="section-head"><span class="step-num">8</span><h2>Questions fréquentes</h2></div>
+    <details>
+      <summary>Je me trompe de revendeur sur une facture, comment corriger ?</summary>
+      <p>Rechangez simplement l'émetteur ou le revendeur sélectionné avant d'imprimer — tant que vous n'avez pas cliqué sur Imprimer/Enregistrer, rien n'est fixé.</p>
+    </details>
+    <details>
+      <summary>Un client demande un devis, puis passe commande — je refais tout ?</summary>
+      <p>Non : ouvrez le devis existant, dupliquez les infos vers une Commande, puis vers une Facture depuis la fiche du contact.</p>
+    </details>
+    <details>
+      <summary>Je n'ai pas de réseau au moment de la vente, je fais comment ?</summary>
+      <p>Notez les infos sur papier ou dans WhatsApp, puis créez la fiche Contact/Commande dès que vous avez du réseau — idéalement le jour même.</p>
+    </details>
+    <details>
+      <summary>Un revendeur veut un prix différent du tarif catalogue ?</summary>
+      <p>Vous pouvez modifier le montant sur la ligne article librement — le prix catalogue n'est qu'une référence, pas une valeur bloquée.</p>
+    </details>
+  </section>
+
+  <div class="final-cta">
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Une question qui n'est pas dans ce guide ?</p>
+    <a href="https://wa.me/33629850214">💬 Écrire à Eddy sur WhatsApp</a>
+  </div>
+
+</div>
+</body>
+</html>
