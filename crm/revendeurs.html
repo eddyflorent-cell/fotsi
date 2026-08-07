@@ -1,15 +1,16 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FGS CRM — Contacts</title>
+<title>FGS CRM — Revendeurs</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--navy:#0f2d52;--teal:#1a7a6e;--gold:#b08a3e;--bg:#f0f4f8;--card:#fff;--text:#1f2937;--muted:#6b7280;--border:#e5e7eb}
 body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
 .topbar{background:var(--navy);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:100}
 .topbar h2{font-size:18px;font-weight:800}
+.topbar-sub{font-size:11px;opacity:.65;margin-top:2px}
 .search-bar{padding:12px 16px;background:var(--navy);padding-top:0}
 .search-input{width:100%;padding:10px 14px 10px 38px;border:none;border-radius:10px;font-size:14px;background:#fff;outline:none;position:relative}
 .search-wrap{position:relative}
@@ -19,22 +20,17 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .filter-btn.active{border-color:currentColor}
 .content{padding:12px 16px;max-width:700px;margin:0 auto}
 .count-label{font-size:13px;color:var(--muted);margin-bottom:10px;font-weight:500}
-.contact-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:10px;display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;text-decoration:none;color:inherit;transition:background .15s}
-.contact-card:hover{background:#f9fafb}
-.ci-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex-shrink:0}
+.rev-card{background:var(--card);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.06);margin-bottom:10px;display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;transition:background .15s}
+.rev-card:hover{background:#f9fafb}
+.ci-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:#fff;flex-shrink:0;background:var(--teal)}
 .ci-main{flex:1;min-width:0}
 .ci-name{font-weight:700;font-size:15px}
 .ci-tel{font-size:13px;color:var(--muted);margin-top:2px}
+.ci-om{font-size:12px;color:var(--gold);margin-top:2px;font-weight:600}
 .ci-right{text-align:right;flex-shrink:0}
 .badge{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600}
-.ci-date{font-size:11px;color:var(--muted);margin-top:4px}
-/* Niveau fidélité */
-.niveau-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-top:4px}
-.niveau-bronze{background:#92400e18;color:#92400e}
-.niveau-argent{background:#6b728018;color:#4b5563}
-.niveau-or{background:#b08a3e18;color:#b08a3e}
-.niveau-platine{background:#0f2d5218;color:#0f2d52}
-.score-pts{font-size:10px;color:var(--muted);margin-top:2px}
+.badge-actif{background:#1a7a6e18;color:var(--teal)}
+.badge-suspendu{background:#dc262618;color:#dc2626}
 .fab{position:fixed;bottom:90px;right:20px;width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;border:none;font-size:24px;box-shadow:0 4px 16px rgba(26,122,110,.4);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:200;transition:transform .15s}
 .fab:hover{transform:scale(1.05)}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);display:flex;height:calc(64px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,.05);overflow-x:auto;scrollbar-width:none}
@@ -48,10 +44,9 @@ body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min
 .spinner{width:20px;height:20px;border:2.5px solid #e5e7eb;border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* Modal nouveau contact */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-bg.open{opacity:1;pointer-events:all}
-.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s}
+.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:24px 20px 40px;transform:translateY(100%);transition:transform .3s;max-height:90dvh;overflow-y:auto}
 .modal-bg.open .modal{transform:translateY(0)}
 .modal h3{font-size:18px;font-weight:800;margin-bottom:20px;color:var(--navy)}
 .form-group{margin-bottom:14px}
@@ -63,33 +58,41 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
 .btn-cancel{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;background:#fff;font-size:15px;font-weight:600;cursor:pointer;color:var(--muted)}
 .btn-save{flex:2;padding:12px;background:var(--navy);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer}
 .btn-save:disabled{opacity:.6}
-.canal-chips{display:flex;gap:6px;flex-wrap:wrap}
-.canal-chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;border:1.5px solid var(--border);cursor:pointer;color:var(--muted)}
-.canal-chip.sel{border-color:var(--teal);color:var(--teal);background:#1a7a6e10}
+.btn-delete{width:100%;padding:10px;margin-top:8px;background:none;border:1.5px solid #dc262640;border-radius:10px;color:#dc2626;font-size:13px;font-weight:600;cursor:pointer}
+.statut-chips{display:flex;gap:6px}
+.statut-chip{padding:6px 12px;border-radius:99px;font-size:12px;font-weight:600;border:1.5px solid var(--border);cursor:pointer;color:var(--muted)}
+.statut-chip.sel{border-color:var(--teal);color:var(--teal);background:#1a7a6e10}
+.info-box{background:#fdf6e8;border:1px solid #e8d5a0;border-radius:10px;padding:10px 12px;font-size:12px;color:#7a5c1e;line-height:1.5;margin-bottom:16px}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <h2>Contacts</h2>
+  <h2>Revendeurs</h2>
+  <div class="topbar-sub">Apporteurs d'affaire & revendeurs indépendants</div>
 </div>
 <div class="search-bar">
   <div class="search-wrap">
     <span class="search-icon">🔍</span>
-    <input class="search-input" type="search" id="search" placeholder="Rechercher un contact…">
+    <input class="search-input" type="search" id="search" placeholder="Rechercher un revendeur…">
   </div>
 </div>
-<div class="filters" id="filters"></div>
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-f="all">Tous</button>
+  <button class="filter-btn" data-f="actif">Actifs</button>
+  <button class="filter-btn" data-f="suspendu">Suspendus</button>
+</div>
 <div class="content">
+  <div class="info-box">💡 Prix de gros revendeur = prix catalogue « revendeur ». Toute vente à un client final doit être facturée au nom du revendeur (pas au nom de FGS) — voir module Documents.</div>
   <div id="count-label" class="count-label"></div>
   <div id="list"><div class="spinner-full"><div class="spinner"></div> Chargement…</div></div>
 </div>
 
-<button class="fab" id="fab-btn" title="Nouveau contact">＋</button>
+<button class="fab" id="fab-btn" title="Nouveau revendeur">＋</button>
 
 <nav class="bnav">
   <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
-  <a href="/crm/contacts.html" class="active"><span class="icon">👥</span>Contacts</a>
-  <a href="/crm/revendeurs.html"><span class="icon">🤝</span>Revendeurs</a>
+  <a href="/crm/contacts.html"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/revendeurs.html" class="active"><span class="icon">🤝</span>Revendeurs</a>
   <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
   <a href="/crm/catalogue.html"><span class="icon">🛒</span>Catalogue</a>
   <a href="/crm/contenu.html"><span class="icon">📝</span>Contenu</a>
@@ -97,133 +100,139 @@ input:focus,select:focus,textarea:focus{border-color:var(--teal)}
   <a href="/crm/comptabilite.html"><span class="icon">📊</span>Compta</a>
 </nav>
 
-<!-- Modal nouveau contact -->
+<!-- Modal revendeur -->
 <div class="modal-bg" id="modal">
   <div class="modal">
-    <h3>Nouveau contact</h3>
+    <h3 id="modal-title">Nouveau revendeur</h3>
     <div class="form-row">
       <div class="form-group"><label>Prénom</label><input id="f-prenom" placeholder="Jean"></div>
       <div class="form-group"><label>Nom *</label><input id="f-nom" placeholder="Dupont" required></div>
     </div>
     <div class="form-group"><label>Téléphone</label><input id="f-tel" type="tel" placeholder="+237 6 00 00 00 00"></div>
-    <div class="form-group"><label>Email</label><input id="f-email" type="email" placeholder="jean@exemple.com"></div>
+    <div class="form-group"><label>Numéro Orange Money (paiement des ventes en gros)</label><input id="f-om" type="tel" placeholder="+237 6 00 00 00 00"></div>
     <div class="form-group"><label>Ville</label><input id="f-ville" placeholder="Douala"></div>
     <div class="form-group">
-      <label>Canal d'acquisition</label>
-      <div class="canal-chips" id="canal-chips">
-        <div class="canal-chip sel" data-val="whatsapp">WhatsApp</div>
-        <div class="canal-chip" data-val="bouche_oreille">Bouche à oreille</div>
-        <div class="canal-chip" data-val="site">Site web</div>
-        <div class="canal-chip" data-val="social">Réseaux</div>
-        <div class="canal-chip" data-val="autre">Autre</div>
+      <label>Statut</label>
+      <div class="statut-chips" id="statut-chips">
+        <div class="statut-chip sel" data-val="actif">Actif</div>
+        <div class="statut-chip" data-val="suspendu">Suspendu</div>
       </div>
     </div>
-    <div class="form-group"><label>Notes</label><textarea id="f-notes" rows="2" placeholder="Intéressé par…"></textarea></div>
+    <div class="form-group"><label>Notes</label><textarea id="f-notes" rows="2" placeholder="Contexte, historique…"></textarea></div>
     <div class="modal-footer">
       <button class="btn-cancel" id="btn-cancel">Annuler</button>
       <button class="btn-save" id="btn-save">Enregistrer</button>
     </div>
+    <button class="btn-delete" id="btn-delete" style="display:none">Supprimer ce revendeur</button>
   </div>
 </div>
 
 <script type="module">
-import { sb, getProfile, STATUTS, CANAUX, formatDate, initials, avatarColor, badge } from './js/client.js'
+import { sb, getProfile, formatDate } from './js/client.js'
 
 const { data: { session } } = await sb.auth.getSession()
 if (!session) { window.location.href = '/crm/login.html'; throw 0 }
-const profile = await getProfile(session.user.id)
+await getProfile(session.user.id)
 
-// Filters
-let activeFilter = new URLSearchParams(location.search).get('statut') || 'all'
-let allContacts = []
+let activeFilter = 'all'
+let allRevendeurs = []
 let query = ''
+let editId = null
 
-const filtersEl = document.getElementById('filters')
-const filterDefs = [{ id: 'all', label: 'Tous', color: '#1f2937' }, ...Object.entries(STATUTS).map(([id,s]) => ({ id, label: s.label, color: s.color }))]
-filtersEl.innerHTML = filterDefs.map(f => `<button class="filter-btn ${f.id===activeFilter?'active':''}" data-f="${f.id}" style="color:${f.id===activeFilter?f.color:'#6b7280'};border-color:${f.id===activeFilter?f.color:'#e5e7eb'}">${f.label}</button>`).join('')
+function initials(nom, prenom) {
+  return ((prenom?.[0] || '') + (nom?.[0] || '')).toUpperCase() || '?'
+}
 
-filtersEl.addEventListener('click', e => {
+document.getElementById('filters').addEventListener('click', e => {
   const b = e.target.closest('[data-f]')
   if (!b) return
   activeFilter = b.dataset.f
-  filtersEl.querySelectorAll('.filter-btn').forEach(btn => {
-    const f = filterDefs.find(x => x.id === btn.dataset.f)
-    const on = btn.dataset.f === activeFilter
-    btn.classList.toggle('active', on)
-    btn.style.color = on ? f.color : '#6b7280'
-    btn.style.borderColor = on ? f.color : '#e5e7eb'
-  })
+  document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.f === activeFilter))
   render()
 })
 
 document.getElementById('search').addEventListener('input', e => { query = e.target.value.toLowerCase(); render() })
 
-// Load contacts
-const { data } = await sb.from('contacts').select('*').order('updated_at', { ascending: false })
-allContacts = data || []
-render()
-
-const NIVEAUX = {
-  bronze:  { label: '🥉 Bronze',  cls: 'niveau-bronze' },
-  argent:  { label: '🥈 Argent',  cls: 'niveau-argent' },
-  or:      { label: '🥇 Or',      cls: 'niveau-or'     },
-  platine: { label: '💎 Platine', cls: 'niveau-platine' },
+async function load() {
+  const { data } = await sb.from('revendeurs').select('*').order('created_at', { ascending: false })
+  allRevendeurs = data || []
+  render()
 }
-function niveauBadge(niveau, score) {
-  if (!niveau || (!score && niveau === 'bronze')) return ''
-  const n = NIVEAUX[niveau] || NIVEAUX.bronze
-  return `<span class="niveau-badge ${n.cls}">${n.label}</span>${score ? `<span class="score-pts">${score} pts</span>` : ''}`
-}
+await load()
 
 function render() {
-  let list = allContacts
-  if (activeFilter !== 'all') list = list.filter(c => c.statut === activeFilter)
-  if (query) list = list.filter(c =>
-    (c.nom||'').toLowerCase().includes(query) ||
-    (c.prenom||'').toLowerCase().includes(query) ||
-    (c.telephone||'').includes(query) ||
-    (c.email||'').toLowerCase().includes(query) ||
-    (c.ville||'').toLowerCase().includes(query)
+  let list = allRevendeurs
+  if (activeFilter !== 'all') list = list.filter(r => r.statut === activeFilter)
+  if (query) list = list.filter(r =>
+    (r.nom||'').toLowerCase().includes(query) ||
+    (r.prenom||'').toLowerCase().includes(query) ||
+    (r.telephone||'').includes(query) ||
+    (r.ville||'').toLowerCase().includes(query)
   )
-  document.getElementById('count-label').textContent = `${list.length} contact${list.length!==1?'s':''}`
+  document.getElementById('count-label').textContent = `${list.length} revendeur${list.length!==1?'s':''}`
   const el = document.getElementById('list')
   if (!list.length) {
-    el.innerHTML = `<div class="empty"><div class="empty-icon">👥</div><p>Aucun contact trouvé</p></div>`
+    el.innerHTML = `<div class="empty"><div class="empty-icon">🤝</div><p>Aucun revendeur trouvé</p></div>`
     return
   }
-  el.innerHTML = list.map(c => {
-    const s = STATUTS[c.statut] || STATUTS.nouveau
-    const niv = niveauBadge(c.niveau, c.score)
-    return `<a class="contact-card" href="/crm/contact.html?id=${c.id}">
-      <div class="ci-avatar" style="background:${s.color}">${initials(c.nom,c.prenom)}</div>
+  el.innerHTML = list.map(r => `
+    <div class="rev-card" data-id="${r.id}">
+      <div class="ci-avatar">${initials(r.nom,r.prenom)}</div>
       <div class="ci-main">
-        <div class="ci-name">${c.prenom?c.prenom+' ':''}${c.nom}</div>
-        <div class="ci-tel">${c.telephone||c.email||c.ville||'—'}</div>
-        ${niv}
+        <div class="ci-name">${r.prenom?r.prenom+' ':''}${r.nom}</div>
+        <div class="ci-tel">${r.telephone||r.ville||'—'}</div>
+        ${r.om ? `<div class="ci-om">💳 OM: ${r.om}</div>` : ''}
       </div>
       <div class="ci-right">
-        <span class="badge" style="background:${s.color}18;color:${s.color};border:1px solid ${s.color}40">${s.label}</span>
-        <div class="ci-date">${formatDate(c.updated_at)}</div>
+        <span class="badge badge-${r.statut}">${r.statut === 'actif' ? 'Actif' : 'Suspendu'}</span>
       </div>
-    </a>`
-  }).join('')
+    </div>`).join('')
+  el.querySelectorAll('.rev-card').forEach(card => {
+    card.addEventListener('click', () => openEdit(card.dataset.id))
+  })
 }
 
 // Modal
 const modal = document.getElementById('modal')
-let selectedCanal = 'whatsapp'
+let selectedStatut = 'actif'
 
-document.getElementById('fab-btn').addEventListener('click', () => modal.classList.add('open'))
+function resetForm() {
+  ;['f-nom','f-prenom','f-tel','f-om','f-ville','f-notes'].forEach(id => document.getElementById(id).value = '')
+  selectedStatut = 'actif'
+  document.querySelectorAll('.statut-chip').forEach(c => c.classList.toggle('sel', c.dataset.val === 'actif'))
+  editId = null
+  document.getElementById('modal-title').textContent = 'Nouveau revendeur'
+  document.getElementById('btn-delete').style.display = 'none'
+}
+
+document.getElementById('fab-btn').addEventListener('click', () => { resetForm(); modal.classList.add('open') })
 document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'))
 modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open') })
 
-document.getElementById('canal-chips').addEventListener('click', e => {
+document.getElementById('statut-chips').addEventListener('click', e => {
   const chip = e.target.closest('[data-val]')
   if (!chip) return
-  selectedCanal = chip.dataset.val
-  document.querySelectorAll('.canal-chip').forEach(c => c.classList.remove('sel'))
+  selectedStatut = chip.dataset.val
+  document.querySelectorAll('.statut-chip').forEach(c => c.classList.remove('sel'))
   chip.classList.add('sel')
 })
+
+function openEdit(id) {
+  const r = allRevendeurs.find(x => x.id === id)
+  if (!r) return
+  editId = id
+  document.getElementById('f-nom').value = r.nom || ''
+  document.getElementById('f-prenom').value = r.prenom || ''
+  document.getElementById('f-tel').value = r.telephone || ''
+  document.getElementById('f-om').value = r.om || ''
+  document.getElementById('f-ville').value = r.ville || ''
+  document.getElementById('f-notes').value = r.notes || ''
+  selectedStatut = r.statut || 'actif'
+  document.querySelectorAll('.statut-chip').forEach(c => c.classList.toggle('sel', c.dataset.val === selectedStatut))
+  document.getElementById('modal-title').textContent = 'Modifier le revendeur'
+  document.getElementById('btn-delete').style.display = 'block'
+  modal.classList.add('open')
+}
 
 document.getElementById('btn-save').addEventListener('click', async () => {
   const nom = document.getElementById('f-nom').value.trim()
@@ -231,28 +240,40 @@ document.getElementById('btn-save').addEventListener('click', async () => {
   const btn = document.getElementById('btn-save')
   btn.disabled = true; btn.textContent = '…'
 
-  const { data: newC, error } = await sb.from('contacts').insert({
+  const payload = {
     nom,
     prenom: document.getElementById('f-prenom').value.trim()||null,
     telephone: document.getElementById('f-tel').value.trim()||null,
-    email: document.getElementById('f-email').value.trim()||null,
+    om: document.getElementById('f-om').value.trim()||null,
     ville: document.getElementById('f-ville').value.trim()||null,
     notes: document.getElementById('f-notes').value.trim()||null,
-    canal: selectedCanal,
-    assigned_to: session.user.id,
-  }).select().single()
+    statut: selectedStatut,
+  }
 
-  if (!error && newC) {
-    window.location.href = `/crm/contact.html?id=${newC.id}`
+  const { error } = editId
+    ? await sb.from('revendeurs').update(payload).eq('id', editId)
+    : await sb.from('revendeurs').insert(payload)
+
+  if (!error) {
+    modal.classList.remove('open')
+    await load()
   } else {
     alert('Erreur: ' + error?.message)
-    btn.disabled = false; btn.textContent = 'Enregistrer'
   }
+  btn.disabled = false; btn.textContent = 'Enregistrer'
 })
 
-// Auto-open modal if ?new=1
-if (new URLSearchParams(location.search).get('new')) modal.classList.add('open')
+document.getElementById('btn-delete').addEventListener('click', async () => {
+  if (!editId) return
+  if (!confirm('Supprimer ce revendeur ?')) return
+  const { error } = await sb.from('revendeurs').delete().eq('id', editId)
+  if (!error) {
+    modal.classList.remove('open')
+    await load()
+  } else {
+    alert('Erreur: ' + error?.message)
+  }
+})
 </script>
 </body>
 </html>
-

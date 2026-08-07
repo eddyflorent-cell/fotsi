@@ -187,6 +187,20 @@ textarea{resize:vertical;min-height:70px}
       <button class="doc-type-btn" data-type="bon_reduction"><span class="dt-icon">🎁</span>Bon de réduction</button>
     </div>
 
+    <!-- Émetteur -->
+    <div class="form-section" id="section-emetteur">
+      <div class="form-section-title">Émetteur du document</div>
+      <div class="doc-type-grid" id="emetteur-chips" style="grid-template-columns:1fr 1fr;margin-bottom:0">
+        <button type="button" class="doc-type-btn active" data-val="fgs">FGS<br><span style="font-weight:400;font-size:10px">(par défaut)</span></button>
+        <button type="button" class="doc-type-btn" data-val="revendeur">🤝 Revendeur</button>
+      </div>
+      <div class="form-group" id="emetteur-revendeur-picker" style="display:none;margin-top:10px">
+        <label>Revendeur émetteur</label>
+        <select id="f-emetteur-revendeur"><option value="">— Choisir —</option></select>
+        <div style="font-size:11px;color:#92400e;background:#fffbeb;border:1px solid #fbbf24;border-radius:6px;padding:6px 8px;margin-top:6px">⚠️ Ce document sera émis au nom du revendeur — FGS n'apparaît nulle part comme vendeur.</div>
+      </div>
+    </div>
+
     <!-- Infos communes -->
     <div class="form-section" id="section-common">
       <div class="form-section-title">Référence & date</div>
@@ -199,6 +213,10 @@ textarea{resize:vertical;min-height:70px}
     <!-- Client / destinataire -->
     <div class="form-section" id="section-client">
       <div class="form-section-title" id="client-section-title">Client</div>
+      <div class="form-group">
+        <label>Pré-remplir depuis un revendeur <span style="color:#1a7a6e;font-weight:400">(vente en gros)</span></label>
+        <select id="f-client-revendeur" onchange="prefillClientFromRevendeur()"><option value="">— Client normal —</option></select>
+      </div>
       <div class="form-group"><label>Nom / société</label><input id="f-client-nom" placeholder="Jean Dupont" oninput="render()"></div>
       <div class="form-group"><label>Téléphone</label><input id="f-client-tel" placeholder="+237 6 00 00 00 00" oninput="render()"></div>
       <div class="form-group"><label>Adresse / ville</label><input id="f-client-addr" placeholder="Douala, Cameroun" oninput="render()"></div>
@@ -296,6 +314,7 @@ textarea{resize:vertical;min-height:70px}
     <!-- Notes -->
     <div class="form-section" id="section-notes">
       <div class="form-section-title">Notes / mentions</div>
+      <button class="btn-add-line" type="button" onclick="insertClauseRevendeur()">+ Insérer la clause « vente en gros revendeur »</button>
       <textarea id="f-notes" rows="3" placeholder="Mentions légales, conditions particulières…" oninput="render()"></textarea>
     </div>
 
@@ -326,6 +345,7 @@ textarea{resize:vertical;min-height:70px}
 <nav class="bnav">
   <a href="/crm/index.html"><span class="icon">⊞</span>Dashboard</a>
   <a href="/crm/contacts.html"><span class="icon">👥</span>Contacts</a>
+  <a href="/crm/revendeurs.html"><span class="icon">🤝</span>Revendeurs</a>
   <a href="/crm/commandes.html"><span class="icon">📦</span>Commandes</a>
   <a href="/crm/catalogue.html"><span class="icon">🛒</span>Catalogue</a>
   <a href="/crm/contenu.html"><span class="icon">📝</span>Contenu</a>
@@ -363,12 +383,81 @@ let docNumLocked = false  // true dès que le N° est émis (plus modifiable)
 let prefilledContactId  = null
 let prefilledCommandeId = null
 
+// ── ÉMETTEUR (FGS par défaut, ou un revendeur indépendant) ───────────────────
+let EMETTEUR = FGS
+let emetteurMode = 'fgs'
+let revendeursList = []
+
+const CLAUSE_REVENDEUR = "Vente en gros au revendeur susnommé, à titre indépendant. Le revendeur fixe librement son prix de revente et facture directement son client final en son nom propre. Fotsi Global Services (FGS) n'est pas partie à la relation commerciale entre le revendeur et son client final, et décline toute responsabilité relative à cette revente (prix pratiqué, conditions de vente, service après-vente), sous réserve des garanties légales applicables au fabricant/importateur en cas de vice caché avéré au moment de la présente vente. Le matériel livré dans ce cadre ne porte pas la marque ou le logo FGS."
+
+function insertClauseRevendeur() {
+  const el = document.getElementById('f-notes')
+  el.value = el.value ? (el.value.trim() + '\n\n' + CLAUSE_REVENDEUR) : CLAUSE_REVENDEUR
+  render()
+}
+
+function updateEmetteur() {
+  if (emetteurMode === 'revendeur') {
+    const id = document.getElementById('f-emetteur-revendeur')?.value
+    const r = revendeursList.find(x => x.id === id)
+    if (r) {
+      const nomComplet = (r.prenom ? r.prenom + ' ' : '') + r.nom
+      EMETTEUR = {
+        nom: nomComplet.toUpperCase(),
+        tagline: 'Revendeur indépendant — non affilié FGS',
+        adresse: r.ville || '—',
+        tel: r.telephone || '—',
+        email: '',
+        site: '',
+        rccm: 'Revendeur indépendant',
+        om: r.om || r.telephone || '—',
+        signataire: nomComplet,
+        fonction: 'Revendeur indépendant',
+      }
+      return
+    }
+  }
+  EMETTEUR = FGS
+}
+
+function prefillClientFromRevendeur() {
+  const id = document.getElementById('f-client-revendeur')?.value
+  const r = revendeursList.find(x => x.id === id)
+  if (!r) return
+  document.getElementById('f-client-nom').value = (r.prenom ? r.prenom + ' ' : '') + r.nom
+  document.getElementById('f-client-tel').value = r.telephone || ''
+  document.getElementById('f-client-addr').value = r.ville || ''
+  render()
+}
+
 // ── INIT ─────────────────────────────────────────────────────────────────────
 document.getElementById('f-date').value = new Date().toISOString().slice(0,10)
 document.getElementById('f-br-validite').value = new Date(Date.now()+90*86400000).toISOString().slice(0,10)
 renderLines()
 renderRegLines()
 render()
+
+// ── REVENDEURS (émetteur alternatif + pré-remplissage client gros) ──────────
+;(async () => {
+  const { data } = await sb.from('revendeurs').select('*').eq('statut', 'actif').order('nom')
+  revendeursList = data || []
+  const opts = revendeursList.map(r => `<option value="${r.id}">${r.prenom?r.prenom+' ':''}${r.nom}</option>`).join('')
+  const selEmetteur = document.getElementById('f-emetteur-revendeur')
+  const selClient = document.getElementById('f-client-revendeur')
+  if (selEmetteur) selEmetteur.innerHTML = '<option value="">— Choisir —</option>' + opts
+  if (selClient) selClient.innerHTML = '<option value="">— Client normal —</option>' + opts
+})()
+
+document.getElementById('emetteur-chips').addEventListener('click', e => {
+  const b = e.target.closest('[data-val]')
+  if (!b) return
+  emetteurMode = b.dataset.val
+  document.querySelectorAll('#emetteur-chips [data-val]').forEach(x => x.classList.toggle('active', x.dataset.val === emetteurMode))
+  document.getElementById('emetteur-revendeur-picker').style.display = emetteurMode === 'revendeur' ? '' : 'none'
+  updateEmetteur()
+  render()
+})
+document.getElementById('f-emetteur-revendeur').addEventListener('change', () => { updateEmetteur(); render() })
 
 // ── PRÉ-REMPLISSAGE DEPUIS CRM ───────────────────────────────────────────────
 ;(async () => {
@@ -538,12 +627,12 @@ function headerHTML(docLabel, num, extraLines=[]) {
   <table class="doc-header-table">
     <tr>
       <td class="doc-header-left" width="55%">
-        <div class="doc-logo-text">${FGS.nom}</div>
-        <div class="doc-tagline">${FGS.tagline}</div>
+        <div class="doc-logo-text">${EMETTEUR.nom}</div>
+        <div class="doc-tagline">${EMETTEUR.tagline}</div>
         <div class="doc-coords">
-          📍 ${FGS.adresse}<br>
-          📞 ${FGS.tel}&nbsp;&nbsp;|&nbsp;&nbsp;✉ ${FGS.email}<br>
-          🌐 ${FGS.site}&nbsp;&nbsp;|&nbsp;&nbsp;RCCM : ${FGS.rccm}
+          📍 ${EMETTEUR.adresse}<br>
+          ${EMETTEUR.tel?`📞 ${EMETTEUR.tel}`:''}${EMETTEUR.tel&&EMETTEUR.email?'&nbsp;&nbsp;|&nbsp;&nbsp;':''}${EMETTEUR.email?`✉ ${EMETTEUR.email}`:''}<br>
+          ${EMETTEUR.site?`🌐 ${EMETTEUR.site}&nbsp;&nbsp;|&nbsp;&nbsp;`:''}RCCM : ${EMETTEUR.rccm}
         </div>
       </td>
       <td class="doc-header-right" width="45%">
@@ -604,7 +693,7 @@ function paymentHTML() {
     <div class="payment-box">
       <div class="payment-box-title">Mode de paiement</div>
       <div class="payment-box-val">${mode}</div>
-      <div style="font-size:7.5pt;color:#6b7280;margin-top:4px">OM: ${FGS.om}</div>
+      <div style="font-size:7.5pt;color:#6b7280;margin-top:4px">OM: ${EMETTEUR.om}</div>
     </div>
     <div class="payment-box">
       <div class="payment-box-title">Solde dû</div>
@@ -614,12 +703,12 @@ function paymentHTML() {
   </div>`
 }
 
-function signatureHTML(labels=['Le Client','Pour FGS']) {
+function signatureHTML(labels=['Le Client','Pour '+EMETTEUR.nom]) {
   return `<div class="signature-block">
     ${labels.map((l,i)=>`<div class="sig-box">
       <div class="sig-label">${l}</div>
       <div class="sig-space"></div>
-      ${i===1?`<div style="font-size:7.5pt;color:#6b7280">${FGS.signataire} — ${FGS.fonction}</div>`:'<div style="font-size:7.5pt;color:#6b7280">Nom & signature</div>'}
+      ${i===1?`<div style="font-size:7.5pt;color:#6b7280">${EMETTEUR.signataire} — ${EMETTEUR.fonction}</div>`:'<div style="font-size:7.5pt;color:#6b7280">Nom & signature</div>'}
     </div>`).join('')}
   </div>`
 }
@@ -627,8 +716,8 @@ function signatureHTML(labels=['Le Client','Pour FGS']) {
 function footerHTML() {
   return `<div class="doc-footer-gold"></div>
   <div class="doc-footer">
-    ${FGS.nom} — ${FGS.adresse} — ${FGS.tel} — ${FGS.email}<br>
-    RCCM : ${FGS.rccm} — Paiement : ${FGS.om}
+    ${EMETTEUR.nom} — ${EMETTEUR.adresse}${EMETTEUR.tel?' — '+EMETTEUR.tel:''}${EMETTEUR.email?' — '+EMETTEUR.email:''}<br>
+    RCCM : ${EMETTEUR.rccm} — Paiement : ${EMETTEUR.om}
   </div>`
 }
 
@@ -692,7 +781,7 @@ function buildDocHTML() {
       <div style="background:#fffbeb;border:1px solid #fbbf24;border-radius:6px;padding:8px 10px;font-size:8pt;color:#92400e;margin-bottom:12px">
         ⚠️ Ce devis est valable <strong>${val}</strong> à compter de la date d'émission. Passé ce délai, les prix pourront être révisés.
       </div>
-      ${signatureHTML(['Bon pour accord (Client)','Pour FGS'])}
+      ${signatureHTML(['Bon pour accord (Client)','Pour '+EMETTEUR.nom])}
       ${notes}
     </div>${footerHTML()}`
   }
@@ -702,7 +791,7 @@ function buildDocHTML() {
       ${headerHTML('BON DE COMMANDE', num)}
       ${clientHTML('DESTINATAIRE / FOURNISSEUR')}
       ${itemsTableHTML()}
-      ${signatureHTML(['Validé par (Client)','Émis par FGS'])}
+      ${signatureHTML(['Validé par (Client)','Émis par '+EMETTEUR.nom])}
       ${notes}
     </div>${footerHTML()}`
   }
@@ -727,7 +816,7 @@ function buildDocHTML() {
       <div style="background:#d1fae5;border-left:3px solid #10b981;padding:8px 12px;font-size:9pt;font-weight:700;color:#065f46;margin-bottom:16px">
         ✅ Paiement confirmé — ${fmt(montant)}
       </div>
-      ${signatureHTML(['Signature du payeur','Cachet FGS'])}
+      ${signatureHTML(['Signature du payeur','Cachet '+EMETTEUR.nom])}
       ${notes}
     </div>${footerHTML()}`
   }
@@ -754,7 +843,7 @@ function buildDocHTML() {
       <div class="courrier-body">${corps}</div>
       ${formule?`<div class="courrier-formule">${formule}</div>`:''}
       <div style="margin-top:32px">
-        <div style="font-size:8.5pt;color:#6b7280">${FGS.signataire}<br><em>${FGS.fonction}</em></div>
+        <div style="font-size:8.5pt;color:#6b7280">${EMETTEUR.signataire}<br><em>${EMETTEUR.fonction}</em></div>
         <div style="height:36px;border-bottom:1px solid #e5e7eb;width:160px;margin-top:8px"></div>
       </div>
       ${notes}
@@ -789,7 +878,7 @@ function buildDocHTML() {
         </tbody>
       </table>
       ${notes}
-      ${signatureHTML(['Vérifié par','Responsable FGS'])}
+      ${signatureHTML(['Vérifié par','Responsable '+EMETTEUR.nom])}
     </div>${footerHTML()}`
   }
 
@@ -858,12 +947,15 @@ async function saveToBase(statut = 'emis') {
     statut,
     date_emission: document.getElementById('f-date')?.value || new Date().toISOString().slice(0,10),
     mode_paiement: document.getElementById('f-mode-paiement')?.value || null,
+    emis_par: emetteurMode === 'revendeur' ? 'revendeur' : 'fgs',
+    revendeur_id: emetteurMode === 'revendeur' ? (document.getElementById('f-emetteur-revendeur')?.value || null) : null,
     data: {
       type: docType, num, lines,
       client_nom: document.getElementById('f-client-nom')?.value,
       client_tel: document.getElementById('f-client-tel')?.value,
       client_addr: document.getElementById('f-client-addr')?.value,
-      acompte, ttc
+      acompte, ttc,
+      emetteur: EMETTEUR.nom
     },
     notes: document.getElementById('f-notes')?.value || null,
     created_by: profile?.id || null
@@ -930,10 +1022,10 @@ async function emailDoc() {
     facture:'Facture', devis:'Devis', bon_commande:'Bon de commande',
     recu:'Reçu', courrier:'Courrier', registre:'Registre', enTete:'Document FGS', bon_reduction:'Bon de réduction'
   }
-  const sujet = encodeURIComponent(`${FGS.nom} — ${labels[docType]||'Document'}${num?' N°'+num:''}`)
+  const sujet = encodeURIComponent(`${EMETTEUR.nom} — ${labels[docType]||'Document'}${num?' N°'+num:''}`)
   const corps = encodeURIComponent(
     `Bonjour,\n\nVeuillez trouver en pièce jointe notre ${(labels[docType]||'document').toLowerCase()}${num?' N°'+num:''}.\n\n` +
-    `Pour toute question : ${FGS.tel}\n${FGS.email}\n\nCordialement,\n${FGS.signataire}\n${FGS.nom}`
+    `Pour toute question : ${EMETTEUR.tel}\n${EMETTEUR.email}\n\nCordialement,\n${EMETTEUR.signataire}\n${EMETTEUR.nom}`
   )
   window.open(`mailto:?subject=${sujet}&body=${corps}`)
 }
