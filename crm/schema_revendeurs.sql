@@ -3,14 +3,6 @@
 -- À exécuter dans Supabase SQL Editor (après schema.sql et schema_compta.sql)
 -- ════════════════════════════════════════════════════════════════════════════
 
--- ── 0. HELPER : l'utilisateur connecté est-il admin ? ────────────────────────
--- SECURITY DEFINER pour pouvoir lire profiles sans se heurter à ses propres
--- policies RLS (évite toute récursion). Réutilisé par les policies ci-dessous.
-CREATE OR REPLACE FUNCTION is_admin()
-RETURNS BOOLEAN AS $$
-  SELECT EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin');
-$$ LANGUAGE sql SECURITY DEFINER STABLE;
-
 -- ── 1. REVENDEURS ─────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS revendeurs (
   id           UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -26,14 +18,10 @@ CREATE TABLE IF NOT EXISTS revendeurs (
 );
 
 ALTER TABLE revendeurs ENABLE ROW LEVEL SECURITY;
--- Toute personne connectée au CRM peut consulter les revendeurs (nécessaire
--- pour facturer en leur nom depuis Documents), mais seul un admin peut en
--- créer/modifier/supprimer — c'est justement le point de ce module : éviter
--- que n'importe qui negocie des accords revendeur sans validation d'Eddy.
-CREATE POLICY "auth_read_revendeurs" ON revendeurs FOR SELECT USING (auth.role() = 'authenticated');
-CREATE POLICY "admin_write_revendeurs" ON revendeurs FOR INSERT WITH CHECK (is_admin());
-CREATE POLICY "admin_update_revendeurs" ON revendeurs FOR UPDATE USING (is_admin()) WITH CHECK (is_admin());
-CREATE POLICY "admin_delete_revendeurs" ON revendeurs FOR DELETE USING (is_admin());
+-- Gestion des revendeurs ouverte à toute personne connectée au CRM (Wendy
+-- gère l'opération Cameroun au quotidien, y compris l'onboarding des
+-- revendeurs) — pas réservé à l'admin.
+CREATE POLICY "auth_all_revendeurs" ON revendeurs FOR ALL USING (auth.role() = 'authenticated');
 CREATE TRIGGER revendeurs_updated_at BEFORE UPDATE ON revendeurs
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
