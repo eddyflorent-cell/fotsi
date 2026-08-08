@@ -21,7 +21,9 @@ ALTER TABLE revendeurs ENABLE ROW LEVEL SECURITY;
 -- Gestion des revendeurs ouverte à toute personne connectée au CRM (Wendy
 -- gère l'opération Cameroun au quotidien, y compris l'onboarding des
 -- revendeurs) — pas réservé à l'admin.
+DROP POLICY IF EXISTS "auth_all_revendeurs" ON revendeurs;
 CREATE POLICY "auth_all_revendeurs" ON revendeurs FOR ALL USING (auth.role() = 'authenticated');
+DROP TRIGGER IF EXISTS revendeurs_updated_at ON revendeurs;
 CREATE TRIGGER revendeurs_updated_at BEFORE UPDATE ON revendeurs
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 

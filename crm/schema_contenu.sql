@@ -27,6 +27,10 @@ CREATE TABLE IF NOT EXISTS contenus_site (
 ALTER TABLE contenus_site ENABLE ROW LEVEL SECURITY;
 -- Toute personne connectée au CRM peut consulter le contenu (vue + suggestions
 -- pour le rôle commercial), mais seul un admin publie/modifie/supprime.
+DROP POLICY IF EXISTS "auth_read_contenu" ON contenus_site;
+DROP POLICY IF EXISTS "admin_write_contenu" ON contenus_site;
+DROP POLICY IF EXISTS "admin_update_contenu" ON contenus_site;
+DROP POLICY IF EXISTS "admin_delete_contenu" ON contenus_site;
 CREATE POLICY "auth_read_contenu"   ON contenus_site FOR SELECT USING (auth.role() = 'authenticated');
 CREATE POLICY "admin_write_contenu" ON contenus_site FOR INSERT WITH CHECK (is_admin());
 CREATE POLICY "admin_update_contenu" ON contenus_site FOR UPDATE USING (is_admin()) WITH CHECK (is_admin());
